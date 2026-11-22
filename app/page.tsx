@@ -38,12 +38,10 @@ export default function Home() {
 
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
-          <a href="#shop">SHOP</a>
           <a href="/coloring-pages">COLORING PAGES</a>
           <a href="#about">ABOUT</a>
         </nav>
 
-        <a href="#shop" className="cart">SHOP NOW ↗</a>
       </header>
 
       <section className="hero" id="home">
