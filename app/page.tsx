@@ -88,30 +88,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="coloring-section" id="coloring-pages">
-        <div className="section-heading">
-          <span className="eyebrow">PRINT, COLOR & SMILE</span>
-          <h2>Color your <em>happy place.</em></h2>
-          <p>Cute coloring pages with clear outlines and comfortably sized spaces—fun for little artists and relaxing for everyone.</p>
-        </div>
-        <div className="coloring-grid">
-          {coloringCollections.map((collection) => (
-            <article className="product" key={collection.name}>
-              <div className="product-art coloring-art" style={{ backgroundColor: collection.color }}>
-                <span className="product-emoji">{collection.emoji}</span>
-                <span className="preview-label">NOVĒA COLORING</span>
-              </div>
-              <div className="coloring-info">
-                <span className="category">{collection.category}</span>
-                <h3>{collection.name}</h3>
-                <p>{collection.description}</p>
-               </div>
-            </article>
-          ))}
-        </div>
-        <p className="coloring-note">Original printable coloring collections are on their way. ♡</p>
-      </section>
-
       <section className="about" id="about">
         <span className="eyebrow">A NOTE FROM NOVĒA</span>
         <h2>Little details.<br /><em>Lovely days.</em></h2>
