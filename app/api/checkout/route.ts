@@ -4,6 +4,19 @@ import Stripe from "stripe";
 
 export const runtime = "nodejs";
 
+const allowedPictures = [
+  "turtle",
+  "cute-octopus",
+  "dolphin",
+  "happy-crab",
+  "seashell-friends",
+  "shark",
+  "smiling-jellyfish",
+  "starfish",
+  "tropical-fish",
+  "whale",
+];
+
 export async function POST(request: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
 
@@ -15,8 +28,27 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const stripe = new Stripe(stripeKey);
+    const body = await request.json();
+    const selectedPictures = body.selectedPictures;
 
+    // Customers must select exactly five unique pictures.
+    if (
+      !Array.isArray(selectedPictures) ||
+      selectedPictures.length !== 5 ||
+      new Set(selectedPictures).size !== 5 ||
+      !selectedPictures.every(
+        (picture: unknown) =>
+          typeof picture === "string" &&
+          allowedPictures.includes(picture)
+      )
+    ) {
+      return NextResponse.json(
+        { error: "Please select exactly 5 coloring pages" },
+        { status: 400 }
+      );
+    }
+
+    const stripe = new Stripe(stripeKey);
     const origin = new URL(request.url).origin;
 
     const session = await stripe.checkout.sessions.create({
@@ -27,8 +59,9 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Ocean Friends - Sea Turtle Coloring Page",
-              description: "One printable sea turtle coloring page PDF",
+              name: "Ocean Friends - Pick Any 5 Coloring Pages",
+              description:
+                "Five printable Ocean Friends coloring page PDFs",
             },
             unit_amount: 299,
           },
@@ -36,9 +69,11 @@ export async function POST(request: NextRequest) {
         },
       ],
       metadata: {
-        product_id: "ocean-friends",
+        product_id: "ocean-friends-bundle",
+        selected_pictures: selectedPictures.join(","),
       },
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url:
+        `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/coloring-pages`,
     });
 
