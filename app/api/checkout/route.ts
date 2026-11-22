@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
               name: "Ocean Friends - Sea Turtle Coloring Page",
               description: "One printable sea turtle coloring page PDF",
             },
-            unit_amount: 75,
+            unit_amount: 299,
           },
           quantity: 1,
         },
