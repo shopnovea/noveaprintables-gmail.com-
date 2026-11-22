@@ -87,7 +87,18 @@ export default function Home() {
         </div>
         <div className="product-grid">
           {products.map((product) => (
-            <article className="product" key={product.name}>
+            <article
+  className="product"
+  key={product.name}
+  onClick={() => {
+    if (product.name === "Ocean Friends") {
+      window.location.href = "/coloring-pages";
+    }
+  }}
+  style={{
+    cursor: product.name === "Ocean Friends" ? "pointer" : "default",
+  }}
+>
               <div className="product-art" style={{ backgroundColor: product.color }}>
                
 {product.name === "Ocean Friends" ? (
