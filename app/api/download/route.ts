@@ -7,8 +7,10 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   try {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const supabaseUrl =
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
+    const supabaseKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
     if (!stripeKey || !supabaseUrl || !supabaseKey) {
       return NextResponse.json(
@@ -17,6 +19,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Get the customer's Stripe checkout session.
     const sessionId = new URL(request.url).searchParams.get(
       "session_id"
     );
@@ -28,7 +31,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Verify the payment directly with Stripe.
     const stripe = new Stripe(stripeKey);
+
     const session = await stripe.checkout.sessions.retrieve(
       sessionId
     );
@@ -47,38 +52,59 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // PDF stored in the private Supabase bucket.
     const filePath = "ocean-friends-turtle-printable.pdf";
+    const bucketName = "printable-files";
 
+    // Request a temporary download link from Supabase.
     const response = await fetch(
-      `${supabaseUrl}/storage/v1/object/sign/printable-files/${filePath}`,
+      `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${filePath}`,
       {
         method: "POST",
-       
-headers: {
-  apikey: supabaseKey,
-  "Content-Type": "application/json",
-},
-
-        body: JSON.stringify({ expiresIn: 60 }),
+        headers: {
+          apikey: supabaseKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          expiresIn: 60,
+        }),
         cache: "no-store",
       }
     );
 
     if (!response.ok) {
-      throw new Error("Unable to generate download link");
+      const errorText = await response.text();
+      console.error(
+        "Supabase signed URL request failed:",
+        response.status,
+        errorText
+      );
+
+      return NextResponse.json(
+        { error: "Unable to generate PDF download link" },
+        { status: 502 }
+      );
     }
 
     const data = await response.json();
 
-    if (!data.signedURL) {
-      throw new Error("Signed URL is missing");
+    const signedPath = data.signedURL ?? data.signedUrl;
+
+    if (
+      typeof signedPath !== "string" ||
+      !signedPath
+    ) {
+      throw new Error("Supabase signed URL is missing");
     }
 
-    const downloadUrl = new URL(
-      data.signedURL,
-      `${supabaseUrl}/storage/v1/`
-    ).toString();
+    // Build the correct Supabase download URL.
+    const downloadUrl = signedPath.startsWith("http")
+      ? signedPath
+      : `${supabaseUrl}/storage/v1${
+          signedPath.startsWith("/") ? "" : "/"
+        }${signedPath}`;
 
+    // Redirect the verified purchaser to the PDF.
     return NextResponse.redirect(downloadUrl, {
       headers: {
         "Cache-Control": "no-store",
