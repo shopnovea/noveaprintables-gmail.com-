@@ -53,11 +53,12 @@ export async function GET(request: NextRequest) {
       `${supabaseUrl}/storage/v1/object/sign/printable-files/${filePath}`,
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${supabaseKey}`,
-          apikey: supabaseKey,
-          "Content-Type": "application/json",
-        },
+       
+headers: {
+  apikey: supabaseKey,
+  "Content-Type": "application/json",
+},
+
         body: JSON.stringify({ expiresIn: 60 }),
         cache: "no-store",
       }
