@@ -3,6 +3,49 @@
 
 import { useState } from "react";
 
+const pictures = [
+  {
+    name: "Sea Turtle",
+    image: "/ocean-friends-preview.png",
+  },
+  {
+    name: "Cute Octopus",
+    image: "/ocean-friends-cute-octopus-preview.png",
+  },
+  {
+    name: "Dolphin",
+    image: "/ocean-friends-dolphin-preview.png",
+  },
+  {
+    name: "Happy Crab",
+    image: "/ocean-friends-happy-crab-preview.png",
+  },
+  {
+    name: "Seashell Friends",
+    image: "/ocean-friends-seashell-friends-preview.png",
+  },
+  {
+    name: "Shark",
+    image: "/ocean-friends-shark-preview.png",
+  },
+  {
+    name: "Smiling Jellyfish",
+    image: "/ocean-friends-smiling-jellyfish-preview.png",
+  },
+  {
+    name: "Starfish",
+    image: "/ocean-friends-starfish-preview.png",
+  },
+  {
+    name: "Tropical Fish",
+    image: "/ocean-friends-tropical-fish-preview.png",
+  },
+  {
+    name: "Whale",
+    image: "/ocean-friends-whale-preview.png",
+  },
+];
+
 export default function ColoringPages() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,11 +72,7 @@ export default function ColoringPages() {
       window.location.assign(data.url);
     } catch (err) {
       console.error("Checkout error:", err);
-
-      setError(
-        "Checkout is temporarily unavailable. Please try again."
-      );
-
+      setError("Checkout is temporarily unavailable.");
       setLoading(false);
     }
   }
@@ -69,32 +108,55 @@ export default function ColoringPages() {
         Ocean Friends 🐢
       </h1>
 
-      <p>Sea Turtle Coloring Page</p>
+      <p>Explore our printable coloring pages!</p>
 
-      <p>1 Printable Page</p>
-
-      <img
-        src="/ocean-friends-preview.png"
-        alt="Watermarked Ocean Friends turtle coloring page"
+      <div
         style={{
-          display: "block",
-          width: "100%",
-          maxWidth: "450px",
-          height: "auto",
-          margin: "30px auto",
-          borderRadius: "12px",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "25px",
+          maxWidth: "1100px",
+          margin: "35px auto",
         }}
-      />
+      >
+        {pictures.map((picture) => (
+          <div
+            key={picture.image}
+            style={{
+              backgroundColor: "white",
+              padding: "15px",
+              borderRadius: "14px",
+              boxShadow: "0 3px 12px #00000012",
+            }}
+          >
+            <img
+              src={picture.image}
+              alt={`${picture.name} coloring page preview`}
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+            <h3>{picture.name}</h3>
+          </div>
+        ))}
+      </div>
 
       <h2
         style={{
-          fontSize: "32px",
-          marginTop: "25px",
           color: "#b26796",
+          fontSize: "30px",
         }}
       >
-        $2.99
+        Sea Turtle Printable — $2.99
       </h2>
+
+      <p>
+        Purchase includes one printable sea turtle PDF.
+        The other pictures are previews only.
+      </p>
 
       <button
         type="button"
@@ -108,42 +170,19 @@ export default function ColoringPages() {
           borderRadius: "10px",
           fontSize: "17px",
           cursor: loading ? "wait" : "pointer",
-          marginTop: "15px",
           opacity: loading ? 0.7 : 1,
         }}
       >
-        {loading
-          ? "Opening checkout..."
-          : "Buy Now — $2.99"}
+        {loading ? "Opening checkout..." : "Buy Sea Turtle — $2.99"}
       </button>
 
       {error && (
-        <p
-          role="alert"
-          style={{
-            color: "#b42318",
-            marginTop: "15px",
-          }}
-        >
+        <p role="alert" style={{ color: "#b42318" }}>
           {error}
         </p>
       )}
 
-      <p
-        style={{
-          marginTop: "30px",
-          fontSize: "16px",
-        }}
-      >
-        A cute sea turtle coloring page for kids and adults.
-      </p>
-
-      <p
-        style={{
-          color: "#98778f",
-          marginTop: "15px",
-        }}
-      >
+      <p style={{ color: "#98778f", marginTop: "25px" }}>
         Instant PDF download after purchase.
       </p>
     </main>
