@@ -4,6 +4,23 @@ import Stripe from "stripe";
 
 export const runtime = "nodejs";
 
+// Each picture must match its PDF filename in Supabase.
+const printableFiles: Record<string, string> = {
+  turtle: "ocean-friends-turtle-printable.pdf",
+  "cute-octopus": "ocean-friends-cute-octopus-printable.pdf",
+  dolphin: "ocean-friends-dolphin-printable.pdf",
+  "happy-crab": "ocean-friends-happy-crab-printable.pdf",
+  "seashell-friends":
+    "ocean-friends-seashell-friends-printable.pdf",
+  shark: "ocean-friends-shark-printable.pdf",
+  "smiling-jellyfish":
+    "ocean-friends-smiling-jellyfish-printable.pdf",
+  starfish: "ocean-friends-starfish-printable.pdf",
+  "tropical-fish":
+    "ocean-friends-tropical-fish-printable.pdf",
+  whale: "ocean-friends-whale-printable.pdf",
+};
+
 export async function GET(request: NextRequest) {
   try {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -19,10 +36,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get the customer's Stripe checkout session.
-    const sessionId = new URL(request.url).searchParams.get(
-      "session_id"
-    );
+    const params = new URL(request.url).searchParams;
+    const sessionId = params.get("session_id");
+    const pictureId = params.get("picture");
 
     if (!sessionId || !sessionId.startsWith("cs_")) {
       return NextResponse.json(
@@ -31,19 +47,26 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify the payment directly with Stripe.
+    if (!pictureId || !printableFiles[pictureId]) {
+      return NextResponse.json(
+        { error: "Invalid coloring page" },
+        { status: 400 }
+      );
+    }
+
+    // Verify the purchase with Stripe.
     const stripe = new Stripe(stripeKey);
 
-    const session = await stripe.checkout.sessions.retrieve(
-      sessionId
-    );
+    const session =
+      await stripe.checkout.sessions.retrieve(sessionId);
 
     if (
       session.payment_status !== "paid" ||
       session.status !== "complete" ||
       session.mode !== "payment" ||
-      session.metadata?.product_id !== "ocean-friends" ||
-      session.amount_total !== 75 ||
+      session.metadata?.product_id !==
+        "ocean-friends-bundle" ||
+      session.amount_total !== 299 ||
       session.currency !== "usd"
     ) {
       return NextResponse.json(
@@ -52,59 +75,67 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // PDF stored in the private Supabase bucket.
-    const filePath = "ocean-friends-turtle-printable.pdf";
+    // Retrieve the five choices saved during checkout.
+    const selectedPictures =
+      session.metadata?.selected_pictures?.split(",") ?? [];
+
+    if (
+      selectedPictures.length !== 5 ||
+      new Set(selectedPictures).size !== 5 ||
+      !selectedPictures.every(
+        (id) => Object.hasOwn(printableFiles, id)
+      ) ||
+      !selectedPictures.includes(pictureId)
+    ) {
+      return NextResponse.json(
+        { error: "This picture is not in your purchase" },
+        { status: 403 }
+      );
+    }
+
+    const filePath = printableFiles[pictureId];
     const bucketName = "printable-files";
 
-    // Request a temporary download link from Supabase.
+    // Generate a temporary private PDF link.
     const response = await fetch(
-      `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${filePath}`,
+      `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${encodeURIComponent(filePath)}`,
       {
         method: "POST",
         headers: {
           apikey: supabaseKey,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          expiresIn: 60,
-        }),
+        body: JSON.stringify({ expiresIn: 60 }),
         cache: "no-store",
       }
     );
 
     if (!response.ok) {
-      const errorText = await response.text();
       console.error(
-        "Supabase signed URL request failed:",
+        "Supabase download error:",
         response.status,
-        errorText
+        await response.text()
       );
 
       return NextResponse.json(
-        { error: "Unable to generate PDF download link" },
+        { error: "Unable to generate download link" },
         { status: 502 }
       );
     }
 
     const data = await response.json();
-
     const signedPath = data.signedURL ?? data.signedUrl;
 
-    if (
-      typeof signedPath !== "string" ||
-      !signedPath
-    ) {
-      throw new Error("Supabase signed URL is missing");
+    if (typeof signedPath !== "string" || !signedPath) {
+      throw new Error("Signed URL is missing");
     }
 
-    // Build the correct Supabase download URL.
     const downloadUrl = signedPath.startsWith("http")
       ? signedPath
       : `${supabaseUrl}/storage/v1${
           signedPath.startsWith("/") ? "" : "/"
         }${signedPath}`;
 
-    // Redirect the verified purchaser to the PDF.
     return NextResponse.redirect(downloadUrl, {
       headers: {
         "Cache-Control": "no-store",
@@ -112,7 +143,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Secure download error:", error);
+    console.error("Bundle download error:", error);
 
     return NextResponse.json(
       { error: "Unable to prepare your download" },
