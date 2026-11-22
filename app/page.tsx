@@ -1,4 +1,4 @@
-c
+
 const products = [
   {
     name: "Ocean Friends",
