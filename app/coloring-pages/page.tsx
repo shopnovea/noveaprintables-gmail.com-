@@ -1,5 +1,40 @@
 
+"use client";
+
+import { useState } from "react";
+
 export default function ColoringPages() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleCheckout() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to start checkout");
+      }
+
+      const data = await response.json();
+
+      if (!data.url) {
+        throw new Error("Checkout URL is missing");
+      }
+
+      window.location.assign(data.url);
+    } catch (err) {
+      setError(
+        "Checkout is temporarily unavailable. Please try again."
+      );
+      setLoading(false);
+    }
+  }
+
   return (
     <main
       style={{
@@ -49,14 +84,36 @@ export default function ColoringPages() {
 
       <h2>$0.75</h2>
 
+      <button
+        type="button"
+        onClick={handleCheckout}
+        disabled={loading}
+        style={{
+          backgroundColor: "#b26796",
+          color: "white",
+          padding: "14px 30px",
+          border: "none",
+          borderRadius: "10px",
+          fontSize: "17px",
+          cursor: loading ? "wait" : "pointer",
+          marginTop: "15px",
+          opacity: loading ? 0.7 : 1,
+        }}
+      >
+        {loading ? "Opening checkout..." : "Buy Now — $0.75"}
+      </button>
+
+      {error && (
+        <p style={{ color: "#b42318" }}>{error}</p>
+      )}
+
       <p>
         A cute sea turtle coloring page for kids and adults.
       </p>
 
       <p style={{ color: "#98778f" }}>
-        Secure checkout will be available soon.
+        Instant PDF delivery is coming soon.
       </p>
     </main>
   );
 }
-
