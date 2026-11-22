@@ -3,7 +3,11 @@ const products = [
   { name: "Budget Planner", category: "FINANCE", price: "$6.00", emoji: "💸", color: "#D8EBDD" },
   { name: "Weekly Reset", category: "ORGANIZATION", price: "$4.00", emoji: "✨", color: "#E5DDF8" },
   { name: "Pretty Wall Prints", category: "WALL ART", price: "$7.00", emoji: "🦋", color: "#FBE8CB" },
+  { name: "Ocean Friends", category: "KIDS' COLORING PAGES", price: "", emoji: "🐢", color: "#DDF3F6" },
+  { name: "Cozy Little Moments", category: "COZY COLORING", price: "", emoji: "🏡", color: "#F9E3EB" },
+  { name: "Flowers & Butterflies", category: "NATURE COLORING", price: "", emoji: "🌷", color: "#E8E2F7" },
 ];
+
 
 const coloringCollections = [
   { name: "Ocean Friends", category: "KIDS' COLORING PAGES", emoji: "🐢", color: "#DDF3F2", description: "Smiling sea creatures and underwater adventures." },
@@ -30,7 +34,7 @@ export default function Home() {
       <section className="hero" id="home">
         <div>
           <span className="eyebrow">DIGITAL GOODIES FOR EVERYDAY LIFE</span>
-          <h1>Make everyday<br />a little more <em>beautiful.</em></h1>
+      <h1>Color your world<br />with <em>happiness.</em></h1>
           <p>Colorful printables, thoughtful planners, and little things designed to make life easier and a whole lot prettier.</p>
           <a href="#shop" className="primary-button">EXPLORE THE SHOP →</a>
           <div className="hero-note">♡ INSTANT DOWNLOADS · PRINT AT HOME</div>
@@ -77,9 +81,8 @@ export default function Home() {
                   <span className="category">{product.category}</span>
                   <h3>{product.name}</h3>
                 </div>
-                <strong>{product.price}</strong>
+               {product.price && <strong>{product.price}</strong>}
               </div>
-              <span className="coming-soon">COMING SOON</span>
             </article>
           ))}
         </div>
@@ -102,8 +105,7 @@ export default function Home() {
                 <span className="category">{collection.category}</span>
                 <h3>{collection.name}</h3>
                 <p>{collection.description}</p>
-                <span className="coming-soon">COMING SOON</span>
-              </div>
+               </div>
             </article>
           ))}
         </div>
