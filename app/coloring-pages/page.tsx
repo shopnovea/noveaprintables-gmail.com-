@@ -28,9 +28,12 @@ export default function ColoringPages() {
 
       window.location.assign(data.url);
     } catch (err) {
+      console.error("Checkout error:", err);
+
       setError(
         "Checkout is temporarily unavailable. Please try again."
       );
+
       setLoading(false);
     }
   }
@@ -67,6 +70,7 @@ export default function ColoringPages() {
       </h1>
 
       <p>Sea Turtle Coloring Page</p>
+
       <p>1 Printable Page</p>
 
       <img
@@ -82,7 +86,15 @@ export default function ColoringPages() {
         }}
       />
 
-      <h2>$0.75</h2>
+      <h2
+        style={{
+          fontSize: "32px",
+          marginTop: "25px",
+          color: "#b26796",
+        }}
+      >
+        $2.99
+      </h2>
 
       <button
         type="button"
@@ -100,19 +112,39 @@ export default function ColoringPages() {
           opacity: loading ? 0.7 : 1,
         }}
       >
-        {loading ? "Opening checkout..." : "Buy Now — $0.75"}
+        {loading
+          ? "Opening checkout..."
+          : "Buy Now — $2.99"}
       </button>
 
       {error && (
-        <p style={{ color: "#b42318" }}>{error}</p>
+        <p
+          role="alert"
+          style={{
+            color: "#b42318",
+            marginTop: "15px",
+          }}
+        >
+          {error}
+        </p>
       )}
 
-      <p>
+      <p
+        style={{
+          marginTop: "30px",
+          fontSize: "16px",
+        }}
+      >
         A cute sea turtle coloring page for kids and adults.
       </p>
 
-      <p style={{ color: "#98778f" }}>
-        Instant PDF delivery is coming soon.
+      <p
+        style={{
+          color: "#98778f",
+          marginTop: "15px",
+        }}
+      >
+        Instant PDF download after purchase.
       </p>
     </main>
   );
