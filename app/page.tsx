@@ -1,12 +1,28 @@
+c
 const products = [
-  { name: "The Daily Planner", category: "PLANNERS", price: "$5.00", emoji: "🌸", color: "#F9DCE5" },
-  { name: "Budget Planner", category: "FINANCE", price: "$6.00", emoji: "💸", color: "#D8EBDD" },
-  { name: "Weekly Reset", category: "ORGANIZATION", price: "$4.00", emoji: "✨", color: "#E5DDF8" },
-  { name: "Pretty Wall Prints", category: "WALL ART", price: "$7.00", emoji: "🦋", color: "#FBE8CB" },
-  { name: "Ocean Friends", category: "KIDS' COLORING PAGES", price: "", emoji: "🐢", color: "#DDF3F6" },
-  { name: "Cozy Little Moments", category: "COZY COLORING", price: "", emoji: "🏡", color: "#F9E3EB" },
-  { name: "Flowers & Butterflies", category: "NATURE COLORING", price: "", emoji: "🌷", color: "#E8E2F7" },
+  {
+    name: "Ocean Friends",
+    category: "KIDS' COLORING PAGES",
+    price: "",
+    emoji: "🐢",
+    color: "#DDF3F6",
+  },
+  {
+    name: "Cozy Little Moments",
+    category: "COZY COLORING",
+    price: "",
+    emoji: "🏡",
+    color: "#F9E3EB",
+  },
+  {
+    name: "Flowers & Butterflies",
+    category: "NATURE COLORING",
+    price: "",
+    emoji: "🦋",
+    color: "#E8E2F7",
+  },
 ];
+
 
 
 const coloringCollections = [
