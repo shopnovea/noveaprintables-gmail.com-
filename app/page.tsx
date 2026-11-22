@@ -3,7 +3,7 @@ const products = [
   {
     name: "Ocean Friends",
     category: "KIDS' COLORING PAGES",
-    price: "$0.75",
+    price: "$2.99",
     emoji: "🐢",
     color: "#DDF3F6",
     href: "/coloring-pages",
