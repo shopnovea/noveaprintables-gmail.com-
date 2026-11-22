@@ -89,7 +89,22 @@ export default function Home() {
           {products.map((product) => (
             <article className="product" key={product.name}>
               <div className="product-art" style={{ backgroundColor: product.color }}>
-                <span className="product-emoji">{product.emoji}</span>
+               
+{product.name === "Ocean Friends" ? (
+  <img
+    src="/ocean-friends-preview.png"
+    alt="Ocean Friends sea turtle coloring page preview"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      padding: "12px",
+    }}
+  />
+) : (
+  <span className="product-emoji">{product.emoji}</span>
+)}
+
                 <span className="preview-label">NOVĒA DIGITAL</span>
               </div>
               <div className="product-info">
