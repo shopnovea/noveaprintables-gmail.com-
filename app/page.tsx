@@ -1,9 +1,14 @@
-
 const products = [
   { name: "The Daily Planner", category: "PLANNERS", price: "$5.00", emoji: "🌸", color: "#F9DCE5" },
   { name: "Budget Planner", category: "FINANCE", price: "$6.00", emoji: "💸", color: "#D8EBDD" },
   { name: "Weekly Reset", category: "ORGANIZATION", price: "$4.00", emoji: "✨", color: "#E5DDF8" },
   { name: "Pretty Wall Prints", category: "WALL ART", price: "$7.00", emoji: "🦋", color: "#FBE8CB" },
+];
+
+const coloringCollections = [
+  { name: "Ocean Friends", category: "KIDS' COLORING PAGES", emoji: "🐢", color: "#DDF3F2", description: "Smiling sea creatures and underwater adventures." },
+  { name: "Cozy Little Moments", category: "COZY COLORING", emoji: "🏡", color: "#F9E7DD", description: "Sweet, relaxing scenes with plenty of room to color." },
+  { name: "Flowers & Butterflies", category: "NATURE COLORING", emoji: "🦋", color: "#EEE4F8", description: "Happy blooms and fluttering friends." },
 ];
 
 export default function Home() {
@@ -12,10 +17,11 @@ export default function Home() {
       <div className="announcement">A LITTLE COLOR GOES A LONG WAY ✨</div>
 
       <header className="header">
-        <a href="#" className="logo">NOVĒA</a>
-        <nav>
+        <a href="#home" className="logo">NOVĒA</a>
+        <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
           <a href="#shop">SHOP</a>
+          <a href="#coloring-pages">COLORING PAGES</a>
           <a href="#about">ABOUT</a>
         </nav>
         <a className="cart" href="#shop">SHOP NOW ↗</a>
@@ -79,6 +85,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="coloring-section" id="coloring-pages">
+        <div className="section-heading">
+          <span className="eyebrow">PRINT, COLOR & SMILE</span>
+          <h2>Color your <em>happy place.</em></h2>
+          <p>Cute coloring pages with clear outlines and comfortably sized spaces—fun for little artists and relaxing for everyone.</p>
+        </div>
+        <div className="coloring-grid">
+          {coloringCollections.map((collection) => (
+            <article className="product" key={collection.name}>
+              <div className="product-art coloring-art" style={{ backgroundColor: collection.color }}>
+                <span className="product-emoji">{collection.emoji}</span>
+                <span className="preview-label">NOVĒA COLORING</span>
+              </div>
+              <div className="coloring-info">
+                <span className="category">{collection.category}</span>
+                <h3>{collection.name}</h3>
+                <p>{collection.description}</p>
+                <span className="coming-soon">COMING SOON</span>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="coloring-note">Original printable coloring collections are on their way. ♡</p>
+      </section>
+
       <section className="about" id="about">
         <span className="eyebrow">A NOTE FROM NOVĒA</span>
         <h2>Little details.<br /><em>Lovely days.</em></h2>
@@ -87,7 +118,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <a href="#" className="logo">NOVĒA</a>
+        <a href="#home" className="logo">NOVĒA</a>
         <p>Made with love, color & a little creativity. ♡</p>
         <span>© 2026 NOVĒA. ALL RIGHTS RESERVED.</span>
       </footer>
@@ -100,8 +131,8 @@ export default function Home() {
         .announcement { text-align: center; padding: 11px; background: #e9dafa; font-size: 10px; letter-spacing: 2px; }
         .header { min-height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 18px 7%; gap: 20px; background: white; }
         .logo { font-family: Georgia, serif; font-size: 32px; letter-spacing: 5px; font-weight: bold; }
-        nav { display: flex; gap: 32px; font-size: 11px; letter-spacing: 1px; }
-        .cart, .primary-button { background: #39313d; color: white; padding: 14px 20px; border-radius: 30px; font-size: 10px; letter-spacing: 1px; }
+        nav { display: flex; gap: 25px; flex-wrap: wrap; font-size: 11px; letter-spacing: 1px; }
+        .cart, .primary-button { background: #39313d; color: white; padding: 14px 20px; border-radius: 30px; font-size: 10px; letter-spacing: 1px; display: inline-block; }
         .hero { background: #fff0f2; padding: 75px 9%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 45px; min-height: 510px; }
         .eyebrow { font-size: 10px; letter-spacing: 2px; color: #98778f; font-weight: bold; }
         h1 { font-family: Georgia, serif; font-size: clamp(42px, 5vw, 67px); line-height: 1.12; font-weight: normal; margin: 22px 0; }
@@ -127,26 +158,32 @@ export default function Home() {
         .preview-label { position: absolute; bottom: 15px; font-size: 8px; letter-spacing: 2px; color: #756c78; }
         .product-info { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 15px 0 5px; }
         .category { font-size: 8px; letter-spacing: 1.5px; color: #a17b9b; }
-        .product-info h3 { font-family: Georgia, serif; font-size: 17px; font-weight: normal; margin: 7px 0; }
+        .product-info h3, .coloring-info h3 { font-family: Georgia, serif; font-size: 17px; font-weight: normal; margin: 7px 0; }
         .product-info strong { font-size: 13px; }
         .coming-soon { font-size: 9px; color: #a17b9b; letter-spacing: 1px; }
+        .coloring-section { background: #fff7f2; padding: 85px 8%; }
+        .coloring-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
+        .coloring-art { height: 245px; }
+        .coloring-info { padding: 17px 2px; }
+        .coloring-info p { color: #786d79; font-size: 13px; line-height: 1.7; margin: 7px 0 15px; }
+        .coloring-note { text-align: center; font-size: 12px; color: #98778f; margin: 32px 0 0; }
         .about { background: #e4f1e8; text-align: center; padding: 75px 20px; }
         .about p { margin: 20px auto; }
         .about-heart { font-size: 35px; color: #c16c9c; }
         footer { text-align: center; padding: 45px 20px; }
         footer p { font-family: Georgia, serif; color: #887c8c; }
         footer span { font-size: 9px; letter-spacing: 1px; color: #988e98; }
+        @media (max-width: 850px) { .header { flex-wrap: wrap; } nav { order: 3; width: 100%; justify-content: center; } }
         @media (max-width: 700px) {
-          .header { flex-wrap: wrap; }
-          nav { order: 3; width: 100%; justify-content: center; gap: 22px; }
           .hero { grid-template-columns: 1fr; padding: 55px 7%; }
           .hero-art { height: 300px; }
-          .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-          .product-art { height: 175px; }
+          .product-grid, .coloring-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+          .product-art, .coloring-art { height: 175px; }
           .product-info { flex-wrap: wrap; }
+          .coloring-section { padding: 65px 7%; }
           h2 { font-size: 34px; }
         }
-        @media (max-width: 380px) { .product-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 420px) { .product-grid, .coloring-grid { grid-template-columns: 1fr; } }
       `}</style>
     </main>
   );
