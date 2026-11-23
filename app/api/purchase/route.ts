@@ -17,6 +17,13 @@ const pictureNames: Record<string, string> = {
   whale: "Whale",
 };
 
+const bundlePrices: Record<string, number> = {
+  "2": 149,
+  "5": 299,
+  "10": 499,
+  "20": 799,
+};
+
 export async function GET(request: NextRequest) {
   try {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -44,13 +51,24 @@ export async function GET(request: NextRequest) {
       sessionId
     );
 
+    const isLegacyPurchase =
+      session.metadata?.product_id === "ocean-friends-bundle" &&
+      session.amount_total === 299;
+
+    const bundleSize = session.metadata?.bundle_size ?? "";
+    const expectedPrice = bundlePrices[bundleSize];
+
+    const isNewPurchase =
+      session.metadata?.product_id === "coloring-pages-bundle" &&
+      expectedPrice !== undefined &&
+      session.amount_total === expectedPrice;
+
     if (
       session.payment_status !== "paid" ||
       session.status !== "complete" ||
       session.mode !== "payment" ||
-      session.metadata?.product_id !== "ocean-friends-bundle" ||
-      session.amount_total !== 299 ||
-      session.currency !== "usd"
+      session.currency !== "usd" ||
+      (!isLegacyPurchase && !isNewPurchase)
     ) {
       return NextResponse.json(
         { error: "Payment not verified" },
@@ -61,9 +79,11 @@ export async function GET(request: NextRequest) {
     const selected =
       session.metadata?.selected_pictures?.split(",") ?? [];
 
+    const requiredCount = isLegacyPurchase ? 5 : Number(bundleSize);
+
     if (
-      selected.length !== 5 ||
-      new Set(selected).size !== 5 ||
+      selected.length !== requiredCount ||
+      new Set(selected).size !== requiredCount ||
       !selected.every((id) =>
         Object.prototype.hasOwnProperty.call(pictureNames, id)
       )
@@ -80,7 +100,11 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json(
-      { pictures },
+      {
+        pictures,
+        bundle_size: requiredCount,
+        amount_paid: session.amount_total,
+      },
       {
         headers: {
           "Cache-Control": "no-store",
