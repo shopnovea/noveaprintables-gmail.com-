@@ -16,6 +16,61 @@ const pictures = [
   { id: "whale", name: "Whale", image: "/ocean-friends-whale-preview.png" },
 ];
 
+const christmasPictures = [
+  {
+    "name": "Cheerful Elf and Christmas Tree Coloring Page",
+    "image": "/Cheerful Elf and Christmas Tree Coloring Page-preview.png"
+  },
+  {
+    "name": "Festive Christmas Mantel Coloring Page",
+    "image": "/Festive Christmas Mantel Coloring Page-preview.png"
+  },
+  {
+    "name": "Festive Christmas Wreath Coloring Page",
+    "image": "/Festive Christmas Wreath Coloring Page-preview.png"
+  },
+  {
+    "name": "Festive Fireplace Gifts and Stockings",
+    "image": "/Festive Fireplace Gifts and Stockings-preview.png"
+  },
+  {
+    "name": "Festive Fireplace Stocking Scene",
+    "image": "/Festive Fireplace Stocking Scene-preview.png"
+  },
+  {
+    "name": "Festive Penguin with Gifts and Snowflakes",
+    "image": "/Festive Penguin with Gifts and Snowflakes-preview.png"
+  },
+  {
+    "name": "Festive Puppy Christmas Coloring Page",
+    "image": "/Festive Puppy Christmas Coloring Page-preview.png"
+  },
+  {
+    "name": "Festive Reindeer Coloring Scene",
+    "image": "/Festive Reindeer Coloring Scene-preview.png"
+  },
+  {
+    "name": "Gingerbread House Candy Wonderland",
+    "image": "/Gingerbread House Candy Wonderland-preview.png"
+  },
+  {
+    "name": "Polar Bear Christmas Coloring Page",
+    "image": "/Polar Bear Christmas Coloring Page-preview.png"
+  },
+  {
+    "name": "Polar Bear’s Snowy Gift Surprise",
+    "image": "/Polar Bear’s Snowy Gift Surprise-preview.png"
+  },
+  {
+    "name": "Santa’s Snowy Christmas Gift Scene",
+    "image": "/Santa’s Snowy Christmas Gift Scene-preview.png"
+  },
+  {
+    "name": "Snowman Decorating a Christmas Tree",
+    "image": "/Snowman Decorating a Christmas Tree-preview.png"
+  }
+];
+
 const bundles = [
   { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
   { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
@@ -352,6 +407,22 @@ export default function ColoringPages() {
             {error}
           </p>
         )}
+      </section>
+
+      <section style={{ maxWidth: "1100px", margin: "60px auto" }}>
+        <h2 style={{ fontFamily: "Georgia, serif", fontSize: "36px", fontWeight: "normal" }}>
+          Christmas Collection 🎄
+        </h2>
+        <p style={{ color: "#b26796", fontWeight: "bold" }}>COMING SOON</p>
+        <p style={{ color: "#786d79" }}>Explore our festive coloring pages. Available to purchase soon!</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "22px", margin: "35px auto" }}>
+          {christmasPictures.map((picture) => (
+            <article key={picture.image} style={{ backgroundColor: "white", padding: "12px", borderRadius: "14px", boxShadow: "0 3px 12px #00000012" }}>
+              <img src={encodeURI(picture.image)} alt={`${picture.name} preview`} loading="lazy" style={{ display: "block", width: "100%", height: "auto", borderRadius: "8px" }} />
+              <p style={{ fontSize: "17px", fontWeight: "bold" }}>{picture.name}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <p style={{ color: "#98778f", fontSize: "12px" }}>
