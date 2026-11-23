@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -15,6 +14,45 @@ const printableFiles: Record<string, string> = {
   starfish: "ocean-friends-starfish-printable.pdf",
   "tropical-fish": "ocean-friends-tropical-fish-printable.pdf",
   whale: "ocean-friends-whale-printable.pdf",
+
+  "christmas-cheerful-elf-and-christmas-tree-coloring-page":
+    "christmas-cheerful-elf-and-christmas-tree-coloring-page-printable.pdf",
+
+  "christmas-festive-christmas-mantel-coloring-page":
+    "christmas-festive-christmas-mantel-coloring-page-printable.pdf",
+
+  "christmas-festive-christmas-wreath-coloring-page":
+    "christmas-festive-christmas-wreath-coloring-page-printable.pdf",
+
+  "christmas-festive-fireplace-gifts-and-stockings":
+    "christmas-festive-fireplace-gifts-and-stockings-printable.pdf",
+
+  "christmas-festive-fireplace-stocking-scene":
+    "christmas-festive-fireplace-stocking-scene-printable.pdf",
+
+  "christmas-festive-penguin-with-gifts-and-snowflakes":
+    "christmas-festive-penguin-with-gifts-and-snowflakes-printable.pdf",
+
+  "christmas-festive-puppy-christmas-coloring-page":
+    "christmas-festive-puppy-christmas-coloring-page-printable.pdf",
+
+  "christmas-festive-reindeer-coloring-scene":
+    "christmas-festive-reindeer-coloring-scene-printable.pdf",
+
+  "christmas-gingerbread-house-candy-wonderland":
+    "christmas-gingerbread-house-candy-wonderland-printable.pdf",
+
+  "christmas-polar-bear-christmas-coloring-page":
+    "christmas-polar-bear-christmas-coloring-page-printable.pdf",
+
+  "christmas-polar-bears-snowy-gift-surprise":
+    "christmas-polar-bears-snowy-gift-surprise-printable.pdf",
+
+  "christmas-santas-snowy-christmas-gift-scene":
+    "christmas-santas-snowy-christmas-gift-scene-printable.pdf",
+
+  "christmas-snowman-decorating-a-christmas-tree":
+    "christmas-snowman-decorating-a-christmas-tree-printable.pdf",
 };
 
 const bundlePrices: Record<string, number> = {
@@ -23,6 +61,13 @@ const bundlePrices: Record<string, number> = {
   "10": 499,
   "20": 799,
 };
+
+function hasPicture(id: string) {
+  return Object.prototype.hasOwnProperty.call(
+    printableFiles,
+    id
+  );
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -50,7 +95,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!pictureId || !Object.hasOwn(printableFiles, pictureId)) {
+    if (!pictureId || !hasPicture(pictureId)) {
       return NextResponse.json(
         { error: "Invalid coloring page" },
         { status: 400 }
@@ -58,6 +103,7 @@ export async function GET(request: NextRequest) {
     }
 
     const stripe = new Stripe(stripeKey);
+
     const session =
       await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -96,13 +142,32 @@ export async function GET(request: NextRequest) {
     if (
       selectedPictures.length !== requiredCount ||
       new Set(selectedPictures).size !== requiredCount ||
-      !selectedPictures.every(
-        (id) => Object.hasOwn(printableFiles, id)
-      ) ||
+      !selectedPictures.every(hasPicture) ||
       !selectedPictures.includes(pictureId)
     ) {
       return NextResponse.json(
         { error: "This picture is not included in your purchase" },
+        { status: 403 }
+      );
+    }
+
+    const collection =
+      session.metadata?.collection ?? "ocean";
+
+    const validCollection =
+      (collection === "ocean" &&
+        selectedPictures.every(
+          (id) => !id.startsWith("christmas-")
+        )) ||
+      (collection === "christmas" &&
+        !isLegacyPurchase &&
+        selectedPictures.every(
+          (id) => id.startsWith("christmas-")
+        ));
+
+    if (!validCollection) {
+      return NextResponse.json(
+        { error: "Invalid collection" },
         { status: 403 }
       );
     }
@@ -164,4 +229,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
