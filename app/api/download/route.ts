@@ -4,21 +4,24 @@ import Stripe from "stripe";
 
 export const runtime = "nodejs";
 
-// Each picture must match its PDF filename in Supabase.
 const printableFiles: Record<string, string> = {
   turtle: "ocean-friends-turtle-printable.pdf",
   "cute-octopus": "ocean-friends-cute-octopus-printable.pdf",
   dolphin: "ocean-friends-dolphin-printable.pdf",
   "happy-crab": "ocean-friends-happy-crab-printable.pdf",
-  "seashell-friends":
-    "ocean-friends-seashell-friends-printable.pdf",
+  "seashell-friends": "ocean-friends-seashell-friends-printable.pdf",
   shark: "ocean-friends-shark-printable.pdf",
-  "smiling-jellyfish":
-    "ocean-friends-smiling-jellyfish-printable.pdf",
+  "smiling-jellyfish": "ocean-friends-smiling-jellyfish-printable.pdf",
   starfish: "ocean-friends-starfish-printable.pdf",
-  "tropical-fish":
-    "ocean-friends-tropical-fish-printable.pdf",
+  "tropical-fish": "ocean-friends-tropical-fish-printable.pdf",
   whale: "ocean-friends-whale-printable.pdf",
+};
+
+const bundlePrices: Record<string, number> = {
+  "2": 149,
+  "5": 299,
+  "10": 499,
+  "20": 799,
 };
 
 export async function GET(request: NextRequest) {
@@ -47,27 +50,35 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!pictureId || !printableFiles[pictureId]) {
+    if (!pictureId || !Object.hasOwn(printableFiles, pictureId)) {
       return NextResponse.json(
         { error: "Invalid coloring page" },
         { status: 400 }
       );
     }
 
-    // Verify the purchase with Stripe.
     const stripe = new Stripe(stripeKey);
-
     const session =
       await stripe.checkout.sessions.retrieve(sessionId);
+
+    const isLegacyPurchase =
+      session.metadata?.product_id === "ocean-friends-bundle" &&
+      session.amount_total === 299;
+
+    const bundleSize = session.metadata?.bundle_size ?? "";
+    const expectedPrice = bundlePrices[bundleSize];
+
+    const isNewPurchase =
+      session.metadata?.product_id === "coloring-pages-bundle" &&
+      expectedPrice !== undefined &&
+      session.amount_total === expectedPrice;
 
     if (
       session.payment_status !== "paid" ||
       session.status !== "complete" ||
       session.mode !== "payment" ||
-      session.metadata?.product_id !==
-        "ocean-friends-bundle" ||
-      session.amount_total !== 299 ||
-      session.currency !== "usd"
+      session.currency !== "usd" ||
+      (!isLegacyPurchase && !isNewPurchase)
     ) {
       return NextResponse.json(
         { error: "Payment not verified" },
@@ -75,20 +86,23 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Retrieve the five choices saved during checkout.
     const selectedPictures =
       session.metadata?.selected_pictures?.split(",") ?? [];
 
+    const requiredCount = isLegacyPurchase
+      ? 5
+      : Number(bundleSize);
+
     if (
-      selectedPictures.length !== 5 ||
-      new Set(selectedPictures).size !== 5 ||
+      selectedPictures.length !== requiredCount ||
+      new Set(selectedPictures).size !== requiredCount ||
       !selectedPictures.every(
         (id) => Object.hasOwn(printableFiles, id)
       ) ||
       !selectedPictures.includes(pictureId)
     ) {
       return NextResponse.json(
-        { error: "This picture is not in your purchase" },
+        { error: "This picture is not included in your purchase" },
         { status: 403 }
       );
     }
@@ -96,7 +110,6 @@ export async function GET(request: NextRequest) {
     const filePath = printableFiles[pictureId];
     const bucketName = "printable-files";
 
-    // Generate a temporary private PDF link.
     const response = await fetch(
       `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${encodeURIComponent(filePath)}`,
       {
@@ -151,3 +164,4 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
