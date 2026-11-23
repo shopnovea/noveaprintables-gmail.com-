@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = new Stripe(stripeKey);
-    const origin = new URL(request.url).origin;
+    const origin = "https://novea-printables.vercel.app";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
