@@ -16,10 +16,31 @@ const pictures = [
   { id: "whale", name: "Whale", image: "/ocean-friends-whale-preview.png" },
 ];
 
+const bundles = [
+  { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
+  { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
+  { count: 10, price: 499, label: "Happy Bundle", color: "#E8E2F7" },
+  { count: 20, price: 799, label: "Mega Bundle", color: "#DDF3F6", unavailable: true },
+];
+
+function money(cents: number) {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
 export default function ColoringPages() {
+  const [bundleSize, setBundleSize] = useState(2);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const bundle = bundles.find((item) => item.count === bundleSize)!;
+  const remaining = bundleSize - selected.length;
+
+  function chooseBundle(count: number) {
+    setBundleSize(count);
+    setSelected([]);
+    setError("");
+  }
 
   function togglePicture(id: string) {
     setError("");
@@ -29,7 +50,7 @@ export default function ColoringPages() {
         return current.filter((item) => item !== id);
       }
 
-      if (current.length >= 5) {
+      if (current.length >= bundleSize) {
         return current;
       }
 
@@ -38,8 +59,8 @@ export default function ColoringPages() {
   }
 
   async function handleCheckout() {
-    if (selected.length !== 5) {
-      setError("Please choose exactly 5 pictures.");
+    if (selected.length !== bundleSize) {
+      setError(`Please choose exactly ${bundleSize} pictures.`);
       return;
     }
 
@@ -57,11 +78,11 @@ export default function ColoringPages() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Unable to start checkout");
-      }
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to start checkout");
+      }
 
       if (!data.url) {
         throw new Error("Checkout URL is missing");
@@ -70,7 +91,11 @@ export default function ColoringPages() {
       window.location.assign(data.url);
     } catch (err) {
       console.error("Checkout error:", err);
-      setError("Checkout is temporarily unavailable.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Checkout is temporarily unavailable."
+      );
       setLoading(false);
     }
   }
@@ -91,6 +116,8 @@ export default function ColoringPages() {
         style={{
           color: "#b26796",
           textDecoration: "none",
+          letterSpacing: "1px",
+          fontSize: "12px",
         }}
       >
         ← BACK TO SHOP
@@ -99,20 +126,95 @@ export default function ColoringPages() {
       <h1
         style={{
           fontFamily: "Georgia, serif",
-          fontSize: "42px",
+          fontSize: "clamp(32px, 5vw, 44px)",
           marginTop: "35px",
+          fontWeight: "normal",
         }}
       >
         Ocean Friends 🐢
       </h1>
 
-      <h2 style={{ color: "#b26796" }}>
-        Pick Any 5 Coloring Pages — $2.99
+      <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+        Pick Your Favorite Pages
       </h2>
 
-      <p>
-        Choose your 5 favorite Ocean Friends pictures.
-        Each purchase includes 5 printable PDF pages.
+      <p style={{ color: "#786d79", lineHeight: 1.7 }}>
+        Choose your bundle, then pick your favorite printable
+        coloring pages.
+      </p>
+
+      <section
+        style={{
+          maxWidth: "1000px",
+          margin: "35px auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+          gap: "15px",
+        }}
+      >
+        {bundles.map((item) => {
+          const active = bundleSize === item.count;
+          const unavailable = Boolean(item.unavailable);
+
+          return (
+            <button
+              key={item.count}
+              type="button"
+              disabled={unavailable || loading}
+              onClick={() => chooseBundle(item.count)}
+              style={{
+                background: item.color,
+                border: active ? "3px solid #b26796" : "3px solid transparent",
+                borderRadius: "14px",
+                padding: "20px 12px",
+                cursor: unavailable ? "not-allowed" : "pointer",
+                opacity: unavailable ? 0.65 : 1,
+                color: "#39313d",
+                fontFamily: "inherit",
+              }}
+            >
+              <strong style={{ display: "block", fontSize: "16px" }}>
+                {item.label}
+              </strong>
+
+              <span
+                style={{
+                  display: "block",
+                  fontSize: "28px",
+                  fontWeight: "bold",
+                  color: "#b26796",
+                  margin: "8px 0",
+                }}
+              >
+                {money(item.price)}
+              </span>
+
+              <span style={{ fontSize: "13px" }}>
+                {item.count} coloring pages
+              </span>
+
+              {unavailable && (
+                <span style={{ display: "block", marginTop: "8px", fontSize: "11px" }}>
+                  COMING SOON
+                </span>
+              )}
+
+              {active && (
+                <span style={{ display: "block", marginTop: "8px", fontSize: "11px" }}>
+                  ✓ SELECTED
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </section>
+
+      <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+        Choose Your Coloring Pages
+      </h2>
+
+      <p style={{ color: "#786d79" }}>
+        Select {bundleSize} different pictures for your {bundle.label}.
       </p>
 
       <p
@@ -123,15 +225,14 @@ export default function ColoringPages() {
           marginTop: "25px",
         }}
       >
-        {selected.length} of 5 selected
+        {selected.length} of {bundleSize} selected
       </p>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "25px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: "22px",
           maxWidth: "1100px",
           margin: "35px auto",
         }}
@@ -139,7 +240,7 @@ export default function ColoringPages() {
         {pictures.map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
-            loading || (selected.length === 5 && !isSelected);
+            loading || (selected.length >= bundleSize && !isSelected);
 
           return (
             <button
@@ -150,7 +251,7 @@ export default function ColoringPages() {
               aria-pressed={isSelected}
               style={{
                 backgroundColor: "white",
-                padding: "15px",
+                padding: "12px",
                 borderRadius: "14px",
                 border: isSelected
                   ? "3px solid #b26796"
@@ -177,7 +278,7 @@ export default function ColoringPages() {
                 style={{
                   display: "block",
                   marginTop: "15px",
-                  fontSize: "18px",
+                  fontSize: "17px",
                   fontWeight: "bold",
                 }}
               >
@@ -205,48 +306,57 @@ export default function ColoringPages() {
           margin: "40px auto",
           padding: "30px 20px",
           borderRadius: "16px",
+          boxShadow: "0 3px 15px #0000000c",
         }}
       >
-        <h2 style={{ color: "#b26796" }}>
-          Your 5-Page Bundle — $2.99
+        <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+          Your {bundle.label}
         </h2>
 
+        <div style={{ fontSize: "30px", fontWeight: "bold" }}>
+          {money(bundle.price)}
+        </div>
+
         <p>
-          {selected.length === 5
-            ? "Your five pictures are selected!"
-            : `Choose ${5 - selected.length} more picture(s).`}
+          {selected.length === bundleSize
+            ? `Your ${bundleSize} pictures are ready!`
+            : `Choose ${remaining} more picture(s).`}
         </p>
 
         <button
           type="button"
           onClick={handleCheckout}
-          disabled={loading || selected.length !== 5}
+          disabled={loading || selected.length !== bundleSize}
           style={{
             backgroundColor: "#b26796",
             color: "white",
-            padding: "14px 30px",
+            padding: "15px 30px",
             border: "none",
-            borderRadius: "10px",
-            fontSize: "17px",
+            borderRadius: "25px",
+            fontSize: "16px",
             cursor:
-              loading || selected.length !== 5
+              loading || selected.length !== bundleSize
                 ? "not-allowed"
                 : "pointer",
             opacity:
-              loading || selected.length !== 5 ? 0.5 : 1,
+              loading || selected.length !== bundleSize ? 0.5 : 1,
           }}
         >
           {loading
             ? "Opening checkout..."
-            : "Buy My 5 Pictures — $2.99"}
+            : `Buy ${bundleSize} Pages — ${money(bundle.price)}`}
         </button>
 
         {error && (
-          <p role="alert" style={{ color: "#b42318" }}>
+          <p role="alert" style={{ color: "#b42318", marginTop: "18px" }}>
             {error}
           </p>
         )}
       </section>
+
+      <p style={{ color: "#98778f", fontSize: "12px" }}>
+        ♡ Printable PDFs · Instant downloads · Made with love
+      </p>
     </main>
   );
 }
