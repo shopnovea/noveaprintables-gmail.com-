@@ -30,7 +30,7 @@ const products = [
     price: "",
     emoji: "🎄",
     color: "#F8E8C8",
-    href: "/coloring-pages",
+    href: "/holiday",
   },
 ];
 
