@@ -3,7 +3,7 @@ const products = [
   {
     name: "Ocean Friends",
     category: "KIDS' COLORING PAGES",
-    price: "$2.99",
+    price: "",
     emoji: "🐢",
     color: "#DDF3F6",
     href: "/coloring-pages",
@@ -31,6 +31,34 @@ const products = [
     emoji: "🎄",
     color: "#F8E8C8",
     href: "/holiday",
+  },
+];
+
+const bundles = [
+  {
+    name: "Mini Bundle",
+    pages: 2,
+    price: "$1.49",
+    color: "#F9E3EB",
+  },
+  {
+    name: "Little Bundle",
+    pages: 5,
+    price: "$2.99",
+    color: "#F8E8C8",
+  },
+  {
+    name: "Happy Bundle",
+    pages: 10,
+    price: "$4.99",
+    color: "#E8E2F7",
+  },
+  {
+    name: "Mega Bundle",
+    pages: 20,
+    price: "$7.99",
+    color: "#DDF3F6",
+    comingSoon: true,
   },
 ];
 
@@ -191,6 +219,55 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        {/* BUILD YOUR OWN BUNDLE */}
+
+        <section className="bundle-section">
+          <span className="eyebrow">
+            YOUR PAGES, YOUR WAY
+          </span>
+
+          <h2>
+            Build Your <em>Own Bundle.</em>
+          </h2>
+
+          <p>
+            Pick your favorite printable coloring pages
+            and create a bundle that's all yours.
+            Mix and match your favorites!
+          </p>
+
+          <div className="bundle-grid">
+            {bundles.map((bundle) => (
+              <div
+                className="bundle-card"
+                style={{ backgroundColor: bundle.color }}
+                key={bundle.pages}
+              >
+                <h3>{bundle.name}</h3>
+
+                <strong>{bundle.price}</strong>
+
+                <p>{bundle.pages} printable pages</p>
+
+                {bundle.comingSoon && (
+                  <span className="coming-soon">
+                    COMING SOON
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <a href="/coloring-pages" className="primary-button">
+            BUILD MY BUNDLE →
+          </a>
+
+          <p className="bundle-note">
+            Choose your pages and enjoy a little creativity.
+            More collections coming soon! ♡
+          </p>
+        </section>
       </section>
 
       <section className="about" id="about">
@@ -271,6 +348,15 @@ export default function Home() {
           font-size: 10px;
           letter-spacing: 1px;
           display: inline-block;
+        }
+
+        .primary-button {
+          transition: background 0.2s, transform 0.2s;
+        }
+
+        .primary-button:hover {
+          background: #b26796;
+          transform: translateY(-2px);
         }
 
         .hero {
@@ -473,6 +559,83 @@ export default function Home() {
           font-weight: bold;
         }
 
+        /* BUNDLE SECTION */
+
+        .bundle-section {
+          text-align: center;
+          background: #fff0f2;
+          padding: 65px 25px;
+          border-radius: 16px;
+          margin-top: 75px;
+        }
+
+        .bundle-section h2 {
+          margin: 14px 0;
+        }
+
+        .bundle-section > p {
+          color: #786d79;
+          line-height: 1.8;
+          margin: 15px auto 30px;
+          max-width: 500px;
+          font-size: 14px;
+        }
+
+        .bundle-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 16px;
+          max-width: 950px;
+          margin: 30px auto;
+        }
+
+        .bundle-card {
+          border-radius: 12px;
+          padding: 22px 10px;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .bundle-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px #8b718322;
+        }
+
+        .bundle-card h3 {
+          font-family: Georgia, serif;
+          font-weight: normal;
+          font-size: 17px;
+        }
+
+        .bundle-card strong {
+          display: block;
+          color: #b26796;
+          font-size: 28px;
+          margin: 12px 0;
+        }
+
+        .bundle-card p {
+          font-size: 12px;
+          color: #786d79;
+        }
+
+        .coming-soon {
+          display: inline-block;
+          margin-top: 8px;
+          padding: 6px 10px;
+          border-radius: 20px;
+          background: #ffffffaa;
+          color: #806c80;
+          font-size: 9px;
+          letter-spacing: 1px;
+          font-weight: bold;
+        }
+
+        .bundle-note {
+          font-size: 11px !important;
+          color: #98778f !important;
+          margin: 22px auto 0 !important;
+        }
+
         .about {
           background: #e4f1e8;
           text-align: center;
@@ -510,6 +673,10 @@ export default function Home() {
             width: 100%;
             justify-content: center;
           }
+
+          .bundle-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
         @media (max-width: 700px) {
@@ -528,10 +695,31 @@ export default function Home() {
           .product-art { height: 175px; }
           .product-info { flex-wrap: wrap; }
           h2 { font-size: 34px; }
+
+          .bundle-section {
+            padding: 45px 15px;
+          }
         }
 
         @media (max-width: 420px) {
           .product-grid { grid-template-columns: 1fr; }
+
+          .bundle-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+          }
+
+          .bundle-card {
+            padding: 16px 8px;
+          }
+
+          .bundle-card h3 {
+            font-size: 14px;
+          }
+
+          .bundle-card strong {
+            font-size: 24px;
+          }
         }
       `}</style>
     </main>
