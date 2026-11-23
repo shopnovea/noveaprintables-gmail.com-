@@ -17,6 +17,13 @@ const allowedPictures = [
   "whale",
 ];
 
+const bundles: Record<number, { price: number; name: string }> = {
+  2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
+  5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
+  10: { price: 499, name: "Happy Bundle - 10 Coloring Pages" },
+  20: { price: 799, name: "Mega Bundle - 20 Coloring Pages" },
+};
+
 export async function POST(request: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
 
@@ -31,11 +38,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const selectedPictures = body.selectedPictures;
 
-    // Customers must select exactly five unique pictures.
+    if (!Array.isArray(selectedPictures)) {
+      return NextResponse.json(
+        { error: "Please select your coloring pages" },
+        { status: 400 }
+      );
+    }
+
+    const bundle = bundles[selectedPictures.length];
+
     if (
-      !Array.isArray(selectedPictures) ||
-      selectedPictures.length !== 5 ||
-      new Set(selectedPictures).size !== 5 ||
+      !bundle ||
+      new Set(selectedPictures).size !== selectedPictures.length ||
       !selectedPictures.every(
         (picture: unknown) =>
           typeof picture === "string" &&
@@ -43,7 +57,7 @@ export async function POST(request: NextRequest) {
       )
     ) {
       return NextResponse.json(
-        { error: "Please select exactly 5 coloring pages" },
+        { error: "Please select 2, 5, 10, or 20 unique coloring pages" },
         { status: 400 }
       );
     }
@@ -59,17 +73,17 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Ocean Friends - Pick Any 5 Coloring Pages",
-              description:
-                "Five printable Ocean Friends coloring page PDFs",
+              name: bundle.name,
+              description: `${selectedPictures.length} printable coloring page PDFs. Choose from available NOVĒA collections.`,
             },
-            unit_amount: 299,
+            unit_amount: bundle.price,
           },
           quantity: 1,
         },
       ],
       metadata: {
-        product_id: "ocean-friends-bundle",
+        product_id: "coloring-pages-bundle",
+        bundle_size: String(selectedPictures.length),
         selected_pictures: selectedPictures.join(","),
       },
       success_url:
