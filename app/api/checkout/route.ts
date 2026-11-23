@@ -1,10 +1,10 @@
-
+ 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export const runtime = "nodejs";
 
-const allowedPictures = [
+const oceanPictures = [
   "turtle",
   "cute-octopus",
   "dolphin",
@@ -17,11 +17,31 @@ const allowedPictures = [
   "whale",
 ];
 
+const christmasPictures = [
+  "christmas-cheerful-elf-and-christmas-tree-coloring-page",
+  "christmas-festive-christmas-mantel-coloring-page",
+  "christmas-festive-christmas-wreath-coloring-page",
+  "christmas-festive-fireplace-gifts-and-stockings",
+  "christmas-festive-fireplace-stocking-scene",
+  "christmas-festive-penguin-with-gifts-and-snowflakes",
+  "christmas-festive-puppy-christmas-coloring-page",
+  "christmas-festive-reindeer-coloring-scene",
+  "christmas-gingerbread-house-candy-wonderland",
+  "christmas-polar-bear-christmas-coloring-page",
+  "christmas-polar-bears-snowy-gift-surprise",
+  "christmas-santas-snowy-christmas-gift-scene",
+  "christmas-snowman-decorating-a-christmas-tree",
+];
+
+const allowedPictures = [
+  ...oceanPictures,
+  ...christmasPictures,
+];
+
 const bundles: Record<number, { price: number; name: string }> = {
   2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
   5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
   10: { price: 499, name: "Happy Bundle - 10 Coloring Pages" },
-  20: { price: 799, name: "Mega Bundle - 20 Coloring Pages" },
 };
 
 export async function POST(request: NextRequest) {
@@ -57,10 +77,30 @@ export async function POST(request: NextRequest) {
       )
     ) {
       return NextResponse.json(
-        { error: "Please select 2, 5, 10, or 20 unique coloring pages" },
+        { error: "Please select 2, 5, or 10 unique coloring pages" },
         { status: 400 }
       );
     }
+
+    const isOcean = selectedPictures.every(
+      (picture) => oceanPictures.includes(picture)
+    );
+
+    const isChristmas = selectedPictures.every(
+      (picture) => christmasPictures.includes(picture)
+    );
+
+    if (!isOcean && !isChristmas) {
+      return NextResponse.json(
+        { error: "Please select pictures from one collection" },
+        { status: 400 }
+      );
+    }
+
+    const collection = isChristmas ? "christmas" : "ocean";
+    const collectionName = isChristmas
+      ? "Christmas Collection"
+      : "Ocean Friends";
 
     const stripe = new Stripe(stripeKey);
     const origin = "https://novea-printables.vercel.app";
@@ -73,8 +113,8 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: bundle.name,
-              description: `${selectedPictures.length} printable coloring page PDFs. Choose from available NOVĒA collections.`,
+              name: `${collectionName} - ${bundle.name}`,
+              description: `${selectedPictures.length} printable coloring page PDFs from NOVÉA Printables.`,
             },
             unit_amount: bundle.price,
           },
@@ -83,6 +123,7 @@ export async function POST(request: NextRequest) {
       ],
       metadata: {
         product_id: "coloring-pages-bundle",
+        collection,
         bundle_size: String(selectedPictures.length),
         selected_pictures: selectedPictures.join(","),
       },
