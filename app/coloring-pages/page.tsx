@@ -83,6 +83,7 @@ function money(cents: number) {
 }
 
 export default function ColoringPages() {
+  const [collection, setCollection] = useState<"ocean" | "christmas">("ocean");
   const [bundleSize, setBundleSize] = useState(2);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -178,6 +179,13 @@ export default function ColoringPages() {
         ← BACK TO SHOP
       </a>
 
+      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 5vw, 44px)", fontWeight: "normal", marginTop: "35px" }}>NOVÉA Coloring Pages</h1>
+      <nav aria-label="Coloring collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "25px auto" }}>
+        {([ ["ocean", "🐢 Ocean Friends", "#DDF3F6"], ["christmas", "🎄 Christmas", "#F9E3EB"] ] as const).map(([id, label, color]) => (
+          <button key={id} type="button" disabled={loading} aria-pressed={collection === id} onClick={() => { setCollection(id); setSelected([]); setError(""); }} style={{ background: color, border: collection === id ? "3px solid #b26796" : "3px solid transparent", borderRadius: "14px", padding: "18px 28px", fontSize: "18px", fontWeight: "bold", color: "#39313d", cursor: "pointer" }}>{label}</button>
+        ))}
+      </nav>
+      {collection === "ocean" && (<>
       <h1
         style={{
           fontFamily: "Georgia, serif",
@@ -354,6 +362,7 @@ export default function ColoringPages() {
         })}
       </div>
 
+      {selected.length > 0 && (
       <section
         style={{
           backgroundColor: "white",
@@ -409,12 +418,14 @@ export default function ColoringPages() {
         )}
       </section>
 
-      <section style={{ maxWidth: "1100px", margin: "60px auto" }}>
+      )}
+      </>)}
+      {collection === "christmas" && (
+      <section style={{ maxWidth: "1100px", margin: "35px auto" }}>
         <h2 style={{ fontFamily: "Georgia, serif", fontSize: "36px", fontWeight: "normal" }}>
           Christmas Collection 🎄
         </h2>
-        <p style={{ color: "#b26796", fontWeight: "bold" }}>COMING SOON</p>
-        <p style={{ color: "#786d79" }}>Explore our festive coloring pages. Available to purchase soon!</p>
+        <p style={{ color: "#786d79" }}>Explore our festive coloring pages. Purchases are not yet available.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "22px", margin: "35px auto" }}>
           {christmasPictures.map((picture) => (
             <article key={picture.image} style={{ backgroundColor: "white", padding: "12px", borderRadius: "14px", boxShadow: "0 3px 12px #00000012" }}>
@@ -425,6 +436,7 @@ export default function ColoringPages() {
         </div>
       </section>
 
+      )}
       <p style={{ color: "#98778f", fontSize: "12px" }}>
         ♡ Printable PDFs · Instant downloads · Made with love
       </p>
