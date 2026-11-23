@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const pictures = [
   { id: "turtle", name: "Sea Turtle", image: "/ocean-friends-turtle-preview.png" },
@@ -101,6 +101,18 @@ export default function ColoringPages() {
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [holidayEntry, setHolidayEntry] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const isChristmas = new URLSearchParams(window.location.search).get("collection") === "christmas";
+    if (isChristmas) {
+      setCollection("christmas");
+      setHolidayEntry(true);
+    }
+    setReady(true);
+  }, []);
+
 
   const bundle = bundles.find((item) => item.count === bundleSize)!;
   const remaining = bundleSize - selected.length;
@@ -170,6 +182,8 @@ export default function ColoringPages() {
     }
   }
 
+  if (!ready) return null;
+
   return (
     <main
       style={{
@@ -182,7 +196,7 @@ export default function ColoringPages() {
       }}
     >
       <a
-        href="/"
+        href={holidayEntry ? "/holiday" : "/"}
         style={{
           color: "#b26796",
           textDecoration: "none",
@@ -190,15 +204,17 @@ export default function ColoringPages() {
           fontSize: "12px",
         }}
       >
-        ← BACK TO SHOP
+        {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
       </a>
 
       <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 5vw, 44px)", fontWeight: "normal", marginTop: "35px" }}>NOVÉA Coloring Pages</h1>
+      {!holidayEntry && (
       <nav aria-label="Coloring collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "25px auto" }}>
         {([ ["ocean", "🐢 Ocean Friends", "#DDF3F6"], ["christmas", "🎄 Christmas", "#F9E3EB"] ] as const).map(([id, label, color]) => (
           <button key={id} type="button" disabled={loading} aria-pressed={collection === id} onClick={() => { setCollection(id); setSelected([]); setError(""); }} style={{ background: color, border: collection === id ? "3px solid #b26796" : "3px solid transparent", borderRadius: "14px", padding: "18px 28px", fontSize: "18px", fontWeight: "bold", color: "#39313d", cursor: "pointer" }}>{label}</button>
         ))}
       </nav>
+      )}
       
       <h1
         style={{
