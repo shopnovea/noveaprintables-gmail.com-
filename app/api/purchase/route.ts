@@ -1,4 +1,4 @@
-
+ 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -15,6 +15,33 @@ const pictureNames: Record<string, string> = {
   starfish: "Starfish",
   "tropical-fish": "Tropical Fish",
   whale: "Whale",
+
+  "christmas-cheerful-elf-and-christmas-tree-coloring-page":
+    "Cheerful Elf and Christmas Tree",
+  "christmas-festive-christmas-mantel-coloring-page":
+    "Festive Christmas Mantel",
+  "christmas-festive-christmas-wreath-coloring-page":
+    "Festive Christmas Wreath",
+  "christmas-festive-fireplace-gifts-and-stockings":
+    "Festive Fireplace Gifts and Stockings",
+  "christmas-festive-fireplace-stocking-scene":
+    "Festive Fireplace Stocking Scene",
+  "christmas-festive-penguin-with-gifts-and-snowflakes":
+    "Festive Penguin with Gifts and Snowflakes",
+  "christmas-festive-puppy-christmas-coloring-page":
+    "Festive Christmas Puppy",
+  "christmas-festive-reindeer-coloring-scene":
+    "Festive Reindeer",
+  "christmas-gingerbread-house-candy-wonderland":
+    "Gingerbread House Candy Wonderland",
+  "christmas-polar-bear-christmas-coloring-page":
+    "Polar Bear Christmas",
+  "christmas-polar-bears-snowy-gift-surprise":
+    "Polar Bear's Snowy Gift Surprise",
+  "christmas-santas-snowy-christmas-gift-scene":
+    "Santa's Snowy Christmas Gift Scene",
+  "christmas-snowman-decorating-a-christmas-tree":
+    "Snowman Decorating a Christmas Tree",
 };
 
 const bundlePrices: Record<string, number> = {
@@ -79,7 +106,9 @@ export async function GET(request: NextRequest) {
     const selected =
       session.metadata?.selected_pictures?.split(",") ?? [];
 
-    const requiredCount = isLegacyPurchase ? 5 : Number(bundleSize);
+    const requiredCount = isLegacyPurchase
+      ? 5
+      : Number(bundleSize);
 
     if (
       selected.length !== requiredCount ||
@@ -94,6 +123,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const collection = session.metadata?.collection ?? "ocean";
+
+    const validCollection =
+      (collection === "ocean" &&
+        selected.every((id) => !id.startsWith("christmas-"))) ||
+      (collection === "christmas" &&
+        !isLegacyPurchase &&
+        selected.every((id) => id.startsWith("christmas-")));
+
+    if (!validCollection) {
+      return NextResponse.json(
+        { error: "Invalid collection" },
+        { status: 403 }
+      );
+    }
+
     const pictures = selected.map((id) => ({
       id,
       name: pictureNames[id],
@@ -102,6 +147,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         pictures,
+        collection,
         bundle_size: requiredCount,
         amount_paid: session.amount_total,
       },
