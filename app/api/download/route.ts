@@ -84,10 +84,11 @@ export async function GET(request: NextRequest) {
     const params = new URL(request.url).searchParams;
     const sessionId = params.get("session_id");
     const pictureId = params.get("picture");
+    const downloadAll = params.get("all") === "1";
     if (!sessionId || !sessionId.startsWith("cs_")) {
       return NextResponse.json({ error: "Invalid checkout session" }, { status: 400 });
     }
-    if (!pictureId || !hasPicture(pictureId)) {
+    if (downloadAll ? pictureId !== null : (!pictureId || !hasPicture(pictureId))) {
       return NextResponse.json({ error: "Invalid coloring page" }, { status: 400 });
     }
     const stripe = new Stripe(stripeKey);
@@ -118,7 +119,7 @@ export async function GET(request: NextRequest) {
     ].filter(Boolean).join(",")).split(",").filter(Boolean);
     const requiredCount = isLegacyPurchase ? 5 : Number(bundleSize);
     if (selectedPictures.length !== requiredCount || new Set(selectedPictures).size !== requiredCount ||
-      !selectedPictures.every(hasPicture) || !selectedPictures.includes(pictureId)) {
+      !selectedPictures.every(hasPicture) || (!downloadAll && (!pictureId || !selectedPictures.includes(pictureId)))) {
       return NextResponse.json({ error: "This picture is not included in your purchase" }, { status: 403 });
     }
     const collection = session.metadata?.collection ?? "ocean";
@@ -131,24 +132,35 @@ export async function GET(request: NextRequest) {
     if (!validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
     }
-    const filePath = printableFiles[pictureId];
     const bucketName = "printable-files";
     const headers: Record<string, string> = { apikey: supabaseKey, "Content-Type": "application/json" };
     if (supabaseKey.split(".").length === 3) headers.Authorization = `Bearer ${supabaseKey}`;
+    async function signFile(filePath: string, expiresIn: number) {
     const encodedPath = filePath.split("/").map(encodeURIComponent).join("/");
     const response = await fetch(`${supabaseUrl}/storage/v1/object/sign/${bucketName}/${encodedPath}`, {
-      method: "POST", headers, body: JSON.stringify({ expiresIn: 60 }), cache: "no-store",
+      method: "POST", headers, body: JSON.stringify({ expiresIn }), cache: "no-store",
     });
     if (!response.ok) {
       console.error("Supabase download error:", { project: new URL(supabaseUrl).hostname,
         bucket: bucketName, file: filePath, status: response.status, details: await response.text() });
-      return NextResponse.json({ error: "Unable to generate download link" }, { status: 502 });
+      throw new Error("Unable to generate download link");
     }
     const data = await response.json();
     const signedPath = data.signedURL ?? data.signedUrl;
     if (typeof signedPath !== "string" || !signedPath) throw new Error("Signed URL is missing");
     const downloadUrl = signedPath.startsWith("http") ? signedPath :
       `${supabaseUrl}/storage/v1${signedPath.startsWith("/") ? "" : "/"}${signedPath}`;
+    return downloadUrl;
+    }
+    if (downloadAll) {
+      const files = await Promise.all(selectedPictures.map(async id => ({
+        name: printableFiles[id],
+        url: await signFile(printableFiles[id], 600),
+      })));
+      return NextResponse.json({ files }, { headers: { "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" } });
+    }
+    if (!pictureId) return NextResponse.json({ error: "Invalid coloring page" }, { status: 400 });
+    const downloadUrl = await signFile(printableFiles[pictureId], 60);
     return NextResponse.redirect(downloadUrl, { headers: { "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" } });
   } catch (error) {
     console.error("Bundle download error:", error);
