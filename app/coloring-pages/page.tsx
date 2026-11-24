@@ -88,7 +88,7 @@ const bundles = [
   { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
   { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
   { count: 10, price: 499, label: "Happy Bundle", color: "#E8E2F7" },
-  { count: 20, price: 799, label: "Mega Bundle", color: "#DDF3F6", unavailable: true },
+  { count: 20, price: 799, label: "Mega Bundle", color: "#DDF3F6" },
 ];
 
 function money(cents: number) {
@@ -110,16 +110,32 @@ export default function ColoringPages() {
       setCollection("christmas");
       setHolidayEntry(true);
     }
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("novea-basket-v1") || "null");
+      if (saved && [2, 5, 10, 20].includes(saved.bundleSize) && Array.isArray(saved.selected)) {
+        const allowed = new Set([...pictures, ...christmasPictures].map(p => p.id));
+        const ids = saved.selected.filter((id: unknown): id is string => typeof id === "string" && allowed.has(id));
+        setBundleSize(saved.bundleSize);
+        setSelected(Array.from(new Set<string>(ids)).slice(0, saved.bundleSize));
+      }
+    } catch { /* Storage may be unavailable. */ }
     setReady(true);
   }, []);
 
+
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      sessionStorage.setItem("novea-basket-v1", JSON.stringify({ bundleSize, selected }));
+    } catch { /* Shopping still works without storage. */ }
+  }, [ready, bundleSize, selected]);
 
   const bundle = bundles.find((item) => item.count === bundleSize)!;
   const remaining = bundleSize - selected.length;
 
   function chooseBundle(count: number) {
     setBundleSize(count);
-    setSelected([]);
+    setSelected(current => current.slice(0, count));
     setError("");
   }
 
@@ -219,6 +235,12 @@ export default function ColoringPages() {
         {collection === "ocean" ? "Ocean Friends 🐢" : "Christmas Collection 🎄"}
       </h1>
 
+      <p style={{ color: "#786d79" }}>Mix &amp; match pictures from both collections in one bundle.</p>
+      <a href={collection === "ocean" ? "/coloring-pages?collection=christmas" : "/coloring-pages"}
+        onClick={(event) => { if (loading) event.preventDefault(); }}
+        style={{ display: "inline-block", color: "#9a3f78", padding: "12px 20px", border: "1px solid #b26796", borderRadius: "20px" }}>
+        {collection === "ocean" ? "Browse Christmas →" : "Browse Ocean Friends →"}
+      </a>
       <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
         Pick Your Favorite Pages
       </h2>
@@ -239,7 +261,7 @@ export default function ColoringPages() {
       >
         {bundles.map((item) => {
           const active = bundleSize === item.count;
-          const unavailable = Boolean(item.unavailable);
+          const unavailable = false;
 
           return (
             <button
@@ -399,7 +421,18 @@ export default function ColoringPages() {
           Your {bundle.label}
         </h2>
 
-        <div style={{ fontSize: "30px", fontWeight: "bold" }}>
+        <p>Your basket — {selected.length} of {bundleSize} pages</p>
+        <ul style={{ listStyle: "none", padding: 0, textAlign: "left" }}>
+          {selected.map(id => {
+            const picture = [...pictures, ...christmasPictures].find(p => p.id === id);
+            return <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", padding: "8px 0" }}>
+              <span>{picture?.name ?? id}</span>
+              <button type="button" disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
+            </li>;
+          })}
+        </ul>
+        <button type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); }}>Clear basket</button>
+        <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "15px" }}>
           {money(bundle.price)}
         </div>
 
