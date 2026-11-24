@@ -236,6 +236,14 @@ export default function Home() {
       <footer>
         <a href="#home" className="logo">NOVĒA</a>
         <p>Made with love, color & a little creativity. ♡</p>
+        <div className="footer-policies" role="navigation" aria-label="Website policies">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-of-use">Terms of Use</a>
+          <a href="/refund-policy">Refund Policy</a>
+        </div>
+        <p className="footer-questions"><strong>QUESTIONS</strong><br />
+          <a href="mailto:noveaprintables@gmail.com">noveaprintables@gmail.com</a>
+        </p>
         <span>© 2026 NOVĒA. ALL RIGHTS RESERVED.</span>
       </footer>
 
@@ -619,6 +627,10 @@ export default function Home() {
           font-family: Georgia, serif;
           color: #514653;
         }
+
+        .footer-policies { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin: 24px auto 16px; }
+        .footer-policies a, .footer-questions a { color: #794367; text-decoration: underline; text-underline-offset: .2em; display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
+        .footer-questions { margin: 16px auto 24px; color: #794367; }
 
         footer span {
           font-size: 0.875rem;
