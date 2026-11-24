@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
     const collectionName = collectionNames[collection];
     const pictureMetadata = createPictureMetadata(selectedPictures);
     const stripe = new Stripe(stripeKey);
-    const origin = "https://novea-printables.vercel.app";
+    const origin = "https://noveaodelis.vercel.app";
     const requestedCollection = body.collection;
     const returnCollection = typeof requestedCollection === "string" &&
       Object.prototype.hasOwnProperty.call(collections, requestedCollection)
