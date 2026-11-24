@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
@@ -14,6 +13,7 @@ function SuccessContent() {
   const sessionId = searchParams.get("session_id");
 
   const [pictures, setPictures] = useState<PurchasedPicture[]>([]);
+  const [collection, setCollection] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -25,6 +25,9 @@ function SuccessContent() {
     }
 
     async function loadPurchase() {
+      setLoading(true);
+      setError("");
+
       try {
         const response = await fetch(
           `/api/purchase?session_id=${encodeURIComponent(sessionId!)}`,
@@ -37,11 +40,16 @@ function SuccessContent() {
 
         const data = await response.json();
 
-        if (!Array.isArray(data.pictures) || data.pictures.length !== 5) {
+        if (
+          !Array.isArray(data.pictures) ||
+          ![2, 5, 10, 20].includes(data.pictures.length) ||
+          data.pictures.length !== data.bundle_size
+        ) {
           throw new Error("Invalid purchase details");
         }
 
         setPictures(data.pictures);
+        setCollection(data.collection);
       } catch (err) {
         console.error(err);
         setError(
@@ -55,6 +63,16 @@ function SuccessContent() {
     loadPurchase();
   }, [sessionId]);
 
+  const collectionNames: Record<string, string> = {
+    ocean: "Ocean Friends",
+    christmas: "Christmas",
+    thanksgiving: "Thanksgiving",
+    cozy: "Cozy Little Moments",
+  };
+
+  const collectionName =
+    collectionNames[collection] ?? "";
+
   return (
     <main
       style={{
@@ -66,7 +84,7 @@ function SuccessContent() {
         color: "#39313d",
       }}
     >
-      <h1>Thank You! 🐢💗</h1>
+      <h1>Thank You! 💗</h1>
 
       <p>Thank you for supporting NOVÉA Printables!</p>
 
@@ -78,10 +96,10 @@ function SuccessContent() {
         </p>
       )}
 
-      {!loading && !error && pictures.length === 5 && (
+      {!loading && !error && pictures.length > 0 && (
         <>
           <h2 style={{ color: "#b26796", marginTop: "30px" }}>
-            Your 5 Ocean Friends Coloring Pages
+            Your {pictures.length} {collectionName} Coloring Pages
           </h2>
 
           <p>
