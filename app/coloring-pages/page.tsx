@@ -544,6 +544,12 @@ export default function ColoringPages() {
       </section>
 
       )}
+      <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#F9E3EB", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
+        <h2 id="personal-use-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
+        <p style={{ margin: "0 0 12px" }}>Your purchased coloring pages may be printed as often as you like for personal use. Please do not share, redistribute, resell or upload the digital files elsewhere.</p>
+        <p style={{ margin: 0 }}>Thank you for supporting NOVÉA Printables!</p>
+      </section>
+
       <p style={{ color: "#594e5c", fontSize: "1rem" }}>
         ♡ Printable PDFs · Instant downloads · Made with love
       </p>
