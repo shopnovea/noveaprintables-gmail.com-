@@ -70,7 +70,7 @@ export default function Home() {
       </div>
 
       <header className="header">
-        <a href="#home" className="logo">NOVĒA</a>
+        <a href="#home" className="logo">NOVÉA ODELIS<span className="logo-subtitle">PRINTABLES</span></a>
 
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
@@ -216,7 +216,7 @@ export default function Home() {
       </section>
 
       <section className="about" id="about">
-        <span className="eyebrow">A NOTE FROM NOVĒA</span>
+        <span className="eyebrow">A NOTE FROM NOVÉA ODELIS</span>
 
         <h2>
           Little details.<br />
@@ -224,7 +224,7 @@ export default function Home() {
         </h2>
 
         <p>
-          At NOVĒA, we believe a little creativity can
+          At NOVÉA ODELIS, we believe a little creativity can
           brighten any day. Our printable coloring pages
           are made to inspire imagination, relaxation,
           and happy moments.
@@ -234,7 +234,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <a href="#home" className="logo">NOVĒA</a>
+        <a href="#home" className="logo">NOVÉA ODELIS<span className="logo-subtitle">PRINTABLES</span></a>
         <p>Made with love, color & a little creativity. ♡</p>
         <div className="footer-policies" role="navigation" aria-label="Website policies">
           <a href="/privacy-policy">Privacy Policy</a>
@@ -244,7 +244,7 @@ export default function Home() {
         <p className="footer-questions"><strong>QUESTIONS</strong><br />
           <a href="mailto:noveaprintables@gmail.com">noveaprintables@gmail.com</a>
         </p>
-        <span>© 2026 NOVĒA. ALL RIGHTS RESERVED.</span>
+        <span>© 2026 NOVÉA ODELIS PRINTABLES. ALL RIGHTS RESERVED.</span>
       </footer>
 
       <style>{`
@@ -280,10 +280,14 @@ export default function Home() {
 
         .logo {
           font-family: Georgia, serif;
-          font-size: 2.5rem;
-          letter-spacing: 5px;
+          font-size: clamp(1.25rem, 3vw, 2rem);
+          letter-spacing: 2px;
+          max-width: 100%;
+          overflow-wrap: anywhere;
           font-weight: bold;
         }
+
+        .logo-subtitle { display: block; font-family: Arial, sans-serif; font-size: .875rem; letter-spacing: .25em; text-align: center; }
 
         nav {
           display: flex;
