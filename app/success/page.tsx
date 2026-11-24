@@ -50,6 +50,7 @@ function SuccessContent() {
 
         setPictures(data.pictures);
         setCollection(data.collection);
+
       } catch (err) {
         console.error(err);
         setError(
@@ -68,6 +69,7 @@ function SuccessContent() {
     christmas: "Christmas",
     thanksgiving: "Thanksgiving",
     cozy: "Cozy Little Moments",
+    mixed: "Mix & Match",
   };
 
   const collectionName =
