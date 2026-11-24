@@ -746,6 +746,19 @@ export default function Home() {
           html { scroll-behavior: auto; }
           *, *::before, *::after { transition: none !important; animation: none !important; }
         }
+
+        /* Readable typography, including sections affected by global styles. */
+        main .benefits, main .benefits span { font-size: 1rem !important; font-weight: 600; color: #39313d; letter-spacing: .04em; }
+        main .eyebrow { font-size: 1rem !important; color: #794367 !important; }
+        main .section-heading p, main .hero p, main .about p, main .bundle-section > p { font-size: 1.125rem !important; line-height: 1.7; color: #514653 !important; }
+        main .product-info h3, main .bundle-card h3 { font-size: 1.5rem !important; line-height: 1.35; }
+        main .category, main .preview-label { font-size: .875rem !important; color: #514653 !important; letter-spacing: .04em; }
+        main .view-link { font-size: 1rem !important; color: #794367 !important; text-decoration: underline; text-underline-offset: .2em; }
+        main .bundle-card p, main .bundle-note, main .coming-soon, main footer p, main footer span { font-size: 1rem !important; line-height: 1.6; }
+        main h1 em, main h2 em { color: #794367 !important; }
+        main .preview-label { text-align: center; max-width: 95%; }
+        main .paper p { font-size: .875rem !important; }
+        @media (max-width: 600px) { main .product-grid, main .bundle-grid { grid-template-columns: 1fr; } main .benefits { display: grid; grid-template-columns: 1fr; text-align: center; } }
       `}</style>
     </main>
   );
