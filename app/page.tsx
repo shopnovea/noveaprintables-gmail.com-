@@ -58,7 +58,7 @@ const bundles = [
     pages: 20,
     price: "$7.99",
     color: "#DDF3F6",
-    comingSoon: true,
+    comingSoon: false,
   },
 ];
 
@@ -311,7 +311,7 @@ export default function Home() {
           text-align: center;
           padding: 11px;
           background: #e9dafa;
-          font-size: 10px;
+          font-size: 0.875rem;
           letter-spacing: 2px;
         }
 
@@ -327,7 +327,7 @@ export default function Home() {
 
         .logo {
           font-family: Georgia, serif;
-          font-size: 32px;
+          font-size: 2.5rem;
           letter-spacing: 5px;
           font-weight: bold;
         }
@@ -336,8 +336,9 @@ export default function Home() {
           display: flex;
           gap: 25px;
           flex-wrap: wrap;
-          font-size: 11px;
+          font-size: 1rem;
           letter-spacing: 1px;
+          font-weight: 600;
         }
 
         .cart, .primary-button {
@@ -345,7 +346,7 @@ export default function Home() {
           color: white;
           padding: 14px 20px;
           border-radius: 30px;
-          font-size: 10px;
+          font-size: 1rem;
           letter-spacing: 1px;
           display: inline-block;
         }
@@ -355,7 +356,7 @@ export default function Home() {
         }
 
         .primary-button:hover {
-          background: #b26796;
+          background: #794367;
           transform: translateY(-2px);
         }
 
@@ -370,35 +371,35 @@ export default function Home() {
         }
 
         .eyebrow {
-          font-size: 10px;
+          font-size: 1rem;
           letter-spacing: 2px;
-          color: #98778f;
+          color: #794367;
           font-weight: bold;
         }
 
         h1 {
           font-family: Georgia, serif;
-          font-size: clamp(42px, 5vw, 67px);
+          font-size: clamp(2.5rem, 5vw + 1rem, 4.2rem);
           line-height: 1.12;
           font-weight: normal;
           margin: 22px 0;
         }
 
-        h1 em, h2 em { color: #c16c9c; }
+        h1 em, h2 em { color: #794367; }
 
         .hero p, .section-heading p, .about p {
-          color: #786d79;
+          color: #514653;
           line-height: 1.9;
-          font-size: 14px;
+          font-size: 1.125rem;
           max-width: 430px;
           margin-bottom: 30px;
         }
 
         .hero-note {
           margin-top: 23px;
-          font-size: 9px;
+          font-size: 0.875rem;
           letter-spacing: 1px;
-          color: #98778f;
+          color: #794367;
         }
 
         .hero-art {
@@ -416,7 +417,7 @@ export default function Home() {
           border-radius: 50%;
           background: #e4d9f6;
           color: #a18acb;
-          font-size: 100px;
+          font-size: 6.25rem;
           display: grid;
           place-items: center;
         }
@@ -447,25 +448,25 @@ export default function Home() {
         }
 
         .paper span {
-          font-size: 8px;
+          font-size: 0.875rem;
           letter-spacing: 2px;
-          color: #b07e9c;
+          color: #794367;
         }
 
         .paper strong {
           font-family: Georgia, serif;
-          font-size: 24px;
+          font-size: 1.5rem;
           line-height: 1.2;
         }
 
-        .paper p { font-size: 10px; margin: 0; }
+        .paper p { font-size: 1rem; margin: 0; }
 
         .sparkle {
           position: absolute;
           right: 15%;
           top: 20px;
           color: #d99d49;
-          font-size: 45px;
+          font-size: 2.8125rem;
         }
 
         .benefits {
@@ -475,8 +476,9 @@ export default function Home() {
           gap: 20px;
           padding: 25px 5%;
           background: #f5f0fa;
-          font-size: 10px;
+          font-size: 1.125rem;
           letter-spacing: 1px;
+          font-weight: 600;
         }
 
         .shop-section { padding: 85px 8%; }
@@ -488,7 +490,7 @@ export default function Home() {
 
         h2 {
           font-family: Georgia, serif;
-          font-size: 42px;
+          font-size: 2.625rem;
           font-weight: normal;
           margin: 14px 0;
         }
@@ -510,14 +512,14 @@ export default function Home() {
           transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .product-emoji { font-size: 72px; }
+        .product-emoji { font-size: 4.5rem; }
 
         .preview-label {
           position: absolute;
           bottom: 15px;
-          font-size: 8px;
+          font-size: 0.875rem;
           letter-spacing: 2px;
-          color: #756c78;
+          color: #514653;
         }
 
         .product-info {
@@ -529,19 +531,19 @@ export default function Home() {
         }
 
         .category {
-          font-size: 8px;
+          font-size: 0.875rem;
           letter-spacing: 1.5px;
-          color: #a17b9b;
+          color: #794367;
         }
 
         .product-info h3 {
           font-family: Georgia, serif;
-          font-size: 17px;
+          font-size: 1.25rem;
           font-weight: normal;
           margin: 7px 0;
         }
 
-        .product-info strong { font-size: 13px; }
+        .product-info strong { font-size: 1rem; }
 
         .product-link { display: block; }
 
@@ -553,9 +555,9 @@ export default function Home() {
         .view-link {
           display: inline-block;
           margin-top: 8px;
-          font-size: 10px;
+          font-size: 1rem;
           letter-spacing: 1px;
-          color: #b26796;
+          color: #794367;
           font-weight: bold;
         }
 
@@ -574,11 +576,11 @@ export default function Home() {
         }
 
         .bundle-section > p {
-          color: #786d79;
+          color: #514653;
           line-height: 1.8;
           margin: 15px auto 30px;
           max-width: 500px;
-          font-size: 14px;
+          font-size: 1.125rem;
         }
 
         .bundle-grid {
@@ -603,19 +605,19 @@ export default function Home() {
         .bundle-card h3 {
           font-family: Georgia, serif;
           font-weight: normal;
-          font-size: 17px;
+          font-size: 1.25rem;
         }
 
         .bundle-card strong {
           display: block;
-          color: #b26796;
-          font-size: 28px;
+          color: #794367;
+          font-size: 1.75rem;
           margin: 12px 0;
         }
 
         .bundle-card p {
-          font-size: 12px;
-          color: #786d79;
+          font-size: 0.875rem;
+          color: #514653;
         }
 
         .coming-soon {
@@ -624,15 +626,15 @@ export default function Home() {
           padding: 6px 10px;
           border-radius: 20px;
           background: #ffffffaa;
-          color: #806c80;
-          font-size: 9px;
+          color: #794367;
+          font-size: 0.875rem;
           letter-spacing: 1px;
           font-weight: bold;
         }
 
         .bundle-note {
-          font-size: 11px !important;
-          color: #98778f !important;
+          font-size: 0.875rem !important;
+          color: #794367 !important;
           margin: 22px auto 0 !important;
         }
 
@@ -645,8 +647,8 @@ export default function Home() {
         .about p { margin: 20px auto; }
 
         .about-heart {
-          font-size: 35px;
-          color: #c16c9c;
+          font-size: 2.1875rem;
+          color: #794367;
         }
 
         footer {
@@ -656,13 +658,13 @@ export default function Home() {
 
         footer p {
           font-family: Georgia, serif;
-          color: #887c8c;
+          color: #514653;
         }
 
         footer span {
-          font-size: 9px;
+          font-size: 0.875rem;
           letter-spacing: 1px;
-          color: #988e98;
+          color: #514653;
         }
 
         @media (max-width: 850px) {
@@ -694,7 +696,7 @@ export default function Home() {
 
           .product-art { height: 175px; }
           .product-info { flex-wrap: wrap; }
-          h2 { font-size: 34px; }
+          h2 { font-size: 2.125rem; }
 
           .bundle-section {
             padding: 45px 15px;
@@ -714,12 +716,35 @@ export default function Home() {
           }
 
           .bundle-card h3 {
-            font-size: 14px;
+            font-size: 1.125rem;
           }
 
           .bundle-card strong {
-            font-size: 24px;
+            font-size: 1.5rem;
           }
+        }
+        body { line-height: 1.6; }
+        .announcement, .hero-note, .category, .preview-label, footer span { font-size: .875rem; letter-spacing: .05em; }
+        nav, .benefits, .primary-button, .view-link { font-size: 1rem; }
+        nav a { padding: .5rem 0; }
+        a:focus-visible, button:focus-visible { outline: 3px solid #55304e; outline-offset: 4px; }
+        .paper { width: 15rem; }
+        .paper-two { width: 11rem; height: auto; }
+        .paper span, .paper p { font-size: .875rem; letter-spacing: .03em; }
+        .hero > div, .product, .bundle-card { min-width: 0; overflow-wrap: anywhere; }
+        .product-art { min-height: 11rem; }
+        @media (max-width: 850px) { .hero { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) {
+          .hero-art { height: auto; display: flex; flex-wrap: wrap; gap: 1rem; }
+          .paper, .paper-two { position: relative; inset: auto; transform: none; width: 100%; }
+          .art-circle, .sparkle { display: none; }
+          .bundle-grid { grid-template-columns: 1fr; }
+          .header { justify-content: center; }
+          nav { gap: 1rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
+          *, *::before, *::after { transition: none !important; animation: none !important; }
         }
       `}</style>
     </main>
