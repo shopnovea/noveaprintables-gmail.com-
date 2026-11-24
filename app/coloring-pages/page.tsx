@@ -128,11 +128,11 @@ const flowersPictures = [
 type Collection = "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
 const allPictures = [...pictures, ...christmasPictures, ...thanksgivingPictures, ...cozyPictures, ...flowersPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
-  { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
   { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
-  { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
   { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
   { id: "flowers", label: "Flowers & Butterflies", title: "Flowers & Butterflies 🦋" },
+  { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
+  { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
 ];
 
 const bundles = [
