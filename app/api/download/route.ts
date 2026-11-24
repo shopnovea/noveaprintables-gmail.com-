@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
 
     const supabaseUrl =
-      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "");
 
     const supabaseKey =
       process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
@@ -208,14 +208,25 @@ export async function GET(request: NextRequest) {
     const filePath = printableFiles[pictureId];
     const bucketName = "printable-files";
 
+    const headers: Record<string, string> = {
+      apikey: supabaseKey,
+      "Content-Type": "application/json",
+    };
+
+    if (supabaseKey.split(".").length === 3) {
+      headers.Authorization = `Bearer ${supabaseKey}`;
+    }
+
+    const encodedPath = filePath
+      .split("/")
+      .map(encodeURIComponent)
+      .join("/");
+
     const response = await fetch(
-      `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${encodeURIComponent(filePath)}`,
+      `${supabaseUrl}/storage/v1/object/sign/${bucketName}/${encodedPath}`,
       {
         method: "POST",
-        headers: {
-          apikey: supabaseKey,
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify({ expiresIn: 60 }),
         cache: "no-store",
       }
@@ -224,8 +235,13 @@ export async function GET(request: NextRequest) {
     if (!response.ok) {
       console.error(
         "Supabase download error:",
-        response.status,
-        await response.text()
+        {
+          project: new URL(supabaseUrl).hostname,
+          bucket: bucketName,
+          file: filePath,
+          status: response.status,
+          details: await response.text(),
+        }
       );
 
       return NextResponse.json(
