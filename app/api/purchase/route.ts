@@ -129,7 +129,7 @@ export async function GET(request: NextRequest) {
 
     const isNewPurchase =
       session.metadata?.product_id === "coloring-pages-bundle" &&
-      expectedPrice !== undefined &&
+      ["2", "5", "10", "20"].includes(bundleSize) &&
       subtotal === expectedPrice &&
       validAmounts &&
       validPayment;
@@ -146,8 +146,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const selected =
-      session.metadata?.selected_pictures?.split(",") ?? [];
+    const selected = (
+      session.metadata?.selected_pictures ??
+      [
+        session.metadata?.selected_pictures_1,
+        session.metadata?.selected_pictures_2,
+        session.metadata?.selected_pictures_3,
+      ]
+        .filter(Boolean)
+        .join(",")
+    )
+      .split(",")
+      .filter(Boolean);
 
     const requiredCount = isLegacyPurchase
       ? 5
@@ -178,6 +188,14 @@ export async function GET(request: NextRequest) {
         !isLegacyPurchase &&
         selected.every(
           (id) => id.startsWith("christmas-")
+        )) ||
+      (collection === "mixed" &&
+        !isLegacyPurchase &&
+        selected.some(
+          (id) => id.startsWith("christmas-")
+        ) &&
+        selected.some(
+          (id) => !id.startsWith("christmas-")
         ));
 
     if (!validCollection) {
