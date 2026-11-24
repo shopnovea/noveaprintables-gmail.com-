@@ -95,7 +95,8 @@ export async function GET(request: NextRequest) {
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : collections.size === 1 && collections.has(collection);
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving") &&
+        collections.size === 1 && collections.has(collection);
     if (!validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
     }
