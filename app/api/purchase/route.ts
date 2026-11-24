@@ -113,12 +113,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Invalid picture selections" }, { status: 403 });
     }
     const collection = session.metadata?.collection ?? "ocean";
-    const collections = new Set(selectedPictures.map(pictureCollection));
+    const collections = new Set<string>(selectedPictures.map(pictureCollection));
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : collections.size === 1 && collections.has(collection);
-    if (!validCollection) {
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving") &&
+        collections.size === 1 && collections.has(collection);
+    if (collections.has("unknown") || !validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
     }
     const pictures = selectedPictures.map(id => ({ id, name: pictureNames[id] }));
