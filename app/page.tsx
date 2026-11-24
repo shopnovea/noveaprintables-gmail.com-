@@ -730,6 +730,16 @@ export default function Home() {
         main .preview-label { text-align: center; max-width: 95%; }
         main .paper p { font-size: .875rem !important; }
         @media (max-width: 600px) { main .product-grid, main .bundle-grid { grid-template-columns: 1fr; } main .benefits { display: grid; grid-template-columns: 1fr; text-align: center; } }
+        /* Compact bundle cards, without changing prices or navigation. */
+        main .bundle-section { padding: 32px 16px; }
+        main .bundle-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 760px; gap: 12px; margin: 20px auto; }
+        main .bundle-card { padding: 12px 8px; }
+        main .bundle-card h3 { font-size: 1.125rem !important; margin: 0 0 4px; }
+        main .bundle-card strong { font-size: 1.5rem; margin: 4px 0; }
+        main .bundle-card p { margin: 4px 0 0; }
+        @media (max-width: 850px) {
+          main .bundle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 420px; gap: 10px; }
+        }
       `}</style>
     </main>
   );
