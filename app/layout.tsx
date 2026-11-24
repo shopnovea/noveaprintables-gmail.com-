@@ -8,6 +8,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    other: {
+      "msvalidate.01": "73B25D3FB831B001AA1E9718A3AC049F",
+    },
+  },
 };
 
 export default function RootLayout({
