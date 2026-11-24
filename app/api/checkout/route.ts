@@ -38,10 +38,67 @@ const allowedPictures = [
 ];
 
 const bundles: Record<number, { price: number; name: string }> = {
-  2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
-  5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
-  10: { price: 499, name: "Happy Bundle - 10 Coloring Pages" },
+  2: {
+    price: 149,
+    name: "Mini Bundle - 2 Coloring Pages",
+  },
+  5: {
+    price: 299,
+    name: "Little Bundle - 5 Coloring Pages",
+  },
+  10: {
+    price: 499,
+    name: "Happy Bundle - 10 Coloring Pages",
+  },
+  20: {
+    price: 799,
+    name: "Mega Bundle - 20 Coloring Pages",
+  },
 };
+
+function createPictureMetadata(
+  selectedPictures: string[]
+): Record<string, string> {
+  const joined = selectedPictures.join(",");
+
+  if (joined.length <= 500) {
+    return {
+      selected_pictures: joined,
+    };
+  }
+
+  const chunks: string[] = [];
+  let current = "";
+
+  for (const picture of selectedPictures) {
+    const next = current
+      ? `${current},${picture}`
+      : picture;
+
+    if (next.length > 500) {
+      chunks.push(current);
+      current = picture;
+    } else {
+      current = next;
+    }
+  }
+
+  if (current) {
+    chunks.push(current);
+  }
+
+  if (chunks.length > 3) {
+    throw new Error("Picture metadata exceeds supported length");
+  }
+
+  const metadata: Record<string, string> = {};
+
+  chunks.forEach((chunk, index) => {
+    metadata[`selected_pictures_${index + 1}`] = chunk;
+  });
+
+  return metadata;
+}
 
 export async function POST(request: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -76,7 +133,9 @@ export async function POST(request: NextRequest) {
       )
     ) {
       return NextResponse.json(
-        { error: "Please select 2, 5, or 10 unique coloring pages" },
+        {
+          error: "Please select 2, 5, 10, or 20 unique coloring pages",
+        },
         { status: 400 }
       );
     }
@@ -89,21 +148,25 @@ export async function POST(request: NextRequest) {
       (picture) => christmasPictures.includes(picture)
     );
 
-    if (!isOcean && !isChristmas) {
-      return NextResponse.json(
-        { error: "Please select pictures from one collection" },
-        { status: 400 }
-      );
-    }
+    const collection = isOcean
+      ? "ocean"
+      : isChristmas
+        ? "christmas"
+        : "mixed";
 
-    const collection = isChristmas ? "christmas" : "ocean";
+    const collectionName = isOcean
+      ? "Ocean Friends"
+      : isChristmas
+        ? "Christmas Collection"
+        : "Mix & Match";
 
-    const collectionName = isChristmas
-      ? "Christmas Collection"
-      : "Ocean Friends";
+    const pictureMetadata =
+      createPictureMetadata(selectedPictures);
 
     const stripe = new Stripe(stripeKey);
-    const origin = "https://novea-printables.vercel.app";
+
+    const origin =
+      "https://novea-printables.vercel.app";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -118,7 +181,8 @@ export async function POST(request: NextRequest) {
             currency: "usd",
             product_data: {
               name: `${collectionName} - ${bundle.name}`,
-              description: `${selectedPictures.length} printable coloring page PDFs from NOVÉA Printables.`,
+              description:
+                `${selectedPictures.length} printable coloring page PDFs from NOVÉA Printables.`,
             },
             unit_amount: bundle.price,
           },
@@ -130,22 +194,26 @@ export async function POST(request: NextRequest) {
         product_id: "coloring-pages-bundle",
         collection,
         bundle_size: String(selectedPictures.length),
-        selected_pictures: selectedPictures.join(","),
+        ...pictureMetadata,
       },
 
       success_url:
         `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url: isChristmas
-        ? `${origin}/holiday/christmas`
-        : `${origin}/coloring-pages`,
+      cancel_url:
+        body.collection === "christmas" ||
+        (body.collection !== "ocean" && isChristmas)
+          ? `${origin}/holiday/christmas`
+          : `${origin}/coloring-pages`,
     });
 
     if (!session.url) {
       throw new Error("Stripe did not return a checkout URL");
     }
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({
+      url: session.url,
+    });
 
   } catch (error) {
     console.error("Checkout error:", error);
