@@ -6,7 +6,7 @@ const products = [
     price: "",
     emoji: "🐢",
     color: "#DDF3F6",
-    href: "/coloring-pages",
+    href: "/coloring-pages?collection=ocean",
   },
   {
     name: "Cozy Little Moments",
@@ -22,7 +22,7 @@ const products = [
     price: "",
     emoji: "🎄",
     color: "#F8E8C8",
-    href: "/holiday",
+    href: "/coloring-pages?collection=holiday",
   },
   {
     name: "Flowers & Butterflies",
