@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -121,17 +120,22 @@ export async function GET(request: NextRequest) {
     const validAmounts =
       typeof subtotal === "number" &&
       typeof total === "number" &&
+      Number.isInteger(subtotal) &&
+      Number.isInteger(total) &&
       Number.isInteger(discount) &&
       discount >= 0 &&
       discount <= subtotal &&
       total >= 0 &&
-      total === subtotal - discount;
+      total === subtotal - discount &&
+      (session.total_details?.amount_tax ?? 0) === 0 &&
+      (session.total_details?.amount_shipping ?? 0) === 0;
 
     const validPayment =
       (session.payment_status === "paid" &&
         typeof total === "number" &&
         total > 0) ||
-      (session.payment_status === "no_payment_required" &&
+      ((session.payment_status === "paid" ||
+        session.payment_status === "no_payment_required") &&
         total === 0 &&
         typeof subtotal === "number" &&
         subtotal > 0 &&
