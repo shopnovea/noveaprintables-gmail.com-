@@ -201,7 +201,7 @@ export default function ColoringPages() {
   if (!ready) return null;
 
   return (
-    <main
+    <main className="coloring-accessible"
       style={{
         minHeight: "100vh",
         backgroundColor: "#fff7f2",
@@ -209,22 +209,24 @@ export default function ColoringPages() {
         textAlign: "center",
         fontFamily: "Arial, sans-serif",
         color: "#39313d",
+        fontSize: "1.125rem",
+        lineHeight: 1.6,
       }}
     >
       <a
         href={holidayEntry ? "/holiday" : "/"}
         style={{
-          color: "#b26796",
-          textDecoration: "none",
+          color: "#8b3f70",
+          textDecoration: "underline",
           letterSpacing: "1px",
-          fontSize: "12px",
+          fontSize: "1rem",
         }}
       >
         {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
       </a>
 
       <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 5vw, 44px)", fontWeight: "normal", marginTop: "35px" }}>NOVÉA Coloring Pages</h1>
-      <h1
+      <h2
         style={{
           fontFamily: "Georgia, serif",
           fontSize: "clamp(32px, 5vw, 44px)",
@@ -233,19 +235,19 @@ export default function ColoringPages() {
         }}
       >
         {collection === "ocean" ? "Ocean Friends 🐢" : "Christmas Collection 🎄"}
-      </h1>
+      </h2>
 
-      <p style={{ color: "#786d79" }}>Mix &amp; match pictures from both collections in one bundle.</p>
+      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from both collections in one bundle.</p>
       <a href={collection === "ocean" ? "/coloring-pages?collection=christmas" : "/coloring-pages"}
         onClick={(event) => { if (loading) event.preventDefault(); }}
-        style={{ display: "inline-block", color: "#9a3f78", padding: "12px 20px", border: "1px solid #b26796", borderRadius: "20px" }}>
+        style={{ display: "inline-block", color: "#9a3f78", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px" }}>
         {collection === "ocean" ? "Browse Christmas →" : "Browse Ocean Friends →"}
       </a>
-      <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
         Pick Your Favorite Pages
       </h2>
 
-      <p style={{ color: "#786d79", lineHeight: 1.7 }}>
+      <p style={{ color: "#594e5c", lineHeight: 1.7 }}>
         Choose your bundle, then pick your favorite printable
         coloring pages.
       </p>
@@ -255,7 +257,7 @@ export default function ColoringPages() {
           maxWidth: "1000px",
           margin: "35px auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))",
           gap: "15px",
         }}
       >
@@ -268,10 +270,11 @@ export default function ColoringPages() {
               key={item.count}
               type="button"
               disabled={unavailable || loading}
+              aria-pressed={active}
               onClick={() => chooseBundle(item.count)}
               style={{
                 background: item.color,
-                border: active ? "3px solid #b26796" : "3px solid transparent",
+                border: active ? "3px solid #8b3f70" : "3px solid transparent",
                 borderRadius: "14px",
                 padding: "20px 12px",
                 cursor: unavailable ? "not-allowed" : "pointer",
@@ -280,34 +283,34 @@ export default function ColoringPages() {
                 fontFamily: "inherit",
               }}
             >
-              <strong style={{ display: "block", fontSize: "16px" }}>
+              <strong style={{ display: "block", fontSize: "1.25rem" }}>
                 {item.label}
               </strong>
 
               <span
                 style={{
                   display: "block",
-                  fontSize: "28px",
+                  fontSize: "2rem",
                   fontWeight: "bold",
-                  color: "#b26796",
+                  color: "#8b3f70",
                   margin: "8px 0",
                 }}
               >
                 {money(item.price)}
               </span>
 
-              <span style={{ fontSize: "13px" }}>
+              <span style={{ fontSize: "1rem" }}>
                 {item.count} coloring pages
               </span>
 
               {unavailable && (
-                <span style={{ display: "block", marginTop: "8px", fontSize: "11px" }}>
+                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
                   COMING SOON
                 </span>
               )}
 
               {active && (
-                <span style={{ display: "block", marginTop: "8px", fontSize: "11px" }}>
+                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
                   ✓ SELECTED
                 </span>
               )}
@@ -316,11 +319,11 @@ export default function ColoringPages() {
         })}
       </section>
 
-      <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
         Choose Your Coloring Pages
       </h2>
 
-      <p style={{ color: "#786d79" }}>
+      <p style={{ color: "#594e5c" }}>
         Select {bundleSize} different pictures for your {bundle.label}.
       </p>
 
@@ -338,7 +341,7 @@ export default function ColoringPages() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
           gap: "22px",
           maxWidth: "1100px",
           margin: "35px auto",
@@ -361,11 +364,11 @@ export default function ColoringPages() {
                 padding: "12px",
                 borderRadius: "14px",
                 border: isSelected
-                  ? "3px solid #b26796"
+                  ? "3px solid #8b3f70"
                   : "3px solid transparent",
                 boxShadow: "0 3px 12px #00000012",
                 cursor: isDisabled ? "default" : "pointer",
-                opacity: isDisabled ? 0.55 : 1,
+                opacity: 1,
                 color: "#39313d",
                 fontFamily: "inherit",
               }}
@@ -385,7 +388,7 @@ export default function ColoringPages() {
                 style={{
                   display: "block",
                   marginTop: "15px",
-                  fontSize: "17px",
+                  fontSize: "1.125rem",
                   fontWeight: "bold",
                 }}
               >
@@ -396,10 +399,11 @@ export default function ColoringPages() {
                 style={{
                   display: "block",
                   marginTop: "8px",
-                  color: isSelected ? "#9a3f78" : "#777",
+                  color: isSelected ? "#8b3f70" : "#594e5c",
+                  fontSize: "1rem",
                 }}
               >
-                {isSelected ? "✓ Selected" : "Select picture"}
+                {isSelected ? "✓ Selected" : isDisabled ? "Unavailable" : "Select picture"}
               </span>
             </button>
           );
@@ -417,7 +421,7 @@ export default function ColoringPages() {
           boxShadow: "0 3px 15px #0000000c",
         }}
       >
-        <h2 style={{ color: "#b26796", fontWeight: "normal" }}>
+        <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
           Your {bundle.label}
         </h2>
 
@@ -426,13 +430,13 @@ export default function ColoringPages() {
           {selected.map(id => {
             const picture = [...pictures, ...christmasPictures].find(p => p.id === id);
             return <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", padding: "8px 0" }}>
-              <span>{picture?.name ?? id}</span>
-              <button type="button" disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
+              <span style={{ overflowWrap: "anywhere", minWidth: 0 }}>{picture?.name ?? id}</span>
+              <button className="basket-action" type="button" aria-label={`Remove ${picture?.name ?? id}`} disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
             </li>;
           })}
         </ul>
-        <button type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); }}>Clear basket</button>
-        <div style={{ fontSize: "30px", fontWeight: "bold", marginTop: "15px" }}>
+        <button className="basket-action" type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); }}>Clear basket</button>
+        <div style={{ fontSize: "2rem", fontWeight: "bold", marginTop: "15px" }}>
           {money(bundle.price)}
         </div>
 
@@ -447,12 +451,13 @@ export default function ColoringPages() {
           onClick={handleCheckout}
           disabled={loading || selected.length !== bundleSize}
           style={{
-            backgroundColor: "#b26796",
+            backgroundColor: "#8b3f70",
             color: "white",
             padding: "15px 30px",
             border: "none",
             borderRadius: "25px",
-            fontSize: "16px",
+            fontSize: "1.125rem",
+            fontWeight: 600,
             cursor:
               loading || selected.length !== bundleSize
                 ? "not-allowed"
@@ -474,9 +479,20 @@ export default function ColoringPages() {
       </section>
 
       )}
-      <p style={{ color: "#98778f", fontSize: "12px" }}>
+      <p style={{ color: "#594e5c", fontSize: "1rem" }}>
         ♡ Printable PDFs · Instant downloads · Made with love
       </p>
+      <style jsx>{`
+        .coloring-accessible { overflow-wrap: anywhere; }
+        .coloring-accessible button { font-family: inherit; line-height: 1.5; min-height: 44px; max-width: 100%; }
+        .coloring-accessible a { display: inline-block; padding-block: 10px; }
+        .coloring-accessible button:focus-visible,
+        .coloring-accessible a:focus-visible { outline: 3px solid #39313d; outline-offset: 4px; }
+        .basket-action { background: #f9e3eb; color: #783e65; border: 1px solid #8b3f70; border-radius: 24px; padding: 9px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+        .basket-action:hover:not(:disabled) { background: #efd0df; }
+        .basket-action:disabled { cursor: not-allowed; }
+        @media (max-width: 420px) { .coloring-accessible li { flex-wrap: wrap; } }
+      `}</style>
     </main>
   );
 }
