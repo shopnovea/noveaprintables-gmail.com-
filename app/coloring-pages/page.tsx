@@ -125,9 +125,10 @@ const flowersPictures = [
   {"id": "flowers-intricate-floral-bouquet-with-butterfly", "name": "Intricate Floral Bouquet with Butterfly", "image": "/flowers-intricate-floral-bouquet-with-butterfly-preview.png"},
 ];
 
-type Collection = "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
-const allPictures = [...pictures, ...christmasPictures, ...thanksgivingPictures, ...cozyPictures, ...flowersPictures];
+type Collection = "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
+const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...pictures, ...thanksgivingPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
+  { id: "all", label: "All Collections", title: "All Collections" },
   { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
   { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
   { id: "flowers", label: "Flowers & Butterflies", title: "Flowers & Butterflies 🦋" },
@@ -147,7 +148,7 @@ function money(cents: number) {
 }
 
 export default function ColoringPages() {
-  const [collection, setCollection] = useState<Collection>("ocean");
+  const [collection, setCollection] = useState<Collection>("all");
   const [bundleSize, setBundleSize] = useState(2);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -160,7 +161,7 @@ export default function ColoringPages() {
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
       setHolidayEntry(true);
-    } else if (requested === "cozy" || requested === "flowers") {
+    } else if (requested === "cozy" || requested === "flowers" || requested === "ocean") {
       setCollection(requested);
     }
     try {
@@ -298,7 +299,7 @@ export default function ColoringPages() {
       <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
         {collectionOptions.map(option => (
           <a key={option.id}
-            href={option.id === "ocean" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
+            href={option.id === "all" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
             aria-current={collection === option.id ? "page" : undefined}
             onClick={(event) => { if (loading) event.preventDefault(); }}
             style={{ display: "inline-block", color: collection === option.id ? "white" : "#8b3f70", backgroundColor: collection === option.id ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
@@ -410,7 +411,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
+        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
