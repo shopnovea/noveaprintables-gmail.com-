@@ -423,19 +423,18 @@ export default function ColoringPages() {
               disabled={isDisabled}
               aria-pressed={isSelected}
               style={{
-                backgroundColor: "white",
-                padding: "12px",
+                backgroundColor: "transparent",
+                padding: "0",
                 borderRadius: "14px",
-                border: isSelected
-                  ? "3px solid #8b3f70"
-                  : "3px solid transparent",
-                boxShadow: "0 3px 12px #00000012",
+                border: "none",
+                alignSelf: "start",
                 cursor: isDisabled ? "default" : "pointer",
                 opacity: 1,
                 color: "#39313d",
                 fontFamily: "inherit",
               }}
             >
+              <span style={{ display: "block", backgroundColor: "white", padding: "12px", borderRadius: "14px", border: isSelected ? "3px solid #8b3f70" : "3px solid transparent", boxShadow: "0 3px 12px #00000012" }}>
               <img
                 src={encodeURI(picture.image)}
                 alt={`${picture.name} coloring page preview`}
@@ -446,6 +445,7 @@ export default function ColoringPages() {
                   borderRadius: "8px",
                 }}
               />
+              </span>
 
               <span
                 style={{
