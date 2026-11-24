@@ -1,14 +1,6 @@
 
 const products = [
   {
-    name: "Ocean Friends",
-    category: "KIDS' COLORING PAGES",
-    price: "",
-    emoji: "🐢",
-    color: "#DDF3F6",
-    href: "/coloring-pages",
-  },
-  {
     name: "Cozy Little Moments",
     category: "COZY COLORING",
     price: "",
@@ -31,6 +23,14 @@ const products = [
     emoji: "🎄",
     color: "#F8E8C8",
     href: "/holiday",
+  },
+  {
+    name: "Ocean Friends",
+    category: "KIDS' COLORING PAGES",
+    price: "",
+    emoji: "🐢",
+    color: "#DDF3F6",
+    href: "/coloring-pages",
   },
 ];
 
