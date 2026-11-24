@@ -32,9 +32,20 @@ const christmasPictures = [
   "christmas-snowman-decorating-a-christmas-tree",
 ];
 
-const allowedPictures = [
+const thanksgivingPictures = [
+  "thanksgiving-dinner-table",
+  "thanksgiving-family-thanksgiving-dinner",
+  "thanksgiving-feast",
+  "thanksgiving-harvest-boy",
+  "thanksgiving-pilgrim-children",
+  "thanksgiving-turkey-and-cornucopia",
+  "thanksgiving-turkey-family",
+];
+
+const allowedPictures: string[] = [
   ...oceanPictures,
   ...christmasPictures,
+  ...thanksgivingPictures,
 ];
 
 const bundles: Record<number, { price: number; name: string }> = {
@@ -148,17 +159,25 @@ export async function POST(request: NextRequest) {
       (picture) => christmasPictures.includes(picture)
     );
 
+    const isThanksgiving = selectedPictures.every(
+      (picture) => thanksgivingPictures.includes(picture)
+    );
+
     const collection = isOcean
       ? "ocean"
       : isChristmas
         ? "christmas"
-        : "mixed";
+        : isThanksgiving
+          ? "thanksgiving"
+          : "mixed";
 
     const collectionName = isOcean
       ? "Ocean Friends"
       : isChristmas
         ? "Christmas Collection"
-        : "Mix & Match";
+        : isThanksgiving
+          ? "Thanksgiving Collection"
+          : "Mix & Match";
 
     const pictureMetadata =
       createPictureMetadata(selectedPictures);
@@ -167,6 +186,22 @@ export async function POST(request: NextRequest) {
 
     const origin =
       "https://novea-printables.vercel.app";
+
+    let cancelUrl = `${origin}/coloring-pages`;
+
+    if (body.collection === "thanksgiving") {
+      cancelUrl =
+        `${origin}/coloring-pages?collection=thanksgiving`;
+    } else if (body.collection === "christmas") {
+      cancelUrl = `${origin}/holiday/christmas`;
+    } else if (body.collection !== "ocean") {
+      if (isThanksgiving) {
+        cancelUrl =
+          `${origin}/coloring-pages?collection=thanksgiving`;
+      } else if (isChristmas) {
+        cancelUrl = `${origin}/holiday/christmas`;
+      }
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -200,11 +235,7 @@ export async function POST(request: NextRequest) {
       success_url:
         `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url:
-        body.collection === "christmas" ||
-        (body.collection !== "ocean" && isChristmas)
-          ? `${origin}/holiday/christmas`
-          : `${origin}/coloring-pages`,
+      cancel_url: cancelUrl,
     });
 
     if (!session.url) {
