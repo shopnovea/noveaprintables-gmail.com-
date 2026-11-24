@@ -1,724 +1,564 @@
 
-const products = [
+"use client";
+
+import { useEffect, useState } from "react";
+
+const pictures = [
+  { id: "turtle", name: "Sea Turtle", image: "/ocean-friends-turtle-preview.png" },
+  { id: "cute-octopus", name: "Cute Octopus", image: "/ocean-friends-cute-octopus-preview.png" },
+  { id: "dolphin", name: "Dolphin", image: "/ocean-friends-dolphin-preview.png" },
+  { id: "happy-crab", name: "Happy Crab", image: "/ocean-friends-happy-crab-preview.png" },
+  { id: "seashell-friends", name: "Seashell Friends", image: "/ocean-friends-seashell-friends-preview.png" },
+  { id: "shark", name: "Shark", image: "/ocean-friends-shark-preview.png" },
+  { id: "smiling-jellyfish", name: "Smiling Jellyfish", image: "/ocean-friends-smiling-jellyfish-preview.png" },
+  { id: "starfish", name: "Starfish", image: "/ocean-friends-starfish-preview.png" },
+  { id: "tropical-fish", name: "Tropical Fish", image: "/ocean-friends-tropical-fish-preview.png" },
+  { id: "whale", name: "Whale", image: "/ocean-friends-whale-preview.png" },
+];
+
+const christmasPictures = [
   {
-    name: "Ocean Friends",
-    category: "Animal Coloring",
-    price: "",
-    emoji: "🐢",
-    color: "#DDF3F6",
-    href: "/coloring-pages?collection=ocean",
+    "id": "christmas-cheerful-elf-and-christmas-tree-coloring-page",
+    "name": "Cheerful Elf and Christmas Tree Coloring Page",
+    "image": "/Cheerful Elf and Christmas Tree Coloring Page-preview.png"
   },
   {
-    name: "Cozy Little Moments",
-    category: "Cozy Coloring",
-    price: "",
-    emoji: "🏡",
-    color: "#F9E3EB",
-    href: "/coloring-pages?collection=cozy",
+    "id": "christmas-festive-christmas-mantel-coloring-page",
+    "name": "Festive Christmas Mantel Coloring Page",
+    "image": "/Festive Christmas Mantel Coloring Page-preview.png"
   },
   {
-    name: "Holiday",
-    category: "Holiday Coloring",
-    price: "",
-    emoji: "🎄",
-    color: "#F8E8C8",
-    href: "/coloring-pages?collection=holiday",
+    "id": "christmas-festive-christmas-wreath-coloring-page",
+    "name": "Festive Christmas Wreath Coloring Page",
+    "image": "/Festive Christmas Wreath Coloring Page-preview.png"
   },
   {
-    name: "Flowers & Butterflies",
-    category: "Nature Coloring",
-    price: "",
-    emoji: "🦋",
-    color: "#E8E2F7",
-    href: "/coloring-pages?collection=flowers",
+    "id": "christmas-festive-fireplace-gifts-and-stockings",
+    "name": "Festive Fireplace Gifts and Stockings",
+    "image": "/Festive Fireplace Gifts and Stockings-preview.png"
   },
+  {
+    "id": "christmas-festive-fireplace-stocking-scene",
+    "name": "Festive Fireplace Stocking Scene",
+    "image": "/Festive Fireplace Stocking Scene-preview.png"
+  },
+  {
+    "id": "christmas-festive-penguin-with-gifts-and-snowflakes",
+    "name": "Festive Penguin with Gifts and Snowflakes",
+    "image": "/Festive Penguin with Gifts and Snowflakes-preview.png"
+  },
+  {
+    "id": "christmas-festive-puppy-christmas-coloring-page",
+    "name": "Festive Puppy Christmas Coloring Page",
+    "image": "/Festive Puppy Christmas Coloring Page-preview.png"
+  },
+  {
+    "id": "christmas-festive-reindeer-coloring-scene",
+    "name": "Festive Reindeer Coloring Scene",
+    "image": "/Festive Reindeer Coloring Scene-preview.png"
+  },
+  {
+    "id": "christmas-gingerbread-house-candy-wonderland",
+    "name": "Gingerbread House Candy Wonderland",
+    "image": "/Gingerbread House Candy Wonderland-preview.png"
+  },
+  {
+    "id": "christmas-polar-bear-christmas-coloring-page",
+    "name": "Polar Bear Christmas Coloring Page",
+    "image": "/Polar Bear Christmas Coloring Page-preview.png"
+  },
+  {
+    "id": "christmas-polar-bears-snowy-gift-surprise",
+    "name": "Polar Bear’s Snowy Gift Surprise",
+    "image": "/Polar Bear’s Snowy Gift Surprise-preview.png"
+  },
+  {
+    "id": "christmas-santas-snowy-christmas-gift-scene",
+    "name": "Santa’s Snowy Christmas Gift Scene",
+    "image": "/Santa’s Snowy Christmas Gift Scene-preview.png"
+  },
+  {
+    "id": "christmas-snowman-decorating-a-christmas-tree",
+    "name": "Snowman Decorating a Christmas Tree",
+    "image": "/Snowman Decorating a Christmas Tree-preview.png"
+  }
+];
+
+const thanksgivingPictures = [
+  { id: "thanksgiving-dinner-table", name: "Thanksgiving Dinner Table", image: "/thanksgiving-dinner-table-preview.png" },
+  { id: "thanksgiving-family-thanksgiving-dinner", name: "Family Thanksgiving Dinner", image: "/thanksgiving-family-thanksgiving-dinner-preview.png" },
+  { id: "thanksgiving-feast", name: "Thanksgiving Feast", image: "/thanksgiving-feast-preview.png" },
+  { id: "thanksgiving-harvest-boy", name: "Harvest Boy", image: "/thanksgiving-harvest-boy-preview.png" },
+  { id: "thanksgiving-pilgrim-children", name: "Pilgrim Children", image: "/thanksgiving-pilgrim-children-preview.png" },
+  { id: "thanksgiving-turkey-and-cornucopia", name: "Turkey and Cornucopia", image: "/thanksgiving-turkey-and-cornucopia-preview.png" },
+  { id: "thanksgiving-turkey-family", name: "Turkey Family", image: "/thanksgiving-turkey-family-preview.png" },
+];
+
+const cozyPictures = [
+  {"id": "cozy-cat-reading-nook", "name": "Cozy Cat Reading Nook", "image": "/cozy-cat-reading-nook-preview.png"},
+  {"id": "cozy-cat-window-seat-retreat", "name": "Cozy Cat Window Seat Retreat", "image": "/cozy-cat-window-seat-retreat-preview.png"},
+  {"id": "cozy-cottage-kitchen-baking-scene", "name": "Cozy Cottage Kitchen Baking Scene", "image": "/cozy-cottage-kitchen-baking-scene-preview.png"},
+  {"id": "cozy-crafting-nook-still-life", "name": "Cozy Crafting Nook Still Life", "image": "/cozy-crafting-nook-still-life-preview.png"},
+  {"id": "cozy-fireplace-reading-nook", "name": "Cozy Fireplace Reading Nook", "image": "/cozy-fireplace-reading-nook-preview.png"},
+  {"id": "cozy-heart-themed-kitchen-baking-scene", "name": "Cozy Heart Themed Kitchen Baking Scene", "image": "/cozy-heart-themed-kitchen-baking-scene-preview.png"},
+  {"id": "cozy-heartfelt-baking-kitchen", "name": "Cozy Heartfelt Baking Kitchen", "image": "/cozy-heartfelt-baking-kitchen-preview.png"},
+  {"id": "cozy-rainy-window-nook", "name": "Cozy Rainy Window Nook", "image": "/cozy-rainy-window-nook-preview.png"},
+  {"id": "cozy-reading-nook-with-cat", "name": "Cozy Reading Nook with Cat", "image": "/cozy-reading-nook-with-cat-preview.png"},
+];
+
+const flowersPictures = [
+  {"id": "flowers-ornate-butterfly-in-a-blooming-garden", "name": "Ornate Butterfly in a Blooming Garden", "image": "/flowers-ornate-butterfly-in-a-blooming-garden-preview.png"},
+  {"id": "flowers-ornate-butterfly-over-floral-bouquet", "name": "Ornate Butterfly Over Floral Bouquet", "image": "/flowers-ornate-butterfly-over-floral-bouquet-preview.png"},
+  {"id": "flowers-tropical-garden-with-butterflies", "name": "Tropical Garden with Butterflies", "image": "/flowers-tropical-garden-with-butterflies-preview.png"},
+  {"id": "flowers-botanical-bouquet-with-butterfly-and-bow", "name": "Botanical Bouquet with Butterfly and Bow", "image": "/flowers-botanical-bouquet-with-butterfly-and-bow-preview.png"},
+  {"id": "flowers-botanical-bouquet-with-butterfly", "name": "Botanical Bouquet with Butterfly", "image": "/flowers-botanical-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-botanical-hibiscus-and-butterfly-garden", "name": "Botanical Hibiscus and Butterfly Garden", "image": "/flowers-botanical-hibiscus-and-butterfly-garden-preview.png"},
+  {"id": "flowers-botanical-lily-bouquet-with-butterfly", "name": "Botanical Lily Bouquet with Butterfly", "image": "/flowers-botanical-lily-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-butterfly-among-garden-blooms", "name": "Butterfly Among Garden Blooms", "image": "/flowers-butterfly-among-garden-blooms-preview.png"},
+  {"id": "flowers-butterfly-on-a-hibiscus-garden", "name": "Butterfly on a Hibiscus Garden", "image": "/flowers-butterfly-on-a-hibiscus-garden-preview.png"},
+  {"id": "flowers-daisy-garden-with-ornate-butterfly", "name": "Daisy Garden with Ornate Butterfly", "image": "/flowers-daisy-garden-with-ornate-butterfly-preview.png"},
+  {"id": "flowers-detailed-floral-bouquet-in-mason-jar", "name": "Detailed Floral Bouquet in Mason Jar", "image": "/flowers-detailed-floral-bouquet-in-mason-jar-preview.png"},
+  {"id": "flowers-floral-mason-jar-coloring-page", "name": "Floral Mason Jar Coloring Page", "image": "/flowers-floral-mason-jar-coloring-page-preview.png"},
+  {"id": "flowers-hibiscus-bouquet-with-butterfly", "name": "Hibiscus Bouquet with Butterfly", "image": "/flowers-hibiscus-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-hibiscus-garden-with-butterfly", "name": "Hibiscus Garden with Butterfly", "image": "/flowers-hibiscus-garden-with-butterfly-preview.png"},
+  {"id": "flowers-intricate-botanical-blooms-and-butterflies", "name": "Intricate Botanical Blooms and Butterflies", "image": "/flowers-intricate-botanical-blooms-and-butterflies-preview.png"},
+  {"id": "flowers-intricate-floral-bouquet-with-butterfly", "name": "Intricate Floral Bouquet with Butterfly", "image": "/flowers-intricate-floral-bouquet-with-butterfly-preview.png"},
+];
+
+type Collection = "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
+const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...pictures, ...thanksgivingPictures];
+const collectionOptions: { id: Collection; label: string; title: string }[] = [
+  { id: "all", label: "All Collections", title: "All Collections" },
+  { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
+  { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
+  { id: "flowers", label: "Flowers & Butterflies", title: "Flowers & Butterflies 🦋" },
+  { id: "holiday", label: "Holiday Collections", title: "Holiday Collections 🎄" },
+  { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
+  { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
 ];
 
 const bundles = [
-  {
-    name: "Mini Bundle",
-    pages: 2,
-    price: "$1.49",
-    color: "#F9E3EB",
-  },
-  {
-    name: "Little Bundle",
-    pages: 5,
-    price: "$2.99",
-    color: "#F8E8C8",
-  },
-  {
-    name: "Happy Bundle",
-    pages: 10,
-    price: "$4.99",
-    color: "#E8E2F7",
-  },
-  {
-    name: "Mega Bundle",
-    pages: 20,
-    price: "$7.99",
-    color: "#DDF3F6",
-    comingSoon: false,
-  },
+  { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
+  { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
+  { count: 10, price: 499, label: "Happy Bundle", color: "#E8E2F7" },
+  { count: 20, price: 799, label: "Mega Bundle", color: "#DDF3F6" },
 ];
 
-export default function Home() {
+function money(cents: number) {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+export default function ColoringPages() {
+  const [collection, setCollection] = useState<Collection>("all");
+  const [bundleSize, setBundleSize] = useState(2);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [holidayEntry, setHolidayEntry] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("collection");
+    if (requested === "christmas" || requested === "thanksgiving") {
+      setCollection(requested);
+      setHolidayEntry(false);
+    } else if (requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday") {
+      setCollection(requested);
+    }
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("novea-basket-v1") || "null");
+      if (saved && [2, 5, 10, 20].includes(saved.bundleSize) && Array.isArray(saved.selected)) {
+        const allowed = new Set(allPictures.map(p => p.id));
+        const ids = saved.selected.filter((id: unknown): id is string => typeof id === "string" && allowed.has(id));
+        setBundleSize(saved.bundleSize);
+        setSelected(Array.from(new Set<string>(ids)).slice(0, saved.bundleSize));
+      }
+    } catch { /* Storage may be unavailable. */ }
+    setReady(true);
+  }, []);
+
+
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      sessionStorage.setItem("novea-basket-v1", JSON.stringify({ bundleSize, selected }));
+    } catch { /* Shopping still works without storage. */ }
+  }, [ready, bundleSize, selected]);
+
+  const bundle = bundles.find((item) => item.count === bundleSize)!;
+  const remaining = bundleSize - selected.length;
+
+  function chooseBundle(count: number) {
+    setBundleSize(count);
+    setSelected(current => current.slice(0, count));
+    setError("");
+  }
+
+  function togglePicture(id: string) {
+    setError("");
+
+    setSelected((current) => {
+      if (current.includes(id)) {
+        return current.filter((item) => item !== id);
+      }
+
+      if (current.length >= bundleSize) {
+        return current;
+      }
+
+      return [...current, id];
+    });
+  }
+
+  async function handleCheckout() {
+    if (selected.length !== bundleSize) {
+      setError(`Please choose exactly ${bundleSize} pictures.`);
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          selectedPictures: selected,
+          collection,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to start checkout");
+      }
+
+      if (!data.url) {
+        throw new Error("Checkout URL is missing");
+      }
+
+      window.location.assign(data.url);
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Checkout is temporarily unavailable."
+      );
+      setLoading(false);
+    }
+  }
+
+  if (!ready) return null;
+
   return (
-    <main>
-      <div className="announcement">
-        A LITTLE COLOR GOES A LONG WAY ✨
+    <main className="coloring-accessible"
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#fff7f2",
+        padding: "40px 20px",
+        textAlign: "center",
+        fontFamily: "Arial, sans-serif",
+        color: "#39313d",
+        fontSize: "1.125rem",
+        lineHeight: 1.6,
+      }}
+    >
+      <a
+        href={holidayEntry ? "/holiday" : "/"}
+        style={{
+          color: "#8b3f70",
+          textDecoration: "underline",
+          letterSpacing: "1px",
+          fontSize: "1rem",
+        }}
+      >
+        {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
+      </a>
+
+      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 5vw, 44px)", fontWeight: "normal", marginTop: "35px" }}>NOVÉA Coloring Pages</h1>
+      <h2
+        style={{
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(32px, 5vw, 44px)",
+          marginTop: "35px",
+          fontWeight: "normal",
+        }}
+      >
+        {collectionOptions.find(option => option.id === collection)?.title}
+      </h2>
+
+      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#E8E2F7", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
+        <h2 id="mix-match-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
+        <p style={{ margin: "0 0 8px", fontSize: "1.125rem" }}>Choose pictures from any collection to build your perfect bundle.</p>
+        <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
+      </section>
+      <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
+        {collectionOptions.map(option => (
+          <a key={option.id}
+            href={option.id === "all" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
+            aria-current={collection === option.id ? "page" : undefined}
+            onClick={(event) => { if (loading) event.preventDefault(); }}
+            style={{ display: "inline-block", color: collection === option.id ? "white" : "#8b3f70", backgroundColor: collection === option.id ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
+            {option.label}
+          </a>
+        ))}
+      </nav>
+      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+        Pick Your Favorite Pages
+      </h2>
+
+      <p style={{ color: "#594e5c", lineHeight: 1.7 }}>
+        Choose your bundle, then pick your favorite printable
+        coloring pages.
+      </p>
+
+      <section
+        style={{
+          maxWidth: "1000px",
+          margin: "35px auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))",
+          gap: "15px",
+        }}
+      >
+        {bundles.map((item) => {
+          const active = bundleSize === item.count;
+          const unavailable = false;
+
+          return (
+            <button
+              key={item.count}
+              type="button"
+              disabled={unavailable || loading}
+              aria-pressed={active}
+              onClick={() => chooseBundle(item.count)}
+              style={{
+                background: item.color,
+                border: active ? "3px solid #8b3f70" : "3px solid transparent",
+                borderRadius: "14px",
+                padding: "20px 12px",
+                cursor: unavailable ? "not-allowed" : "pointer",
+                opacity: unavailable ? 0.65 : 1,
+                color: "#39313d",
+                fontFamily: "inherit",
+              }}
+            >
+              <strong style={{ display: "block", fontSize: "1.25rem" }}>
+                {item.label}
+              </strong>
+
+              <span
+                style={{
+                  display: "block",
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                  color: "#8b3f70",
+                  margin: "8px 0",
+                }}
+              >
+                {money(item.price)}
+              </span>
+
+              <span style={{ fontSize: "1rem" }}>
+                {item.count} coloring pages
+              </span>
+
+              {unavailable && (
+                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
+                  COMING SOON
+                </span>
+              )}
+
+              {active && (
+                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
+                  ✓ SELECTED
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </section>
+
+      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+        Choose Your Coloring Pages
+      </h2>
+
+      <p style={{ color: "#594e5c" }}>
+        Select {bundleSize} different pictures for your {bundle.label}.
+      </p>
+
+      <p
+        aria-live="polite"
+        style={{
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginTop: "25px",
+        }}
+      >
+        {selected.length} of {bundleSize} selected
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
+          gap: "22px",
+          maxWidth: "1100px",
+          margin: "35px auto",
+        }}
+      >
+        {(collection === "all" ? allPictures : collection === "holiday" ? [...christmasPictures, ...thanksgivingPictures] : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
+          const isSelected = selected.includes(picture.id);
+          const isDisabled =
+            loading || (selected.length >= bundleSize && !isSelected);
+
+          return (
+            <button
+              key={picture.id}
+              type="button"
+              onClick={() => togglePicture(picture.id)}
+              disabled={isDisabled}
+              aria-pressed={isSelected}
+              style={{
+                backgroundColor: "transparent",
+                padding: "0",
+                borderRadius: "14px",
+                border: "none",
+                alignSelf: "start",
+                cursor: isDisabled ? "default" : "pointer",
+                opacity: 1,
+                color: "#39313d",
+                fontFamily: "inherit",
+              }}
+            >
+              <span style={{ display: "block", backgroundColor: "white", padding: "12px", borderRadius: "14px", border: isSelected ? "3px solid #8b3f70" : "3px solid transparent", boxShadow: "0 3px 12px #00000012" }}>
+              <img
+                src={encodeURI(picture.image)}
+                alt={`${picture.name} coloring page preview`}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                }}
+              />
+              </span>
+
+              <span
+                style={{
+                  display: "block",
+                  marginTop: "15px",
+                  fontSize: "1.125rem",
+                  fontWeight: "bold",
+                }}
+              >
+                {picture.name}
+              </span>
+
+              <span
+                style={{
+                  display: "block",
+                  marginTop: "8px",
+                  color: isSelected ? "#8b3f70" : "#594e5c",
+                  fontSize: "1rem",
+                }}
+              >
+                {isSelected ? "✓ Selected" : isDisabled ? "Unavailable" : "Select picture"}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <header className="header">
-        <a href="#home" className="logo">NOVĒA</a>
-
-        <nav aria-label="Main navigation">
-          <a href="#home">HOME</a>
-          <a href="/coloring-pages">COLORING PAGES</a>
-          <a href="#about">ABOUT</a>
-        </nav>
-      </header>
-
-      <section className="hero" id="home">
-        <div>
-          <span className="eyebrow">
-            PRINTABLE COLORING PAGES FOR EVERYONE
-          </span>
-
-          <h1>
-            Color your world<br />
-            with <em>happiness.</em>
-          </h1>
-
-          <p>
-            Cute, creative printable coloring pages for kids
-            and adults. Find your favorites, print at home,
-            and let your imagination shine.
-          </p>
-
-          <a href="#shop" className="primary-button">
-            EXPLORE THE SHOP →
-          </a>
-
-          <div className="hero-note">
-            ♡ DIGITAL PRINTABLES · PRINT AT HOME
-          </div>
-        </div>
-
-        <div className="hero-art">
-          <div className="art-circle">✿</div>
-
-          <div className="paper">
-            <span>YOUR CREATIVE MOMENT</span>
-            <strong>
-              Color<br />your joy.
-            </strong>
-            <p>✓ Pick a page</p>
-            <p>✓ Grab your colors</p>
-            <p>✓ Make it yours</p>
-          </div>
-
-          <div className="paper paper-two">
-            <span>HAPPY LITTLE MOMENTS</span>
-            <strong>
-              Create<br />magic. ♡
-            </strong>
-          </div>
-
-          <div className="sparkle">✦</div>
-        </div>
-      </section>
-
-      <section className="benefits">
-        <span>♡ DIGITAL DOWNLOADS</span>
-        <span>✿ MADE WITH LOVE</span>
-        <span>✧ PRINT ANYTIME</span>
-        <span>♡ EASY TO COLOR</span>
-      </section>
-
-      <section className="shop-section" id="shop">
-        <div className="section-heading">
-          <span className="eyebrow">
-            PRINT, COLOR & SMILE
-          </span>
-
-          <h2>
-            Find your <em>happy place.</em>
-          </h2>
-
-          <p>
-            Adorable printable coloring pages for kids
-            and adults. Choose a collection and explore!
-          </p>
-        </div>
-
-        <div className="product-grid">
-          {products.map((product) => (
-            <article className="product" key={product.name}>
-              <a href={product.href} className="product-link" aria-label={`View ${product.category}`}>
-                <div className="product-art" style={{ backgroundColor: product.color }}>
-                  <span className="product-emoji" aria-hidden="true">{product.emoji}</span>
-                  <span className="collection-label">{product.category}</span>
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-
-        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#F9E3EB", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#39313d", lineHeight: 1.7 }}>
-          <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#794367", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
-          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
-          <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
-        </section>
-
-        {/* BUILD YOUR OWN BUNDLE */}
-
-        <section className="bundle-section">
-          <span className="eyebrow">
-            YOUR PAGES, YOUR WAY
-          </span>
-
-          <h2>
-            Build Your <em>Own Bundle.</em>
-          </h2>
-
-          <div className="bundle-grid">
-            {bundles.map((bundle) => (
-              <div
-                className="bundle-card"
-                style={{ backgroundColor: bundle.color }}
-                key={bundle.pages}
-              >
-                <h3>{bundle.name}</h3>
-
-                <strong>{bundle.price}</strong>
-
-                <p>{bundle.pages} printable pages</p>
-
-                {bundle.comingSoon && (
-                  <span className="coming-soon">
-                    COMING SOON
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <a href="/coloring-pages" className="primary-button">
-            BUILD MY BUNDLE →
-          </a>
-
-          <p className="bundle-note">
-            Choose your pages and enjoy a little creativity.
-            More collections coming soon! ♡
-          </p>
-        </section>
-      </section>
-
-      <section className="about" id="about">
-        <span className="eyebrow">A NOTE FROM NOVĒA</span>
-
-        <h2>
-          Little details.<br />
-          <em>Lovely days.</em>
+      {selected.length > 0 && (
+      <section
+        style={{
+          backgroundColor: "white",
+          maxWidth: "600px",
+          margin: "40px auto",
+          padding: "30px 20px",
+          borderRadius: "16px",
+          boxShadow: "0 3px 15px #0000000c",
+        }}
+      >
+        <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+          Your {bundle.label}
         </h2>
 
+        <p>Your basket — {selected.length} of {bundleSize} pages</p>
+        <ul style={{ listStyle: "none", padding: 0, textAlign: "left" }}>
+          {selected.map(id => {
+            const picture = allPictures.find(p => p.id === id);
+            return <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", padding: "8px 0" }}>
+              <span style={{ overflowWrap: "anywhere", minWidth: 0 }}>{picture?.name ?? id}</span>
+              <button className="basket-action" type="button" aria-label={`Remove ${picture?.name ?? id}`} disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
+            </li>;
+          })}
+        </ul>
+        <button className="basket-action" type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); }}>Clear basket</button>
+        <div style={{ fontSize: "2rem", fontWeight: "bold", marginTop: "15px" }}>
+          {money(bundle.price)}
+        </div>
+
         <p>
-          At NOVĒA, we believe a little creativity can
-          brighten any day. Our printable coloring pages
-          are made to inspire imagination, relaxation,
-          and happy moments.
+          {selected.length === bundleSize
+            ? `Your ${bundleSize} pictures are ready!`
+            : `Choose ${remaining} more picture(s).`}
         </p>
 
-        <span className="about-heart">♡</span>
+        <button
+          type="button"
+          onClick={handleCheckout}
+          disabled={loading || selected.length !== bundleSize}
+          style={{
+            backgroundColor: "#8b3f70",
+            color: "white",
+            padding: "15px 30px",
+            border: "none",
+            borderRadius: "25px",
+            fontSize: "1.125rem",
+            fontWeight: 600,
+            cursor:
+              loading || selected.length !== bundleSize
+                ? "not-allowed"
+                : "pointer",
+            opacity:
+              loading || selected.length !== bundleSize ? 0.5 : 1,
+          }}
+        >
+          {loading
+            ? "Opening checkout..."
+            : `Buy ${bundleSize} Pages — ${money(bundle.price)}`}
+        </button>
+
+        {error && (
+          <p role="alert" style={{ color: "#b42318", marginTop: "18px" }}>
+            {error}
+          </p>
+        )}
       </section>
 
-      <footer>
-        <a href="#home" className="logo">NOVĒA</a>
-        <p>Made with love, color & a little creativity. ♡</p>
-        <span>© 2026 NOVĒA. ALL RIGHTS RESERVED.</span>
-      </footer>
-
-      <style>{`
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-          margin: 0;
-          color: #39313d;
-          background: #fffdfb;
-          font-family: Arial, sans-serif;
-        }
-
-        a { text-decoration: none; color: inherit; }
-
-        .announcement {
-          text-align: center;
-          padding: 11px;
-          background: #e9dafa;
-          font-size: 0.875rem;
-          letter-spacing: 2px;
-        }
-
-        .header {
-          min-height: 82px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 18px 7%;
-          gap: 20px;
-          background: white;
-        }
-
-        .logo {
-          font-family: Georgia, serif;
-          font-size: 2.5rem;
-          letter-spacing: 5px;
-          font-weight: bold;
-        }
-
-        nav {
-          display: flex;
-          gap: 25px;
-          flex-wrap: wrap;
-          font-size: 1rem;
-          letter-spacing: 1px;
-          font-weight: 600;
-        }
-
-        .cart, .primary-button {
-          background: #39313d;
-          color: white;
-          padding: 14px 20px;
-          border-radius: 30px;
-          font-size: 1rem;
-          letter-spacing: 1px;
-          display: inline-block;
-        }
-
-        .primary-button {
-          transition: background 0.2s, transform 0.2s;
-        }
-
-        .primary-button:hover {
-          background: #794367;
-          transform: translateY(-2px);
-        }
-
-        .hero {
-          background: #fff0f2;
-          padding: 75px 9%;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          align-items: center;
-          gap: 45px;
-          min-height: 510px;
-        }
-
-        .eyebrow {
-          font-size: 1rem;
-          letter-spacing: 2px;
-          color: #794367;
-          font-weight: bold;
-        }
-
-        h1 {
-          font-family: Georgia, serif;
-          font-size: clamp(2.5rem, 5vw + 1rem, 4.2rem);
-          line-height: 1.12;
-          font-weight: normal;
-          margin: 22px 0;
-        }
-
-        h1 em, h2 em { color: #794367; }
-
-        .hero p, .section-heading p, .about p {
-          color: #514653;
-          line-height: 1.9;
-          font-size: 1.125rem;
-          max-width: 430px;
-          margin-bottom: 30px;
-        }
-
-        .hero-note {
-          margin-top: 23px;
-          font-size: 0.875rem;
-          letter-spacing: 1px;
-          color: #794367;
-        }
-
-        .hero-art {
-          position: relative;
-          height: 340px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .art-circle {
-          position: absolute;
-          width: 280px;
-          height: 280px;
-          border-radius: 50%;
-          background: #e4d9f6;
-          color: #a18acb;
-          font-size: 6.25rem;
-          display: grid;
-          place-items: center;
-        }
-
-        .paper {
-          position: absolute;
-          background: white;
-          box-shadow: 0 15px 40px #8b718322;
-          padding: 25px;
-          display: flex;
-          flex-direction: column;
-          gap: 7px;
-          width: 205px;
-          transform: rotate(-8deg);
-          left: 13%;
-          top: 35px;
-        }
-
-        .paper-two {
-          width: 145px;
-          height: 185px;
-          transform: rotate(10deg);
-          left: auto;
-          right: 4%;
-          top: auto;
-          bottom: 25px;
-          background: #fff8dc;
-        }
-
-        .paper span {
-          font-size: 0.875rem;
-          letter-spacing: 2px;
-          color: #794367;
-        }
-
-        .paper strong {
-          font-family: Georgia, serif;
-          font-size: 1.5rem;
-          line-height: 1.2;
-        }
-
-        .paper p { font-size: 1rem; margin: 0; }
-
-        .sparkle {
-          position: absolute;
-          right: 15%;
-          top: 20px;
-          color: #d99d49;
-          font-size: 2.8125rem;
-        }
-
-        .benefits {
-          display: flex;
-          justify-content: space-around;
-          flex-wrap: wrap;
-          gap: 20px;
-          padding: 25px 5%;
-          background: #f5f0fa;
-          font-size: 1.125rem;
-          letter-spacing: 1px;
-          font-weight: 600;
-        }
-
-        .shop-section { padding: 85px 8%; }
-
-        .section-heading {
-          text-align: center;
-          margin-bottom: 42px;
-        }
-
-        h2 {
-          font-family: Georgia, serif;
-          font-size: 2.625rem;
-          font-weight: normal;
-          margin: 14px 0;
-        }
-
-        .section-heading p { margin: auto; }
-
-        .product-grid {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 22px;
-        }
-
-        .product-art {
-          height: 235px;
-          display: grid;
-          place-items: center;
-          position: relative;
-          border-radius: 8px;
-          transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .collection-label {
-          position: absolute;
-          bottom: 15px;
-          left: 8px;
-          right: 8px;
-          text-align: center;
-          font-family: Georgia, serif;
-          font-size: clamp(1.25rem, 2vw, 1.75rem);
-          font-weight: 600;
-          line-height: 1.3;
-          color: #39313d;
-        }
-        .product-art .product-emoji { margin-bottom: 2rem; }
-
-        .product-emoji { font-size: 4.5rem; }
-
-        .preview-label {
-          position: absolute;
-          bottom: 15px;
-          font-size: 0.875rem;
-          letter-spacing: 2px;
-          color: #514653;
-        }
-
-        .product-info {
-          display: flex;
-          justify-content: space-between;
-          gap: 8px;
-          align-items: center;
-          padding: 15px 0 5px;
-        }
-
-        .category {
-          font-size: 0.875rem;
-          letter-spacing: 1.5px;
-          color: #794367;
-        }
-
-        .product-info h3 {
-          font-family: Georgia, serif;
-          font-size: 1.25rem;
-          font-weight: normal;
-          margin: 7px 0;
-        }
-
-        .product-info strong { font-size: 1rem; }
-
-        .product-link { display: block; }
-
-        .product-link:hover .product-art {
-          box-shadow: 0 8px 24px #8b718333;
-          transform: translateY(-3px);
-        }
-
-        .view-link {
-          display: inline-block;
-          margin-top: 8px;
-          font-size: 1rem;
-          letter-spacing: 1px;
-          color: #794367;
-          font-weight: bold;
-        }
-
-        /* BUNDLE SECTION */
-
-        .bundle-section {
-          text-align: center;
-          background: #fff0f2;
-          padding: 65px 25px;
-          border-radius: 16px;
-          margin-top: 75px;
-        }
-
-        .bundle-section h2 {
-          margin: 14px 0;
-        }
-
-        .bundle-section > p {
-          color: #514653;
-          line-height: 1.8;
-          margin: 15px auto 30px;
-          max-width: 500px;
-          font-size: 1.125rem;
-        }
-
-        .bundle-grid {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 16px;
-          max-width: 950px;
-          margin: 30px auto;
-        }
-
-        .bundle-card {
-          border-radius: 12px;
-          padding: 22px 10px;
-          transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .bundle-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 20px #8b718322;
-        }
-
-        .bundle-card h3 {
-          font-family: Georgia, serif;
-          font-weight: normal;
-          font-size: 1.25rem;
-        }
-
-        .bundle-card strong {
-          display: block;
-          color: #794367;
-          font-size: 1.75rem;
-          margin: 12px 0;
-        }
-
-        .bundle-card p {
-          font-size: 0.875rem;
-          color: #514653;
-        }
-
-        .coming-soon {
-          display: inline-block;
-          margin-top: 8px;
-          padding: 6px 10px;
-          border-radius: 20px;
-          background: #ffffffaa;
-          color: #794367;
-          font-size: 0.875rem;
-          letter-spacing: 1px;
-          font-weight: bold;
-        }
-
-        .bundle-note {
-          font-size: 0.875rem !important;
-          color: #794367 !important;
-          margin: 22px auto 0 !important;
-        }
-
-        .about {
-          background: #e4f1e8;
-          text-align: center;
-          padding: 75px 20px;
-        }
-
-        .about p { margin: 20px auto; }
-
-        .about-heart {
-          font-size: 2.1875rem;
-          color: #794367;
-        }
-
-        footer {
-          text-align: center;
-          padding: 45px 20px;
-        }
-
-        footer p {
-          font-family: Georgia, serif;
-          color: #514653;
-        }
-
-        footer span {
-          font-size: 0.875rem;
-          letter-spacing: 1px;
-          color: #514653;
-        }
-
-        @media (max-width: 850px) {
-          .header { flex-wrap: wrap; }
-
-          nav {
-            order: 3;
-            width: 100%;
-            justify-content: center;
-          }
-
-          .bundle-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-        }
-
-        @media (max-width: 700px) {
-          .hero {
-            grid-template-columns: 1fr;
-            padding: 55px 7%;
-          }
-
-          .hero-art { height: 300px; }
-
-          .product-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
-          }
-
-          .product-art { height: 175px; }
-          .product-info { flex-wrap: wrap; }
-          h2 { font-size: 2.125rem; }
-
-          .bundle-section {
-            padding: 45px 15px;
-          }
-        }
-
-        @media (max-width: 420px) {
-          .product-grid { grid-template-columns: 1fr; }
-
-          .bundle-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-          }
-
-          .bundle-card {
-            padding: 16px 8px;
-          }
-
-          .bundle-card h3 {
-            font-size: 1.125rem;
-          }
-
-          .bundle-card strong {
-            font-size: 1.5rem;
-          }
-        }
-        body { line-height: 1.6; }
-        .announcement, .hero-note, .category, .preview-label, footer span { font-size: .875rem; letter-spacing: .05em; }
-        nav, .benefits, .primary-button, .view-link { font-size: 1rem; }
-        nav a { padding: .5rem 0; }
-        a:focus-visible, button:focus-visible { outline: 3px solid #55304e; outline-offset: 4px; }
-        .paper { width: 15rem; }
-        .paper-two { width: 11rem; height: auto; }
-        .paper span, .paper p { font-size: .875rem; letter-spacing: .03em; }
-        .hero > div, .product, .bundle-card { min-width: 0; overflow-wrap: anywhere; }
-        .product-art { min-height: 11rem; }
-        @media (max-width: 850px) { .hero { grid-template-columns: 1fr; } }
-        @media (max-width: 480px) {
-          .hero-art { height: auto; display: flex; flex-wrap: wrap; gap: 1rem; }
-          .paper, .paper-two { position: relative; inset: auto; transform: none; width: 100%; }
-          .art-circle, .sparkle { display: none; }
-          .bundle-grid { grid-template-columns: 1fr; }
-          .header { justify-content: center; }
-          nav { gap: 1rem; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          html { scroll-behavior: auto; }
-          *, *::before, *::after { transition: none !important; animation: none !important; }
-        }
-
-        /* Readable typography, including sections affected by global styles. */
-        main .benefits, main .benefits span { font-size: 1rem !important; font-weight: 600; color: #39313d; letter-spacing: .04em; }
-        main .eyebrow { font-size: 1rem !important; color: #794367 !important; }
-        main .section-heading p, main .hero p, main .about p, main .bundle-section > p { font-size: 1.125rem !important; line-height: 1.7; color: #514653 !important; }
-        main .product-info h3, main .bundle-card h3 { font-size: 1.5rem !important; line-height: 1.35; }
-        main .category, main .preview-label { font-size: .875rem !important; color: #514653 !important; letter-spacing: .04em; }
-        main .view-link { font-size: 1rem !important; color: #794367 !important; text-decoration: underline; text-underline-offset: .2em; }
-        main .bundle-card p, main .bundle-note, main .coming-soon, main footer p, main footer span { font-size: 1rem !important; line-height: 1.6; }
-        main h1 em, main h2 em { color: #794367 !important; }
-        main .preview-label { text-align: center; max-width: 95%; }
-        main .paper p { font-size: .875rem !important; }
-        @media (max-width: 600px) { main .product-grid, main .bundle-grid { grid-template-columns: 1fr; } main .benefits { display: grid; grid-template-columns: 1fr; text-align: center; } }
+      )}
+      <p style={{ color: "#594e5c", fontSize: "1rem" }}>
+        ♡ Printable PDFs · Instant downloads · Made with love
+      </p>
+      <style jsx>{`
+        .coloring-accessible { overflow-wrap: anywhere; }
+        .coloring-accessible button { font-family: inherit; line-height: 1.5; min-height: 44px; max-width: 100%; }
+        .coloring-accessible a { display: inline-block; padding-block: 10px; }
+        .coloring-accessible button:focus-visible,
+        .coloring-accessible a:focus-visible { outline: 3px solid #39313d; outline-offset: 4px; }
+        .basket-action { background: #f9e3eb; color: #783e65; border: 1px solid #8b3f70; border-radius: 24px; padding: 9px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+        .basket-action:hover:not(:disabled) { background: #efd0df; }
+        .basket-action:disabled { cursor: not-allowed; }
+        @media (max-width: 420px) { .coloring-accessible li { flex-wrap: wrap; } }
       `}</style>
     </main>
   );
 }
+
