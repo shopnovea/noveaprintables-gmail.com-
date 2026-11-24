@@ -1,36 +1,36 @@
 
 const products = [
   {
+    name: "Ocean Friends",
+    category: "Animal Coloring",
+    price: "",
+    emoji: "🐢",
+    color: "#DDF3F6",
+    href: "/coloring-pages",
+  },
+  {
     name: "Cozy Little Moments",
-    category: "COZY COLORING",
+    category: "Cozy Coloring",
     price: "",
     emoji: "🏡",
     color: "#F9E3EB",
     href: "/coloring-pages?collection=cozy",
   },
   {
-    name: "Flowers & Butterflies",
-    category: "NATURE COLORING",
-    price: "",
-    emoji: "🦋",
-    color: "#E8E2F7",
-    href: "/coloring-pages?collection=flowers",
-  },
-  {
     name: "Holiday",
-    category: "HOLIDAY COLORING",
+    category: "Holiday Coloring",
     price: "",
     emoji: "🎄",
     color: "#F8E8C8",
     href: "/holiday",
   },
   {
-    name: "Ocean Friends",
-    category: "ANIMAL COLORING",
+    name: "Flowers & Butterflies",
+    category: "Nature Coloring",
     price: "",
-    emoji: "🐢",
-    color: "#DDF3F6",
-    href: "/coloring-pages",
+    emoji: "🦋",
+    color: "#E8E2F7",
+    href: "/coloring-pages?collection=flowers",
   },
 ];
 
@@ -463,9 +463,10 @@ export default function Home() {
           left: 8px;
           right: 8px;
           text-align: center;
-          font-size: 1.125rem;
+          font-family: Georgia, serif;
+          font-size: clamp(1.25rem, 2vw, 1.75rem);
           font-weight: 600;
-          line-height: 1.4;
+          line-height: 1.3;
           color: #39313d;
         }
         .product-art .product-emoji { margin-bottom: 2rem; }
