@@ -222,7 +222,7 @@ export default function Home() {
 
         <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#F9E3EB", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#39313d", lineHeight: 1.7 }}>
           <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#794367", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
-          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all five coloring collections and create a bundle that's uniquely yours.</p>
+          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
           <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
         </section>
 
