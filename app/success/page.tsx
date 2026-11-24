@@ -81,7 +81,7 @@ function SuccessContent() {
       <h1>Thank You! <span aria-hidden="true">💗</span></h1>
       <p>Thank you for supporting NOVÉA Printables!</p>
       <div role="status" aria-live="polite">
-        {loading && <p>Checking your purchase...</p>}
+        {loading && <div className="instruction-box"><p><strong>Preparing your coloring pages...</strong></p><p>We are verifying your purchase and getting your printable PDFs ready. This may take a few moments. Please keep this page open. ♡</p></div>}
         {!loading && !error && pictures.length > 0 && <p className="verified">✓ Your purchase is confirmed!</p>}
       </div>
       {error && <div role="alert" className="error">
@@ -91,11 +91,11 @@ function SuccessContent() {
       {!loading && !error && pictures.length > 0 && (
         <section aria-labelledby="download-heading">
           <h2 id="download-heading">Your {pictures.length} {collectionName} Coloring Pages</h2>
-          <p>Your printable PDFs are ready to download individually.</p>
+          <div className="instruction-box"><p><strong>Your printable PDFs are ready!</strong></p><p>Each download opens in a new browser tab. Save or print your PDF, then close only the PDF tab to return to this page. Please keep this purchase confirmation tab open until you have saved all your pages.</p></div>
           <div className="downloads">
             {pictures.map(picture => (
-              <a key={picture.id} className="download-button" href={`/api/download?session_id=${encodeURIComponent(sessionId!)}&picture=${encodeURIComponent(picture.id)}`}>
-                Download {picture.name} PDF
+              <a key={picture.id} className="download-button" target="_blank" rel="noopener noreferrer" href={`/api/download?session_id=${encodeURIComponent(sessionId!)}&picture=${encodeURIComponent(picture.id)}`}>
+                Download {picture.name} PDF (opens in a new tab)
               </a>
             ))}
           </div>
@@ -112,6 +112,7 @@ function SuccessContent() {
         h2 { font-family: Georgia, serif; color: #8b3f70; font-size: clamp(1.625rem, 4vw, 2rem); font-weight: normal; line-height: 1.4; margin: 30px 0 15px; }
         p { font-size: 1.125rem; line-height: 1.7; max-width: 650px; margin: 15px auto; }
         .verified { color: #286344; font-weight: 600; margin-top: 25px; }
+        .instruction-box { background: #e8e2f7; border-radius: 16px; padding: 12px 20px; max-width: 650px; margin: 24px auto; color: #39313d; }
         .downloads { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 30px; }
         .download-button { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 460px; min-height: 54px; padding: 16px 22px; background-color: #8b3f70; color: #ffffff; border-radius: 25px; text-decoration: none; font-size: 1.125rem; font-weight: 600; line-height: 1.5; transition: background-color 0.2s; }
         .download-button:hover { background-color: #71315a; }
@@ -132,7 +133,7 @@ function SuccessContent() {
 
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<p role="status" style={{ textAlign: "center", fontFamily: "Arial, sans-serif", fontSize: "1.125rem", padding: "40px 20px" }}>Loading your downloads...</p>}>
+    <Suspense fallback={<p role="status" style={{ textAlign: "center", fontFamily: "Arial, sans-serif", fontSize: "1.125rem", padding: "40px 20px" }}>Preparing your coloring pages... Please keep this page open.</p>}>
       <SuccessContent />
     </Suspense>
   );
