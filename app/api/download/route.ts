@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -72,8 +73,10 @@ function hasPicture(id: string) {
 export async function GET(request: NextRequest) {
   try {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
+
     const supabaseUrl =
       process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
+
     const supabaseKey =
       process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
@@ -107,20 +110,46 @@ export async function GET(request: NextRequest) {
     const session =
       await stripe.checkout.sessions.retrieve(sessionId);
 
-    const isLegacyPurchase =
-      session.metadata?.product_id === "ocean-friends-bundle" &&
-      session.amount_total === 299;
-
     const bundleSize = session.metadata?.bundle_size ?? "";
     const expectedPrice = bundlePrices[bundleSize];
+
+    const subtotal = session.amount_subtotal;
+    const total = session.amount_total;
+    const discount =
+      session.total_details?.amount_discount ?? 0;
+
+    const validAmounts =
+      typeof subtotal === "number" &&
+      typeof total === "number" &&
+      Number.isInteger(discount) &&
+      discount >= 0 &&
+      discount <= subtotal &&
+      total >= 0 &&
+      total === subtotal - discount;
+
+    const validPayment =
+      (session.payment_status === "paid" &&
+        typeof total === "number" &&
+        total > 0) ||
+      (session.payment_status === "no_payment_required" &&
+        total === 0 &&
+        typeof subtotal === "number" &&
+        subtotal > 0 &&
+        discount === subtotal);
+
+    const isLegacyPurchase =
+      session.metadata?.product_id === "ocean-friends-bundle" &&
+      session.amount_total === 299 &&
+      session.payment_status === "paid";
 
     const isNewPurchase =
       session.metadata?.product_id === "coloring-pages-bundle" &&
       expectedPrice !== undefined &&
-      session.amount_total === expectedPrice;
+      subtotal === expectedPrice &&
+      validAmounts &&
+      validPayment;
 
     if (
-      session.payment_status !== "paid" ||
       session.status !== "complete" ||
       session.mode !== "payment" ||
       session.currency !== "usd" ||
@@ -220,6 +249,7 @@ export async function GET(request: NextRequest) {
         "Referrer-Policy": "no-referrer",
       },
     });
+
   } catch (error) {
     console.error("Bundle download error:", error);
 
