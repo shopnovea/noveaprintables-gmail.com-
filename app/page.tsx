@@ -26,7 +26,7 @@ const products = [
   },
   {
     name: "Ocean Friends",
-    category: "KIDS' COLORING PAGES",
+    category: "ANIMAL COLORING",
     price: "",
     emoji: "🐢",
     color: "#DDF3F6",
@@ -155,67 +155,12 @@ export default function Home() {
         <div className="product-grid">
           {products.map((product) => (
             <article className="product" key={product.name}>
-              {product.href ? (
-                <a
-                  href={product.href}
-                  className="product-link"
-                  aria-label={`View ${product.name}`}
-                >
-                  <div
-                    className="product-art"
-                    style={{ backgroundColor: product.color }}
-                  >
-                    <span className="product-emoji">
-                      {product.emoji}
-                    </span>
-                    <span className="preview-label">
-                      NOVĒA COLORING
-                    </span>
-                  </div>
-
-                  <div className="product-info">
-                    <div>
-                      <span className="category">
-                        {product.category}
-                      </span>
-                      <h3>{product.name}</h3>
-                    </div>
-                    {product.price && (
-                      <strong>{product.price}</strong>
-                    )}
-                  </div>
-
-                  <span className="view-link">
-                    VIEW COLORING PAGE →
-                  </span>
-                </a>
-              ) : (
-                <>
-                  <div
-                    className="product-art"
-                    style={{ backgroundColor: product.color }}
-                  >
-                    <span className="product-emoji">
-                      {product.emoji}
-                    </span>
-                    <span className="preview-label">
-                      NOVĒA COLORING
-                    </span>
-                  </div>
-
-                  <div className="product-info">
-                    <div>
-                      <span className="category">
-                        {product.category}
-                      </span>
-                      <h3>{product.name}</h3>
-                    </div>
-                    {product.price && (
-                      <strong>{product.price}</strong>
-                    )}
-                  </div>
-                </>
-              )}
+              <a href={product.href} className="product-link" aria-label={`View ${product.category}`}>
+                <div className="product-art" style={{ backgroundColor: product.color }}>
+                  <span className="product-emoji" aria-hidden="true">{product.emoji}</span>
+                  <span className="collection-label">{product.category}</span>
+                </div>
+              </a>
             </article>
           ))}
         </div>
@@ -236,12 +181,6 @@ export default function Home() {
           <h2>
             Build Your <em>Own Bundle.</em>
           </h2>
-
-          <p>
-            Pick your favorite printable coloring pages
-            and create a bundle that's all yours.
-            Mix and match your favorites!
-          </p>
 
           <div className="bundle-grid">
             {bundles.map((bundle) => (
@@ -517,6 +456,19 @@ export default function Home() {
           border-radius: 8px;
           transition: transform 0.2s, box-shadow 0.2s;
         }
+
+        .collection-label {
+          position: absolute;
+          bottom: 15px;
+          left: 8px;
+          right: 8px;
+          text-align: center;
+          font-size: 1.125rem;
+          font-weight: 600;
+          line-height: 1.4;
+          color: #39313d;
+        }
+        .product-art .product-emoji { margin-bottom: 2rem; }
 
         .product-emoji { font-size: 4.5rem; }
 
