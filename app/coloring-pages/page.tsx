@@ -290,7 +290,11 @@ export default function ColoringPages() {
         {collectionOptions.find(option => option.id === collection)?.title}
       </h2>
 
-      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from all five collections in one bundle.</p>
+      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#E8E2F7", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
+        <h2 id="mix-match-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
+        <p style={{ margin: "0 0 8px", fontSize: "1.125rem" }}>Choose pictures from any collection to build your perfect bundle.</p>
+        <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
+      </section>
       <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
         {collectionOptions.map(option => (
           <a key={option.id}
