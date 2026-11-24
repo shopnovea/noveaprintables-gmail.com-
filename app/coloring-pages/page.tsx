@@ -389,7 +389,7 @@ export default function ColoringPages() {
       </h2>
 
       <p style={{ color: "#594e5c" }}>
-        Select {bundleSize} different pictures for your {bundle.label}.
+        {collection === "holiday" ? "Choose a holiday below to explore its coloring pages." : `Select ${bundleSize} different pictures for your ${bundle.label}.`}
       </p>
 
       <p
@@ -403,6 +403,21 @@ export default function ColoringPages() {
         {selected.length} of {bundleSize} selected
       </p>
 
+      {collection === "holiday" ? (
+        <section aria-label="Choose a holiday" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: "22px", maxWidth: "850px", margin: "35px auto" }}>
+          {[
+            { id: "christmas", title: "Christmas", emoji: "🎄", count: christmasPictures.length, color: "#F9E3EB" },
+            { id: "thanksgiving", title: "Thanksgiving", emoji: "🍂", count: thanksgivingPictures.length, color: "#F8E8C8" },
+          ].map(holiday => (
+            <a key={holiday.id} href={`/coloring-pages?collection=${holiday.id}`} onClick={event => { if (loading) event.preventDefault(); }} style={{ display: "block", backgroundColor: holiday.color, color: "#39313d", border: "1px solid #8b3f70", borderRadius: "16px", padding: "28px 20px", textDecoration: "none" }}>
+              <span aria-hidden="true" style={{ display: "block", fontSize: "2.5rem" }}>{holiday.emoji}</span>
+              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.5rem", color: "#8b3f70", margin: "12px 0" }}>{holiday.title}</h3>
+              <span>{holiday.count} coloring pages</span>
+              <span style={{ display: "block", color: "#8b3f70", textDecoration: "underline", marginTop: "12px" }}>Explore collection</span>
+            </a>
+          ))}
+        </section>
+      ) : (
       <div
         style={{
           display: "grid",
@@ -412,7 +427,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "all" ? allPictures : collection === "holiday" ? [...christmasPictures, ...thanksgivingPictures] : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
+        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
@@ -474,6 +489,7 @@ export default function ColoringPages() {
           );
         })}
       </div>
+      )}
 
       {selected.length > 0 && (
       <section
