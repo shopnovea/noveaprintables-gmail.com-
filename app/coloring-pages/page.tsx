@@ -317,13 +317,12 @@ export default function ColoringPages() {
         coloring pages.
       </p>
 
-      <section
+      <section className="bundle-picker" aria-label="Choose your bundle"
         style={{
-          maxWidth: "1000px",
-          margin: "35px auto",
+          maxWidth: "720px",
+          margin: "20px auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 190px), 1fr))",
-          gap: "15px",
+          gap: "8px",
         }}
       >
         {bundles.map((item) => {
@@ -341,24 +340,24 @@ export default function ColoringPages() {
                 background: item.color,
                 border: active ? "3px solid #8b3f70" : "3px solid transparent",
                 borderRadius: "14px",
-                padding: "20px 12px",
+                padding: "8px 6px",
                 cursor: unavailable ? "not-allowed" : "pointer",
                 opacity: unavailable ? 0.65 : 1,
                 color: "#39313d",
                 fontFamily: "inherit",
               }}
             >
-              <strong style={{ display: "block", fontSize: "1.25rem" }}>
+              <strong style={{ display: "block", fontSize: "1.0625rem" }}>
                 {item.label}
               </strong>
 
               <span
                 style={{
                   display: "block",
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
                   fontWeight: "bold",
                   color: "#8b3f70",
-                  margin: "8px 0",
+                  margin: "3px 0",
                 }}
               >
                 {money(item.price)}
@@ -369,13 +368,13 @@ export default function ColoringPages() {
               </span>
 
               {unavailable && (
-                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
+                <span style={{ display: "block", marginTop: "3px", fontSize: "1rem" }}>
                   COMING SOON
                 </span>
               )}
 
               {active && (
-                <span style={{ display: "block", marginTop: "8px", fontSize: "1rem" }}>
+                <span style={{ display: "block", marginTop: "3px", fontSize: "1rem" }}>
                   ✓ SELECTED
                 </span>
               )}
@@ -571,6 +570,9 @@ export default function ColoringPages() {
       </p>
       <style jsx>{`
         .coloring-accessible { overflow-wrap: anywhere; }
+        .bundle-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .bundle-picker button { min-width: 0; }
+        @media (max-width: 650px) { .bundle-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         .coloring-accessible button { font-family: inherit; line-height: 1.5; min-height: 44px; max-width: 100%; }
         .coloring-accessible a { display: inline-block; padding-block: 10px; }
         .coloring-accessible button:focus-visible,
