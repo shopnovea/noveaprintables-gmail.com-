@@ -154,7 +154,7 @@ function SuccessContent() {
   return (
     <main className="success-page">
       <h1>Thank You! <span aria-hidden="true">💗</span></h1>
-      <p>Thank you for supporting NOVÉA Printables!</p>
+      <p>Thank you for supporting NOVÉA ODELIS PRINTABLES!</p>
       <div role="status" aria-live="polite">
         {loading && <div className="instruction-box"><p><strong>Preparing your coloring pages...</strong></p><p>We are verifying your purchase and getting your printable PDFs ready. This may take a few moments. Please keep this page open. ♡</p></div>}
         {!loading && !error && pictures.length > 0 && <p className="verified">✓ Your purchase is confirmed!</p>}
@@ -186,7 +186,7 @@ function SuccessContent() {
           <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#F9E3EB", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
             <h2 id="personal-use-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
             <p style={{ margin: "0 0 12px" }}>Your purchased coloring pages may be printed as often as you like for personal use. Please do not share, redistribute, resell or upload the digital files elsewhere.</p>
-            <p style={{ margin: 0 }}>Thank you for supporting NOVÉA Printables!</p>
+            <p style={{ margin: 0 }}>Thank you for supporting NOVÉA ODELIS PRINTABLES!</p>
           </section>
         </section>
       )}
