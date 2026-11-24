@@ -94,12 +94,45 @@ const thanksgivingPictures = [
   { id: "thanksgiving-turkey-family", name: "Turkey Family", image: "/thanksgiving-turkey-family-preview.png" },
 ];
 
-type Collection = "ocean" | "christmas" | "thanksgiving";
-const allPictures = [...pictures, ...christmasPictures, ...thanksgivingPictures];
+const cozyPictures = [
+  {"id": "cozy-cat-reading-nook", "name": "Cozy Cat Reading Nook", "image": "/cozy-cat-reading-nook-preview.png"},
+  {"id": "cozy-cat-window-seat-retreat", "name": "Cozy Cat Window Seat Retreat", "image": "/cozy-cat-window-seat-retreat-preview.png"},
+  {"id": "cozy-cottage-kitchen-baking-scene", "name": "Cozy Cottage Kitchen Baking Scene", "image": "/cozy-cottage-kitchen-baking-scene-preview.png"},
+  {"id": "cozy-crafting-nook-still-life", "name": "Cozy Crafting Nook Still Life", "image": "/cozy-crafting-nook-still-life-preview.png"},
+  {"id": "cozy-fireplace-reading-nook", "name": "Cozy Fireplace Reading Nook", "image": "/cozy-fireplace-reading-nook-preview.png"},
+  {"id": "cozy-heart-themed-kitchen-baking-scene", "name": "Cozy Heart Themed Kitchen Baking Scene", "image": "/cozy-heart-themed-kitchen-baking-scene-preview.png"},
+  {"id": "cozy-heartfelt-baking-kitchen", "name": "Cozy Heartfelt Baking Kitchen", "image": "/cozy-heartfelt-baking-kitchen-preview.png"},
+  {"id": "cozy-rainy-window-nook", "name": "Cozy Rainy Window Nook", "image": "/cozy-rainy-window-nook-preview.png"},
+  {"id": "cozy-reading-nook-with-cat", "name": "Cozy Reading Nook with Cat", "image": "/cozy-reading-nook-with-cat-preview.png"},
+];
+
+const flowersPictures = [
+  {"id": "flowers-ornate-butterfly-in-a-blooming-garden", "name": "Ornate Butterfly in a Blooming Garden", "image": "/flowers-ornate-butterfly-in-a-blooming-garden-preview.png"},
+  {"id": "flowers-ornate-butterfly-over-floral-bouquet", "name": "Ornate Butterfly Over Floral Bouquet", "image": "/flowers-ornate-butterfly-over-floral-bouquet-preview.png"},
+  {"id": "flowers-tropical-garden-with-butterflies", "name": "Tropical Garden with Butterflies", "image": "/flowers-tropical-garden-with-butterflies-preview.png"},
+  {"id": "flowers-botanical-bouquet-with-butterfly-and-bow", "name": "Botanical Bouquet with Butterfly and Bow", "image": "/flowers-botanical-bouquet-with-butterfly-and-bow-preview.png"},
+  {"id": "flowers-botanical-bouquet-with-butterfly", "name": "Botanical Bouquet with Butterfly", "image": "/flowers-botanical-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-botanical-hibiscus-and-butterfly-garden", "name": "Botanical Hibiscus and Butterfly Garden", "image": "/flowers-botanical-hibiscus-and-butterfly-garden-preview.png"},
+  {"id": "flowers-botanical-lily-bouquet-with-butterfly", "name": "Botanical Lily Bouquet with Butterfly", "image": "/flowers-botanical-lily-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-butterfly-among-garden-blooms", "name": "Butterfly Among Garden Blooms", "image": "/flowers-butterfly-among-garden-blooms-preview.png"},
+  {"id": "flowers-butterfly-on-a-hibiscus-garden", "name": "Butterfly on a Hibiscus Garden", "image": "/flowers-butterfly-on-a-hibiscus-garden-preview.png"},
+  {"id": "flowers-daisy-garden-with-ornate-butterfly", "name": "Daisy Garden with Ornate Butterfly", "image": "/flowers-daisy-garden-with-ornate-butterfly-preview.png"},
+  {"id": "flowers-detailed-floral-bouquet-in-mason-jar", "name": "Detailed Floral Bouquet in Mason Jar", "image": "/flowers-detailed-floral-bouquet-in-mason-jar-preview.png"},
+  {"id": "flowers-floral-mason-jar-coloring-page", "name": "Floral Mason Jar Coloring Page", "image": "/flowers-floral-mason-jar-coloring-page-preview.png"},
+  {"id": "flowers-hibiscus-bouquet-with-butterfly", "name": "Hibiscus Bouquet with Butterfly", "image": "/flowers-hibiscus-bouquet-with-butterfly-preview.png"},
+  {"id": "flowers-hibiscus-garden-with-butterfly", "name": "Hibiscus Garden with Butterfly", "image": "/flowers-hibiscus-garden-with-butterfly-preview.png"},
+  {"id": "flowers-intricate-botanical-blooms-and-butterflies", "name": "Intricate Botanical Blooms and Butterflies", "image": "/flowers-intricate-botanical-blooms-and-butterflies-preview.png"},
+  {"id": "flowers-intricate-floral-bouquet-with-butterfly", "name": "Intricate Floral Bouquet with Butterfly", "image": "/flowers-intricate-floral-bouquet-with-butterfly-preview.png"},
+];
+
+type Collection = "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
+const allPictures = [...pictures, ...christmasPictures, ...thanksgivingPictures, ...cozyPictures, ...flowersPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
   { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
   { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
   { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
+  { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
+  { id: "flowers", label: "Flowers & Butterflies", title: "Flowers & Butterflies 🦋" },
 ];
 
 const bundles = [
@@ -127,6 +160,8 @@ export default function ColoringPages() {
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
       setHolidayEntry(true);
+    } else if (requested === "cozy" || requested === "flowers") {
+      setCollection(requested);
     }
     try {
       const saved = JSON.parse(sessionStorage.getItem("novea-basket-v1") || "null");
@@ -255,7 +290,7 @@ export default function ColoringPages() {
         {collectionOptions.find(option => option.id === collection)?.title}
       </h2>
 
-      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from all three collections in one bundle.</p>
+      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from all five collections in one bundle.</p>
       <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
         {collectionOptions.map(option => (
           <a key={option.id}
@@ -371,7 +406,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : thanksgivingPictures).map((picture) => {
+        {(collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
