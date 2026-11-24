@@ -13,8 +13,8 @@ export default function RefundPolicyPage() {
         <p>If you experience a technical issue, receive an incorrect file or are unable to access your purchase, please contact us so we can help resolve the issue.</p>
         <h2 style={{ color: "#8b3f70", fontFamily: "Georgia, serif", fontWeight: "normal" }}>Personal Use</h2>
         <p>Purchased coloring pages may be printed as often as you like for personal use. Digital files may not be shared, redistributed, resold or uploaded elsewhere.</p>
-        <h2 style={{ color: "#8b3f70", fontFamily: "Georgia, serif", fontWeight: "normal" }}>Contact Us</h2>
-        <p>For download assistance or refund requests, email <a href="mailto:noveaprintables@gmail.com" style={{ color: "#8b3f70", textDecoration: "underline" }}>noveaprintables@gmail.com</a>. Please include your order details, but do not send payment card information.</p>
+        <h2 style={{ color: "#8b3f70", fontFamily: "Georgia, serif", fontWeight: "normal" }}>QUESTIONS</h2>
+        <p>Email <a href="mailto:noveaprintables@gmail.com" style={{ color: "#8b3f70", textDecoration: "underline" }}>noveaprintables@gmail.com</a>. For questions about an order, please include your order details, but do not send payment card information.</p>
         <footer style={{ textAlign: "center", marginTop: "40px", color: "#594e5c", fontFamily: "Georgia, serif" }}>Thank you for supporting NOVÉA Printables. ♡</footer>
       </div>
     </main>
