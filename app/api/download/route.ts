@@ -28,9 +28,38 @@ const thanksgivingIds = [
   "thanksgiving-turkey-and-cornucopia",
   "thanksgiving-turkey-family",
 ];
+const cozyIds = [
+  "cozy-cat-reading-nook",
+  "cozy-cat-window-seat-retreat",
+  "cozy-cottage-kitchen-baking-scene",
+  "cozy-crafting-nook-still-life",
+  "cozy-fireplace-reading-nook",
+  "cozy-heart-themed-kitchen-baking-scene",
+  "cozy-heartfelt-baking-kitchen",
+  "cozy-rainy-window-nook",
+  "cozy-reading-nook-with-cat",
+];
+const flowersIds = [
+  "flowers-ornate-butterfly-in-a-blooming-garden",
+  "flowers-ornate-butterfly-over-floral-bouquet",
+  "flowers-tropical-garden-with-butterflies",
+  "flowers-botanical-bouquet-with-butterfly-and-bow",
+  "flowers-botanical-bouquet-with-butterfly",
+  "flowers-botanical-hibiscus-and-butterfly-garden",
+  "flowers-botanical-lily-bouquet-with-butterfly",
+  "flowers-butterfly-among-garden-blooms",
+  "flowers-butterfly-on-a-hibiscus-garden",
+  "flowers-daisy-garden-with-ornate-butterfly",
+  "flowers-detailed-floral-bouquet-in-mason-jar",
+  "flowers-floral-mason-jar-coloring-page",
+  "flowers-hibiscus-bouquet-with-butterfly",
+  "flowers-hibiscus-garden-with-butterfly",
+  "flowers-intricate-botanical-blooms-and-butterflies",
+  "flowers-intricate-floral-bouquet-with-butterfly",
+];
 const printableFiles: Record<string, string> = Object.fromEntries([
   ...oceanIds.map(id => [id, `ocean-friends-${id}-printable.pdf`]),
-  ...[...christmasIds, ...thanksgivingIds].map(id => [id, `${id}-printable.pdf`]),
+  ...[...christmasIds, ...thanksgivingIds, ...cozyIds, ...flowersIds].map(id => [id, `${id}-printable.pdf`]),
 ]);
 const bundlePrices: Record<string, number> = { "2": 149, "5": 299, "10": 499, "20": 799 };
 function hasPicture(id: string) {
@@ -40,6 +69,8 @@ function pictureCollection(id: string) {
   if (oceanIds.includes(id)) return "ocean";
   if (christmasIds.includes(id)) return "christmas";
   if (thanksgivingIds.includes(id)) return "thanksgiving";
+  if (cozyIds.includes(id)) return "cozy";
+  if (flowersIds.includes(id)) return "flowers";
   return "unknown";
 }
 export async function GET(request: NextRequest) {
@@ -95,7 +126,7 @@ export async function GET(request: NextRequest) {
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving") &&
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers") &&
         collections.size === 1 && collections.has(collection);
     if (!validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
