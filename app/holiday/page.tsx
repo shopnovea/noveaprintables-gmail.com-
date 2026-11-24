@@ -25,7 +25,9 @@ export default function HolidayPage() {
   return (
     <main className="holiday-page">
       <header className="header">
-        <a href="/" className="logo">NOVĒA</a>
+        <a href="/" className="logo" aria-label="NOVÉA Printables Home">
+          NOVĒA
+        </a>
         <a href="/">← BACK TO HOME</a>
       </header>
 
@@ -42,7 +44,10 @@ export default function HolidayPage() {
         </p>
       </section>
 
-      <section className="collections">
+      <section
+        className="collections"
+        aria-label="Holiday coloring collections"
+      >
         {collections.map((collection) => (
           <a
             href={collection.href}
@@ -52,6 +57,7 @@ export default function HolidayPage() {
             <div
               className="collection-art"
               style={{ backgroundColor: collection.color }}
+              aria-hidden="true"
             >
               <span className="emoji">{collection.emoji}</span>
               <span className="preview">
@@ -79,13 +85,17 @@ export default function HolidayPage() {
       </footer>
 
       <style jsx>{`
-        * { box-sizing: border-box; }
+        * {
+          box-sizing: border-box;
+        }
 
         .holiday-page {
           min-height: 100vh;
           background: #fffdfb;
           color: #39313d;
           font-family: Arial, sans-serif;
+          font-size: 1rem;
+          line-height: 1.6;
         }
 
         a {
@@ -93,19 +103,34 @@ export default function HolidayPage() {
           text-decoration: none;
         }
 
+        a:focus-visible {
+          outline: 3px solid #783e65;
+          outline-offset: 6px;
+          border-radius: 5px;
+        }
+
         .header {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          flex-wrap: wrap;
+          gap: 18px;
           padding: 25px 8%;
           background: white;
-          font-size: 10px;
+          font-size: 1rem;
+          font-weight: 600;
           letter-spacing: 1px;
+        }
+
+        .header a {
+          display: inline-flex;
+          align-items: center;
+          min-height: 44px;
         }
 
         .logo {
           font-family: Georgia, serif;
-          font-size: 30px;
+          font-size: 2.5rem;
           letter-spacing: 5px;
           font-weight: bold;
         }
@@ -115,25 +140,31 @@ export default function HolidayPage() {
           padding: 65px 20px 45px;
         }
 
-        .eyebrow, .category {
-          color: #a17b9b;
-          font-size: 10px;
-          letter-spacing: 2px;
+        .eyebrow,
+        .category {
+          color: #783e65;
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 1.5px;
         }
 
         h1 {
           font-family: Georgia, serif;
-          font-size: clamp(34px, 5vw, 48px);
+          font-size: clamp(2.125rem, 5vw, 3rem);
           font-weight: normal;
+          line-height: 1.25;
           margin: 18px 0;
         }
 
-        h1 em { color: #c16c9c; }
+        h1 em {
+          color: #9a4678;
+        }
 
-        .intro p, .collection p {
-          color: #786d79;
+        .intro p,
+        .collection p {
+          color: #594e5c;
           line-height: 1.8;
-          font-size: 14px;
+          font-size: 1.125rem;
         }
 
         .collections {
@@ -145,7 +176,11 @@ export default function HolidayPage() {
           gap: 28px;
         }
 
-        .collection { display: block; }
+        .collection {
+          display: block;
+          min-width: 0;
+          overflow-wrap: anywhere;
+        }
 
         .collection-art {
           height: 270px;
@@ -160,52 +195,95 @@ export default function HolidayPage() {
           transform: translateY(-3px);
         }
 
-        .emoji { font-size: 76px; }
+        .emoji {
+          font-size: 76px;
+        }
 
         .preview {
           position: absolute;
           bottom: 16px;
-          font-size: 8px;
-          letter-spacing: 2px;
-          color: #756c78;
+          font-size: 0.875rem;
+          font-weight: 500;
+          letter-spacing: 1.5px;
+          color: #594e5c;
+          text-align: center;
+          padding: 0 10px;
         }
 
         .category {
           display: block;
           margin-top: 22px;
-          font-size: 9px;
+          font-size: 1rem;
         }
 
         h2 {
           font-family: Georgia, serif;
           font-weight: normal;
-          font-size: 23px;
+          font-size: 1.75rem;
+          line-height: 1.3;
           margin: 9px 0;
         }
 
-        .collection p { font-size: 13px; }
+        .collection p {
+          font-size: 1.125rem;
+        }
 
         .view {
-          color: #b26796;
-          font-size: 10px;
-          letter-spacing: 1px;
-          font-weight: bold;
+          display: inline-block;
+          color: #8b3f70;
+          font-size: 1rem;
+          letter-spacing: 0.8px;
+          font-weight: 600;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+          padding: 8px 0;
+        }
+
+        .collection:hover .view {
+          color: #593047;
         }
 
         footer {
           text-align: center;
           padding: 35px 15px;
-          color: #887c8c;
+          color: #594e5c;
           font-family: Georgia, serif;
+          font-size: 1rem;
+          line-height: 1.7;
         }
 
         @media (max-width: 600px) {
           .collections {
             grid-template-columns: 1fr;
             padding: 20px 7% 60px;
+            gap: 40px;
           }
 
-          .collection-art { height: 220px; }
+          .collection-art {
+            height: 220px;
+          }
+
+          .header {
+            padding: 20px 7%;
+          }
+
+          .logo {
+            font-size: 2rem;
+          }
+
+          .intro {
+            padding: 45px 20px 30px;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .collection-art {
+            transition: none;
+          }
+
+          .collection:hover .collection-art {
+            transform: none;
+          }
         }
       `}</style>
     </main>
