@@ -84,6 +84,24 @@ const christmasPictures = [
   }
 ];
 
+const thanksgivingPictures = [
+  { id: "thanksgiving-dinner-table", name: "Thanksgiving Dinner Table", image: "/thanksgiving-dinner-table-preview.png" },
+  { id: "thanksgiving-family-thanksgiving-dinner", name: "Family Thanksgiving Dinner", image: "/thanksgiving-family-thanksgiving-dinner-preview.png" },
+  { id: "thanksgiving-feast", name: "Thanksgiving Feast", image: "/thanksgiving-feast-preview.png" },
+  { id: "thanksgiving-harvest-boy", name: "Harvest Boy", image: "/thanksgiving-harvest-boy-preview.png" },
+  { id: "thanksgiving-pilgrim-children", name: "Pilgrim Children", image: "/thanksgiving-pilgrim-children-preview.png" },
+  { id: "thanksgiving-turkey-and-cornucopia", name: "Turkey and Cornucopia", image: "/thanksgiving-turkey-and-cornucopia-preview.png" },
+  { id: "thanksgiving-turkey-family", name: "Turkey Family", image: "/thanksgiving-turkey-family-preview.png" },
+];
+
+type Collection = "ocean" | "christmas" | "thanksgiving";
+const allPictures = [...pictures, ...christmasPictures, ...thanksgivingPictures];
+const collectionOptions: { id: Collection; label: string; title: string }[] = [
+  { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
+  { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
+  { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
+];
+
 const bundles = [
   { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
   { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
@@ -96,7 +114,7 @@ function money(cents: number) {
 }
 
 export default function ColoringPages() {
-  const [collection, setCollection] = useState<"ocean" | "christmas">("ocean");
+  const [collection, setCollection] = useState<Collection>("ocean");
   const [bundleSize, setBundleSize] = useState(2);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -105,15 +123,15 @@ export default function ColoringPages() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const isChristmas = new URLSearchParams(window.location.search).get("collection") === "christmas";
-    if (isChristmas) {
-      setCollection("christmas");
+    const requested = new URLSearchParams(window.location.search).get("collection");
+    if (requested === "christmas" || requested === "thanksgiving") {
+      setCollection(requested);
       setHolidayEntry(true);
     }
     try {
       const saved = JSON.parse(sessionStorage.getItem("novea-basket-v1") || "null");
       if (saved && [2, 5, 10, 20].includes(saved.bundleSize) && Array.isArray(saved.selected)) {
-        const allowed = new Set([...pictures, ...christmasPictures].map(p => p.id));
+        const allowed = new Set(allPictures.map(p => p.id));
         const ids = saved.selected.filter((id: unknown): id is string => typeof id === "string" && allowed.has(id));
         setBundleSize(saved.bundleSize);
         setSelected(Array.from(new Set<string>(ids)).slice(0, saved.bundleSize));
@@ -234,15 +252,21 @@ export default function ColoringPages() {
           fontWeight: "normal",
         }}
       >
-        {collection === "ocean" ? "Ocean Friends 🐢" : "Christmas Collection 🎄"}
+        {collectionOptions.find(option => option.id === collection)?.title}
       </h2>
 
-      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from both collections in one bundle.</p>
-      <a href={collection === "ocean" ? "/coloring-pages?collection=christmas" : "/coloring-pages"}
-        onClick={(event) => { if (loading) event.preventDefault(); }}
-        style={{ display: "inline-block", color: "#9a3f78", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px" }}>
-        {collection === "ocean" ? "Browse Christmas →" : "Browse Ocean Friends →"}
-      </a>
+      <p style={{ color: "#594e5c" }}>Mix &amp; match pictures from all three collections in one bundle.</p>
+      <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
+        {collectionOptions.map(option => (
+          <a key={option.id}
+            href={option.id === "ocean" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
+            aria-current={collection === option.id ? "page" : undefined}
+            onClick={(event) => { if (loading) event.preventDefault(); }}
+            style={{ display: "inline-block", color: collection === option.id ? "white" : "#8b3f70", backgroundColor: collection === option.id ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
+            {option.label}
+          </a>
+        ))}
+      </nav>
       <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
         Pick Your Favorite Pages
       </h2>
@@ -347,7 +371,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "ocean" ? pictures : christmasPictures).map((picture) => {
+        {(collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : thanksgivingPictures).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
@@ -428,7 +452,7 @@ export default function ColoringPages() {
         <p>Your basket — {selected.length} of {bundleSize} pages</p>
         <ul style={{ listStyle: "none", padding: 0, textAlign: "left" }}>
           {selected.map(id => {
-            const picture = [...pictures, ...christmasPictures].find(p => p.id === id);
+            const picture = allPictures.find(p => p.id === id);
             return <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", padding: "8px 0" }}>
               <span style={{ overflowWrap: "anywhere", minWidth: 0 }}>{picture?.name ?? id}</span>
               <button className="basket-action" type="button" aria-label={`Remove ${picture?.name ?? id}`} disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
