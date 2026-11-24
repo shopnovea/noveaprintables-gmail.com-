@@ -1,4 +1,3 @@
- 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -98,6 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     const collection = isChristmas ? "christmas" : "ocean";
+
     const collectionName = isChristmas
       ? "Christmas Collection"
       : "Ocean Friends";
@@ -107,7 +107,11 @@ export async function POST(request: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+
       payment_method_types: ["card"],
+
+      allow_promotion_codes: true,
+
       line_items: [
         {
           price_data: {
@@ -121,15 +125,20 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
+
       metadata: {
         product_id: "coloring-pages-bundle",
         collection,
         bundle_size: String(selectedPictures.length),
         selected_pictures: selectedPictures.join(","),
       },
+
       success_url:
         `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/coloring-pages`,
+
+      cancel_url: isChristmas
+        ? `${origin}/holiday/christmas`
+        : `${origin}/coloring-pages`,
     });
 
     if (!session.url) {
@@ -137,6 +146,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ url: session.url });
+
   } catch (error) {
     console.error("Checkout error:", error);
 
