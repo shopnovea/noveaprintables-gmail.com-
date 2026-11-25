@@ -82,7 +82,7 @@ function SuccessContent() {
       const names = new Set<string>();
       let totalBytes = 0;
       for (const file of data.files) {
-        if (typeof file.name !== "string" || !/^[a-z0-9-]+\.pdf$/.test(file.name) || names.has(file.name) || typeof file.url !== "string" || new URL(file.url).protocol !== "https:") throw new Error("Invalid file details");
+        if (typeof file.name !== "string" || !/^[a-z0-9_-]+\.pdf$/.test(file.name) || names.has(file.name) || typeof file.url !== "string" || new URL(file.url).protocol !== "https:") throw new Error("Invalid file details");
         setZipProgress(`Preparing page ${files.length + 1} of ${pictures.length}...`);
         const pdf = await fetch(file.url, { credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer" });
         if (!pdf.ok) throw new Error("PDF download failed");
@@ -99,7 +99,8 @@ function SuccessContent() {
       document.body.appendChild(link); link.click(); link.remove();
       window.setTimeout(() => URL.revokeObjectURL(url), 60000);
       setZipProgress("Your ZIP download has started. Check your Downloads folder.");
-    } catch {
+    } catch (err) {
+      console.error("ZIP preparation failed:", err instanceof Error ? err.message : "Unknown error");
       setZipProgress(""); setZipError("We couldn't prepare your ZIP file. Please try again or download your PDFs individually below.");
     } finally { setZipBusy(false); }
   }
