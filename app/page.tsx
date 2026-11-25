@@ -1,6 +1,14 @@
 
 const products = [
   {
+    name: "All Collections",
+    category: "All Collections",
+    price: "",
+    emoji: "🎨",
+    color: "#F0E5F4",
+    href: "/coloring-pages",
+  },
+  {
     name: "Ocean Friends",
     category: "Animal Coloring",
     price: "",
@@ -22,7 +30,7 @@ const products = [
     price: "",
     emoji: "🎄",
     color: "#F8E8C8",
-    href: "/coloring-pages?collection=holiday",
+    href: "/holiday-coloring",
   },
   {
     name: "Flowers & Butterflies",
@@ -456,7 +464,7 @@ export default function Home() {
 
         .product-grid {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(5, minmax(0, 1fr));
           gap: 22px;
         }
 
@@ -748,4 +756,3 @@ export default function Home() {
     </main>
   );
 }
-
