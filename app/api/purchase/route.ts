@@ -77,7 +77,50 @@ const flowersIds = [
   "flowers-intricate-botanical-blooms-and-butterflies",
   "flowers-intricate-floral-bouquet-with-butterfly",
 ];
+const farmIds = [
+  "farm_01_cow",
+  "farm_02_horse",
+  "farm_03_sheep",
+  "farm_04_goat",
+  "farm_05_pig",
+  "farm_06_rabbit",
+  "farm_07_duck",
+  "farm_08_rooster",
+  "farm_09_hen",
+  "farm_10_goose",
+  "farm_11_donkey",
+  "farm_12_llama",
+  "farm_13_alpaca",
+  "farm_14_turkey",
+  "farm_15_calf",
+  "farm_16_foal",
+  "farm_17_lamb",
+  "farm_18_chick",
+  "farm_19_cat",
+  "farm_20_dog"
+];
 const pictureNames: Record<string, string> = {
+  "farm_01_cow": "Cow",
+  "farm_02_horse": "Horse",
+  "farm_03_sheep": "Sheep",
+  "farm_04_goat": "Goat",
+  "farm_05_pig": "Pig",
+  "farm_06_rabbit": "Rabbit",
+  "farm_07_duck": "Duck",
+  "farm_08_rooster": "Rooster",
+  "farm_09_hen": "Hen",
+  "farm_10_goose": "Goose",
+  "farm_11_donkey": "Donkey",
+  "farm_12_llama": "Llama",
+  "farm_13_alpaca": "Alpaca",
+  "farm_14_turkey": "Turkey",
+  "farm_15_calf": "Calf",
+  "farm_16_foal": "Foal",
+  "farm_17_lamb": "Lamb",
+  "farm_18_chick": "Chick",
+  "farm_19_cat": "Cat",
+  "farm_20_dog": "Dog",
+
   "turtle": "Sea Turtle",
   "cute-octopus": "Cute Octopus",
   "dolphin": "Dolphin",
@@ -164,6 +207,7 @@ function pictureCollection(id: string) {
   if (thanksgivingIds.includes(id)) return "thanksgiving";
   if (cozyIds.includes(id)) return "cozy";
   if (flowersIds.includes(id)) return "flowers";
+  if (farmIds.includes(id)) return "farm";
   return "unknown";
 }
 export async function GET(request: NextRequest) {
@@ -213,7 +257,7 @@ export async function GET(request: NextRequest) {
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers") &&
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers" || collection === "farm") &&
         collections.size === 1 && collections.has(collection);
     if (collections.has("unknown") || !validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
