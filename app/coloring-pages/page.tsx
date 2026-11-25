@@ -544,7 +544,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : flowersPictures).map((picture) => {
+        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : flowersPictures).slice().sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" })).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
