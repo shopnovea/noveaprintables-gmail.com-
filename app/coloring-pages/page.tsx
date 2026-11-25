@@ -17,6 +17,16 @@ const pictures = [
 ];
 
 const christmasPictures = [
+  {"id": "christmas_01_tree_with_garland", "name": "Tree With Garland", "image": "/christmas_01_tree_with_garland_preview.jpg"},
+  {"id": "christmas_02_tree_with_bow", "name": "Tree With Bow", "image": "/christmas_02_tree_with_bow_preview.jpg"},
+  {"id": "christmas_03_ornament_wreath", "name": "Ornament Wreath", "image": "/christmas_03_ornament_wreath_preview.jpg"},
+  {"id": "christmas_04_holiday_fireplace", "name": "Holiday Fireplace", "image": "/christmas_04_holiday_fireplace_preview.jpg"},
+  {"id": "christmas_05_classic_tree", "name": "Classic Tree", "image": "/christmas_05_classic_tree_preview.jpg"},
+  {"id": "christmas_06_evergreen_wreath", "name": "Evergreen Wreath", "image": "/christmas_06_evergreen_wreath_preview.jpg"},
+  {"id": "christmas_07_snowflake_ornament", "name": "Snowflake Ornament", "image": "/christmas_07_snowflake_ornament_preview.jpg"},
+  {"id": "christmas_08_christmas_sleigh", "name": "Christmas Sleigh", "image": "/christmas_08_christmas_sleigh_preview.jpg"},
+  {"id": "christmas_09_christmas_bells", "name": "Christmas Bells", "image": "/christmas_09_christmas_bells_preview.jpg"},
+  {"id": "christmas_10_snowy_cottage", "name": "Snowy Cottage", "image": "/christmas_10_snowy_cottage_preview.jpg"},
   {
     "id": "christmas-cheerful-elf-and-christmas-tree-coloring-page",
     "name": "Cheerful Elf and Christmas Tree Coloring Page",
@@ -85,6 +95,16 @@ const christmasPictures = [
 ];
 
 const thanksgivingPictures = [
+  {"id": "thanksgiving_01_harvest_cornucopia", "name": "Harvest Cornucopia", "image": "/thanksgiving_01_harvest_cornucopia_preview.jpg"},
+  {"id": "thanksgiving_02_thanksgiving_dinner", "name": "Thanksgiving Dinner", "image": "/thanksgiving_02_thanksgiving_dinner_preview.jpg"},
+  {"id": "thanksgiving_03_harvest_basket", "name": "Harvest Basket", "image": "/thanksgiving_03_harvest_basket_preview.jpg"},
+  {"id": "thanksgiving_04_fruit_cornucopia", "name": "Fruit Cornucopia", "image": "/thanksgiving_04_fruit_cornucopia_preview.jpg"},
+  {"id": "thanksgiving_05_pumpkin_and_wheat", "name": "Pumpkin And Wheat", "image": "/thanksgiving_05_pumpkin_and_wheat_preview.jpg"},
+  {"id": "thanksgiving_06_wild_turkey", "name": "Wild Turkey", "image": "/thanksgiving_06_wild_turkey_preview.jpg"},
+  {"id": "thanksgiving_07_apple_cornucopia", "name": "Apple Cornucopia", "image": "/thanksgiving_07_apple_cornucopia_preview.jpg"},
+  {"id": "thanksgiving_08_pumpkin_pie", "name": "Pumpkin Pie", "image": "/thanksgiving_08_pumpkin_pie_preview.jpg"},
+  {"id": "thanksgiving_09_sunflower_vase", "name": "Sunflower Vase", "image": "/thanksgiving_09_sunflower_vase_preview.jpg"},
+  {"id": "thanksgiving_10_apple_basket", "name": "Apple Basket", "image": "/thanksgiving_10_apple_basket_preview.jpg"},
   { id: "thanksgiving-dinner-table", name: "Thanksgiving Dinner Table", image: "/thanksgiving-dinner-table-preview.png" },
   { id: "thanksgiving-family-thanksgiving-dinner", name: "Family Thanksgiving Dinner", image: "/thanksgiving-family-thanksgiving-dinner-preview.png" },
   { id: "thanksgiving-feast", name: "Thanksgiving Feast", image: "/thanksgiving-feast-preview.png" },
