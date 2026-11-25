@@ -145,12 +145,117 @@ const flowersPictures = [
   {"id": "flowers-intricate-floral-bouquet-with-butterfly", "name": "Intricate Floral Bouquet with Butterfly", "image": "/flowers-intricate-floral-bouquet-with-butterfly-preview.png"},
 ];
 
-type Collection = "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers";
-const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...pictures, ...thanksgivingPictures];
+const farmPictures = [
+  {
+    "id": "farm_01_cow",
+    "name": "Cow",
+    "image": "/farm_01_cow_preview.jpg"
+  },
+  {
+    "id": "farm_02_horse",
+    "name": "Horse",
+    "image": "/farm_02_horse_preview.jpg"
+  },
+  {
+    "id": "farm_03_sheep",
+    "name": "Sheep",
+    "image": "/farm_03_sheep_preview.jpg"
+  },
+  {
+    "id": "farm_04_goat",
+    "name": "Goat",
+    "image": "/farm_04_goat_preview.jpg"
+  },
+  {
+    "id": "farm_05_pig",
+    "name": "Pig",
+    "image": "/farm_05_pig_preview.jpg"
+  },
+  {
+    "id": "farm_06_rabbit",
+    "name": "Rabbit",
+    "image": "/farm_06_rabbit_preview.jpg"
+  },
+  {
+    "id": "farm_07_duck",
+    "name": "Duck",
+    "image": "/farm_07_duck_preview.jpg"
+  },
+  {
+    "id": "farm_08_rooster",
+    "name": "Rooster",
+    "image": "/farm_08_rooster_preview.jpg"
+  },
+  {
+    "id": "farm_09_hen",
+    "name": "Hen",
+    "image": "/farm_09_hen_preview.jpg"
+  },
+  {
+    "id": "farm_10_goose",
+    "name": "Goose",
+    "image": "/farm_10_goose_preview.jpg"
+  },
+  {
+    "id": "farm_11_donkey",
+    "name": "Donkey",
+    "image": "/farm_11_donkey_preview.jpg"
+  },
+  {
+    "id": "farm_12_llama",
+    "name": "Llama",
+    "image": "/farm_12_llama_preview.jpg"
+  },
+  {
+    "id": "farm_13_alpaca",
+    "name": "Alpaca",
+    "image": "/farm_13_alpaca_preview.jpg"
+  },
+  {
+    "id": "farm_14_turkey",
+    "name": "Turkey",
+    "image": "/farm_14_turkey_preview.jpg"
+  },
+  {
+    "id": "farm_15_calf",
+    "name": "Calf",
+    "image": "/farm_15_calf_preview.jpg"
+  },
+  {
+    "id": "farm_16_foal",
+    "name": "Foal",
+    "image": "/farm_16_foal_preview.jpg"
+  },
+  {
+    "id": "farm_17_lamb",
+    "name": "Lamb",
+    "image": "/farm_17_lamb_preview.jpg"
+  },
+  {
+    "id": "farm_18_chick",
+    "name": "Chick",
+    "image": "/farm_18_chick_preview.jpg"
+  },
+  {
+    "id": "farm_19_cat",
+    "name": "Cat",
+    "image": "/farm_19_cat_preview.jpg"
+  },
+  {
+    "id": "farm_20_dog",
+    "name": "Dog",
+    "image": "/farm_20_dog_preview.jpg"
+  }
+];
+
+type Collection = "animals" | "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers" | "farm";
+const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...farmPictures, ...pictures, ...thanksgivingPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
+  { id: "animals", label: "Animal Coloring", title: "Animal Coloring 🐾" },
   { id: "all", label: "All Collections", title: "All Collections" },
   { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
   { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
+  { id: "farm", label: "Farm Friends", title: "Farm Friends 🐮" },
   { id: "flowers", label: "Flowers & Butterflies", title: "Flowers & Butterflies 🦋" },
   { id: "holiday", label: "Holiday Collections", title: "Holiday Collections 🎄" },
   { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
@@ -182,7 +287,7 @@ export default function ColoringPages() {
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
       setHolidayEntry(false);
-    } else if (requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday") {
+    } else if (requested === "animals" || requested === "farm" || requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday") {
       setCollection(requested);
     }
     try {
@@ -408,7 +513,7 @@ export default function ColoringPages() {
       </h2>
 
       <p style={{ color: "#594e5c" }}>
-        {collection === "holiday" ? "Choose a holiday below to explore its coloring pages." : `Select ${bundleSize} different pictures for your ${bundle.label}.`}
+        {collection === "animals" ? "Choose an animal collection below to explore its coloring pages." : collection === "holiday" ? "Choose a holiday below to explore its coloring pages." : `Select ${bundleSize} different pictures for your ${bundle.label}.`}
       </p>
 
       <p
@@ -422,12 +527,15 @@ export default function ColoringPages() {
         {selected.length} of {bundleSize} selected
       </p>
 
-      {collection === "holiday" ? (
-        <section aria-label="Choose a holiday" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: "22px", maxWidth: "850px", margin: "35px auto" }}>
-          {[
+      {collection === "holiday" || collection === "animals" ? (
+        <section aria-label={collection === "animals" ? "Choose an animal collection" : "Choose a holiday"} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: "22px", maxWidth: "850px", margin: "35px auto" }}>
+          {(collection === "animals" ? [
+            { id: "ocean", title: "Ocean Friends", emoji: "🐢", count: pictures.length, color: "#DDF3F6" },
+            { id: "farm", title: "Farm Friends", emoji: "🐮", count: farmPictures.length, color: "#F8E8C8" },
+          ] : [
             { id: "christmas", title: "Christmas", emoji: "🎄", count: christmasPictures.length, color: "#F9E3EB" },
             { id: "thanksgiving", title: "Thanksgiving", emoji: "🍂", count: thanksgivingPictures.length, color: "#F8E8C8" },
-          ].map(holiday => (
+          ]).map(holiday => (
             <a key={holiday.id} href={`/coloring-pages?collection=${holiday.id}`} onClick={event => { if (loading) event.preventDefault(); }} style={{ display: "block", backgroundColor: holiday.color, color: "#39313d", border: "1px solid #8b3f70", borderRadius: "16px", padding: "28px 20px", textDecoration: "none" }}>
               <span aria-hidden="true" style={{ display: "block", fontSize: "2.5rem" }}>{holiday.emoji}</span>
               <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.5rem", color: "#8b3f70", margin: "12px 0" }}>{holiday.title}</h3>
@@ -446,7 +554,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : flowersPictures).map((picture) => {
+        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : flowersPictures).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
