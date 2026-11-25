@@ -6,7 +6,7 @@ const products = [
     price: "",
     emoji: "🐢",
     color: "#DDF3F6",
-    href: "/coloring-pages?collection=ocean",
+    href: "/animal-coloring",
   },
   {
     name: "Cozy Little Moments",
