@@ -102,7 +102,31 @@ const flowersIds = [
   "flowers-intricate-floral-bouquet-with-butterfly",
 ];
 
+const farmIds = [
+  "farm_01_cow",
+  "farm_02_horse",
+  "farm_03_sheep",
+  "farm_04_goat",
+  "farm_05_pig",
+  "farm_06_rabbit",
+  "farm_07_duck",
+  "farm_08_rooster",
+  "farm_09_hen",
+  "farm_10_goose",
+  "farm_11_donkey",
+  "farm_12_llama",
+  "farm_13_alpaca",
+  "farm_14_turkey",
+  "farm_15_calf",
+  "farm_16_foal",
+  "farm_17_lamb",
+  "farm_18_chick",
+  "farm_19_cat",
+  "farm_20_dog",
+];
+
 const newPictureIds = new Set([
+  ...farmIds,
   ...newChristmasIds,
   ...newThanksgivingIds,
 ]);
@@ -117,6 +141,7 @@ const printableFiles: Record<string, string> = Object.fromEntries([
     ...thanksgivingIds,
     ...cozyIds,
     ...flowersIds,
+    ...farmIds,
   ].map(id => [
     id,
     newPictureIds.has(id)
@@ -142,6 +167,7 @@ function pictureCollection(id: string) {
   if (thanksgivingIds.includes(id)) return "thanksgiving";
   if (cozyIds.includes(id)) return "cozy";
   if (flowersIds.includes(id)) return "flowers";
+  if (farmIds.includes(id)) return "farm";
   return "unknown";
 }
 
@@ -292,7 +318,8 @@ export async function GET(request: NextRequest) {
             collection === "christmas" ||
             collection === "thanksgiving" ||
             collection === "cozy" ||
-            collection === "flowers"
+            collection === "flowers" ||
+            collection === "farm"
           ) &&
           collections.size === 1 &&
           collections.has(collection);
