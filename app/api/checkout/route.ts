@@ -77,9 +77,31 @@ const flowersIds = [
   "flowers-intricate-botanical-blooms-and-butterflies",
   "flowers-intricate-floral-bouquet-with-butterfly",
 ];
-const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds };
+const farmIds = [
+  "farm_01_cow",
+  "farm_02_horse",
+  "farm_03_sheep",
+  "farm_04_goat",
+  "farm_05_pig",
+  "farm_06_rabbit",
+  "farm_07_duck",
+  "farm_08_rooster",
+  "farm_09_hen",
+  "farm_10_goose",
+  "farm_11_donkey",
+  "farm_12_llama",
+  "farm_13_alpaca",
+  "farm_14_turkey",
+  "farm_15_calf",
+  "farm_16_foal",
+  "farm_17_lamb",
+  "farm_18_chick",
+  "farm_19_cat",
+  "farm_20_dog"
+];
+const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds, farm: farmIds };
 const allowedPictures = Object.values(collections).flat();
-const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", mixed: "Mix & Match" };
+const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", farm: "Farm Friends", mixed: "Mix & Match" };
 const bundles: Record<number, { price: number; name: string }> = {
   2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
   5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
@@ -124,11 +146,11 @@ export async function POST(request: NextRequest) {
     const origin = "https://noveaodelis.vercel.app";
     const requestedCollection = body.collection;
     const returnCollection = typeof requestedCollection === "string" &&
-      Object.prototype.hasOwnProperty.call(collections, requestedCollection)
+      (Object.prototype.hasOwnProperty.call(collections, requestedCollection) || ["animals", "animal", "holiday"].includes(requestedCollection))
       ? requestedCollection : collection;
     let cancelUrl = `${origin}/coloring-pages`;
     if (returnCollection === "christmas") cancelUrl = `${origin}/holiday/christmas`;
-    else if (["thanksgiving", "cozy", "flowers"].includes(returnCollection)) {
+    else if (["thanksgiving", "cozy", "flowers", "farm", "ocean", "animals", "animal", "holiday"].includes(returnCollection)) {
       cancelUrl = `${origin}/coloring-pages?collection=${returnCollection}`;
     }
     const session = await stripe.checkout.sessions.create({
