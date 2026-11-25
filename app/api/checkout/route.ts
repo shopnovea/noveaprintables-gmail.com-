@@ -18,6 +18,16 @@ const christmasIds = [
   "christmas-polar-bears-snowy-gift-surprise",
   "christmas-santas-snowy-christmas-gift-scene",
   "christmas-snowman-decorating-a-christmas-tree",
+  "christmas_01_tree_with_garland",
+  "christmas_02_tree_with_bow",
+  "christmas_03_ornament_wreath",
+  "christmas_04_holiday_fireplace",
+  "christmas_05_classic_tree",
+  "christmas_06_evergreen_wreath",
+  "christmas_07_snowflake_ornament",
+  "christmas_08_christmas_sleigh",
+  "christmas_09_christmas_bells",
+  "christmas_10_snowy_cottage",
 ];
 const thanksgivingIds = [
   "thanksgiving-dinner-table",
@@ -27,6 +37,16 @@ const thanksgivingIds = [
   "thanksgiving-pilgrim-children",
   "thanksgiving-turkey-and-cornucopia",
   "thanksgiving-turkey-family",
+  "thanksgiving_01_harvest_cornucopia",
+  "thanksgiving_02_thanksgiving_dinner",
+  "thanksgiving_03_harvest_basket",
+  "thanksgiving_04_fruit_cornucopia",
+  "thanksgiving_05_pumpkin_and_wheat",
+  "thanksgiving_06_wild_turkey",
+  "thanksgiving_07_apple_cornucopia",
+  "thanksgiving_08_pumpkin_pie",
+  "thanksgiving_09_sunflower_vase",
+  "thanksgiving_10_apple_basket",
 ];
 const cozyIds = [
   "cozy-cat-reading-nook",
@@ -57,22 +77,9 @@ const flowersIds = [
   "flowers-intricate-botanical-blooms-and-butterflies",
   "flowers-intricate-floral-bouquet-with-butterfly",
 ];
-const collections = {
-  ocean: oceanIds,
-  christmas: christmasIds,
-  thanksgiving: thanksgivingIds,
-  cozy: cozyIds,
-  flowers: flowersIds,
-};
+const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds };
 const allowedPictures = Object.values(collections).flat();
-const collectionNames: Record<string, string> = {
-  ocean: "Ocean Friends",
-  christmas: "Christmas Collection",
-  thanksgiving: "Thanksgiving Collection",
-  cozy: "Cozy Little Moments",
-  flowers: "Flowers & Butterflies",
-  mixed: "Mix & Match",
-};
+const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", mixed: "Mix & Match" };
 const bundles: Record<number, { price: number; name: string }> = {
   2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
   5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
@@ -86,12 +93,8 @@ function createPictureMetadata(selectedPictures: string[]): Record<string, strin
   let current = "";
   for (const picture of selectedPictures) {
     const next = current ? `${current},${picture}` : picture;
-    if (next.length > 500) {
-      chunks.push(current);
-      current = picture;
-    } else {
-      current = next;
-    }
+    if (next.length > 500) { chunks.push(current); current = picture; }
+    else { current = next; }
   }
   if (current) chunks.push(current);
   if (chunks.length > 3) throw new Error("Picture metadata exceeds supported length");
@@ -99,7 +102,6 @@ function createPictureMetadata(selectedPictures: string[]): Record<string, strin
   chunks.forEach((chunk, index) => { metadata[`selected_pictures_${index + 1}`] = chunk; });
   return metadata;
 }
-
 export async function POST(request: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) return NextResponse.json({ error: "Stripe is not configured" }, { status: 500 });
