@@ -14,7 +14,7 @@ const products = [
     price: "",
     emoji: "🏡",
     color: "#F9E3EB",
-    href: "/coloring-pages?collection=cozy",
+    href: "/cozy-coloring",
   },
   {
     name: "Holiday",
@@ -30,7 +30,7 @@ const products = [
     price: "",
     emoji: "🦋",
     color: "#E8E2F7",
-    href: "/coloring-pages?collection=flowers",
+    href: "/nature-coloring",
   },
 ];
 
@@ -748,3 +748,4 @@ export default function Home() {
     </main>
   );
 }
+
