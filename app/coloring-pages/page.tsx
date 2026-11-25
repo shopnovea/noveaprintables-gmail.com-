@@ -251,8 +251,8 @@ const farmPictures = [
 type Collection = "animals" | "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers" | "farm";
 const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...farmPictures, ...pictures, ...thanksgivingPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
-  { id: "animals", label: "Animal Coloring", title: "Animal Coloring 🐾" },
   { id: "all", label: "All Collections", title: "All Collections" },
+  { id: "animals", label: "Animal Coloring", title: "Animal Coloring 🐾" },
   { id: "christmas", label: "Christmas", title: "Christmas Collection 🎄" },
   { id: "cozy", label: "Cozy Little Moments", title: "Cozy Little Moments ☕" },
   { id: "farm", label: "Farm Friends", title: "Farm Friends 🐮" },
@@ -425,11 +425,11 @@ export default function ColoringPages() {
       <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
         {collectionOptions.filter(option => !["ocean", "farm", "christmas", "thanksgiving"].includes(option.id)).map(option => (
           <a key={option.id}
-            href={option.id === "all" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
+            href={option.id === "all" ? "/coloring-pages" : option.id === "animals" ? "/animal-coloring" : option.id === "cozy" ? "/cozy-coloring" : option.id === "flowers" ? "/nature-coloring" : `/coloring-pages?collection=${option.id}`}
             aria-current={collection === option.id ? "page" : undefined}
             onClick={(event) => { if (loading) event.preventDefault(); }}
             style={{ display: "inline-block", color: (collection === option.id || (option.id === "animals" && ["ocean", "farm"].includes(collection)) || (option.id === "holiday" && ["christmas", "thanksgiving"].includes(collection))) ? "white" : "#8b3f70", backgroundColor: (collection === option.id || (option.id === "animals" && ["ocean", "farm"].includes(collection)) || (option.id === "holiday" && ["christmas", "thanksgiving"].includes(collection))) ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
-            {option.label}
+            {option.id === "cozy" ? "Cozy Coloring" : option.id === "flowers" ? "Nature Coloring" : option.label}
           </a>
         ))}
       </nav>
