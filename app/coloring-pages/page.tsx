@@ -423,12 +423,12 @@ export default function ColoringPages() {
         <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
       </section>
       <nav aria-label="Coloring page collections" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", margin: "20px auto" }}>
-        {collectionOptions.map(option => (
+        {collectionOptions.filter(option => !["ocean", "farm", "christmas", "thanksgiving"].includes(option.id)).map(option => (
           <a key={option.id}
             href={option.id === "all" ? "/coloring-pages" : `/coloring-pages?collection=${option.id}`}
             aria-current={collection === option.id ? "page" : undefined}
             onClick={(event) => { if (loading) event.preventDefault(); }}
-            style={{ display: "inline-block", color: collection === option.id ? "white" : "#8b3f70", backgroundColor: collection === option.id ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
+            style={{ display: "inline-block", color: (collection === option.id || (option.id === "animals" && ["ocean", "farm"].includes(collection)) || (option.id === "holiday" && ["christmas", "thanksgiving"].includes(collection))) ? "white" : "#8b3f70", backgroundColor: (collection === option.id || (option.id === "animals" && ["ocean", "farm"].includes(collection)) || (option.id === "holiday" && ["christmas", "thanksgiving"].includes(collection))) ? "#8b3f70" : "#f9e3eb", padding: "12px 20px", border: "1px solid #8b3f70", borderRadius: "20px", fontWeight: 600, textDecoration: "none" }}>
             {option.label}
           </a>
         ))}
