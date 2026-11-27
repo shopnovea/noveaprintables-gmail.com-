@@ -673,7 +673,7 @@ export default function ColoringPages() {
                 fontFamily: "inherit",
               }}
             >
-              <span style={{ display: "block", backgroundColor: "white", padding: "12px", borderRadius: "14px", border: isSelected ? "3px solid #8b3f70" : "3px solid transparent", boxShadow: "0 3px 12px #00000012" }}>
+              <span style={{ display: "block", backgroundColor: "transparent", padding: "0", borderRadius: "0", outline: isSelected ? "3px solid #8b3f70" : "none", outlineOffset: "3px" }}>
               <img
                 src={encodeURI(picture.image)}
                 alt={`${picture.name} coloring page preview`}
@@ -681,7 +681,7 @@ export default function ColoringPages() {
                   display: "block",
                   width: "100%",
                   height: "auto",
-                  borderRadius: "8px",
+                  borderRadius: "0",
                 }}
               />
               </span>
