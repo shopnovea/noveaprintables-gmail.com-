@@ -40,6 +40,14 @@ const products = [
     color: "#E8E2F7",
     href: "/nature-coloring",
   },
+  {
+    name: "Free Printables",
+    category: "Free Printables",
+    price: "",
+    emoji: "🎁",
+    color: "#E4F1E8",
+    href: "/free-printables",
+  },
 ];
 
 const bundles = [
@@ -83,6 +91,7 @@ export default function Home() {
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
           <a href="/coloring-pages">COLORING PAGES</a>
+          <a href="/free-printables">FREE PRINTABLES</a>
           <a href="#about">ABOUT</a>
         </nav>
       </header>
@@ -464,7 +473,7 @@ export default function Home() {
 
         .product-grid {
           display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 22px;
         }
 
