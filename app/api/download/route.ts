@@ -125,10 +125,34 @@ const farmIds = [
   "farm_20_dog",
 ];
 
+const woodlandIds = [
+  "woodland_01_baby_deer",
+  "woodland_02_bunny_rabbit",
+  "woodland_03_little_fox",
+  "woodland_04_hedgehog",
+  "woodland_05_squirrel",
+  "woodland_06_owl",
+  "woodland_07_raccoon",
+  "woodland_08_bear_cub",
+  "woodland_09_beaver",
+  "woodland_10_chipmunk",
+  "woodland_11_badger",
+  "woodland_12_skunk",
+  "woodland_13_woodpecker",
+  "woodland_14_moose",
+  "woodland_15_wolf_pup",
+  "woodland_16_bobcat",
+  "woodland_17_otter",
+  "woodland_18_forest_turtle",
+  "woodland_19_frog",
+  "woodland_20_butterfly",
+];
+
 const newPictureIds = new Set([
   ...farmIds,
   ...newChristmasIds,
   ...newThanksgivingIds,
+  ...woodlandIds,
 ]);
 
 const printableFiles: Record<string, string> = Object.fromEntries([
@@ -142,6 +166,7 @@ const printableFiles: Record<string, string> = Object.fromEntries([
     ...cozyIds,
     ...flowersIds,
     ...farmIds,
+    ...woodlandIds,
   ].map(id => [
     id,
     newPictureIds.has(id)
@@ -168,6 +193,7 @@ function pictureCollection(id: string) {
   if (cozyIds.includes(id)) return "cozy";
   if (flowersIds.includes(id)) return "flowers";
   if (farmIds.includes(id)) return "farm";
+  if (woodlandIds.includes(id)) return "woodland";
   return "unknown";
 }
 
@@ -319,7 +345,8 @@ export async function GET(request: NextRequest) {
             collection === "thanksgiving" ||
             collection === "cozy" ||
             collection === "flowers" ||
-            collection === "farm"
+            collection === "farm" ||
+            collection === "woodland"
           ) &&
           collections.size === 1 &&
           collections.has(collection);
