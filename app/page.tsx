@@ -5,7 +5,7 @@ const products = [
     category: "All Collections",
     price: "",
     emoji: "🎨",
-    color: "#F0E5F4",
+    color: "#EACB83",
     href: "/coloring-pages",
   },
   {
@@ -13,7 +13,7 @@ const products = [
     category: "Animal Coloring",
     price: "",
     emoji: "🐢",
-    color: "#DDF3F6",
+    color: "#BBD09A",
     href: "/animal-coloring",
   },
   {
@@ -21,7 +21,7 @@ const products = [
     category: "Cozy Coloring",
     price: "",
     emoji: "🏡",
-    color: "#F9E3EB",
+    color: "#EDBC91",
     href: "/cozy-coloring",
   },
   {
@@ -29,7 +29,7 @@ const products = [
     category: "Holiday Coloring",
     price: "",
     emoji: "🎄",
-    color: "#F8E8C8",
+    color: "#E4AD88",
     href: "/holiday-coloring",
   },
   {
@@ -37,7 +37,7 @@ const products = [
     category: "Nature Coloring",
     price: "",
     emoji: "🦋",
-    color: "#E8E2F7",
+    color: "#ADD4C6",
     href: "/nature-coloring",
   },
   {
@@ -45,7 +45,7 @@ const products = [
     category: "Free Printables",
     price: "",
     emoji: "🎁",
-    color: "#E4F1E8",
+    color: "#C1D2E5",
     href: "/free-printables",
   },
 ];
@@ -55,25 +55,25 @@ const bundles = [
     name: "Mini Bundle",
     pages: 2,
     price: "$1.49",
-    color: "#F9E3EB",
+    color: "#EDBC91",
   },
   {
     name: "Little Bundle",
     pages: 5,
     price: "$2.99",
-    color: "#F8E8C8",
+    color: "#EACB83",
   },
   {
     name: "Happy Bundle",
     pages: 10,
     price: "$4.99",
-    color: "#E8E2F7",
+    color: "#BBD09A",
   },
   {
     name: "Mega Bundle",
     pages: 20,
     price: "$7.99",
-    color: "#DDF3F6",
+    color: "#C1D2E5",
     comingSoon: false,
   },
 ];
@@ -183,8 +183,8 @@ export default function Home() {
           ))}
         </div>
 
-        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#EADBC8", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#39313d", lineHeight: 1.7 }}>
-          <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#794367", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
+        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#EADBC8", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
+          <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#652C46", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
           <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
           <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
         </section>
@@ -271,8 +271,8 @@ export default function Home() {
 
         body {
           margin: 0;
-          color: #39313d;
-          background: #fffdfb;
+          color: #492D35;
+          background: #FFF7ED;
           font-family: Arial, sans-serif;
         }
 
@@ -281,7 +281,7 @@ export default function Home() {
         .announcement {
           text-align: center;
           padding: 11px;
-          background: #e9dafa;
+          background: #EADBC8;
           font-size: 0.875rem;
           letter-spacing: 2px;
         }
@@ -293,7 +293,7 @@ export default function Home() {
           justify-content: space-between;
           padding: 18px 7%;
           gap: 20px;
-          background: white;
+          background: #FFF7ED;
         }
 
         .logo {
@@ -317,8 +317,8 @@ export default function Home() {
         }
 
         .cart, .primary-button {
-          background: #39313d;
-          color: white;
+          background: #492D35;
+          color: #FFF7ED;
           padding: 14px 20px;
           border-radius: 30px;
           font-size: 1rem;
@@ -331,12 +331,12 @@ export default function Home() {
         }
 
         .primary-button:hover {
-          background: #794367;
+          background: #652C46;
           transform: translateY(-2px);
         }
 
         .hero {
-          background: #fff0f2;
+          background: #FFF7ED;
           padding: 75px 9%;
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -348,7 +348,7 @@ export default function Home() {
         .eyebrow {
           font-size: 1rem;
           letter-spacing: 2px;
-          color: #794367;
+          color: #652C46;
           font-weight: bold;
         }
 
@@ -360,10 +360,10 @@ export default function Home() {
           margin: 22px 0;
         }
 
-        h1 em, h2 em { color: #794367; }
+        h1 em, h2 em { color: #652C46; }
 
         .hero p, .section-heading p, .about p {
-          color: #514653;
+          color: #492D35;
           line-height: 1.9;
           font-size: 1.125rem;
           max-width: 430px;
@@ -374,7 +374,7 @@ export default function Home() {
           margin-top: 23px;
           font-size: 0.875rem;
           letter-spacing: 1px;
-          color: #794367;
+          color: #652C46;
         }
 
         .hero-art {
@@ -390,8 +390,8 @@ export default function Home() {
           width: 280px;
           height: 280px;
           border-radius: 50%;
-          background: #e4d9f6;
-          color: #a18acb;
+          background: #EADBC8;
+          color: #652C46;
           font-size: 6.25rem;
           display: grid;
           place-items: center;
@@ -399,7 +399,7 @@ export default function Home() {
 
         .paper {
           position: absolute;
-          background: white;
+          background: #FFF7ED;
           box-shadow: 0 15px 40px #8b718322;
           padding: 25px;
           display: flex;
@@ -419,13 +419,13 @@ export default function Home() {
           right: 4%;
           top: auto;
           bottom: 25px;
-          background: #fff8dc;
+          background: #F5EDE3;
         }
 
         .paper span {
           font-size: 0.875rem;
           letter-spacing: 2px;
-          color: #794367;
+          color: #652C46;
         }
 
         .paper strong {
@@ -450,7 +450,7 @@ export default function Home() {
           flex-wrap: wrap;
           gap: 20px;
           padding: 25px 5%;
-          background: #f5f0fa;
+          background: #F5EDE3;
           font-size: 1.125rem;
           letter-spacing: 1px;
           font-weight: 600;
@@ -497,7 +497,7 @@ export default function Home() {
           font-size: clamp(1.25rem, 2vw, 1.75rem);
           font-weight: 600;
           line-height: 1.3;
-          color: #39313d;
+          color: #492D35;
         }
         .product-art .product-emoji { margin-bottom: 2rem; }
 
@@ -508,7 +508,7 @@ export default function Home() {
           bottom: 15px;
           font-size: 0.875rem;
           letter-spacing: 2px;
-          color: #514653;
+          color: #492D35;
         }
 
         .product-info {
@@ -522,7 +522,7 @@ export default function Home() {
         .category {
           font-size: 0.875rem;
           letter-spacing: 1.5px;
-          color: #794367;
+          color: #652C46;
         }
 
         .product-info h3 {
@@ -546,7 +546,7 @@ export default function Home() {
           margin-top: 8px;
           font-size: 1rem;
           letter-spacing: 1px;
-          color: #794367;
+          color: #652C46;
           font-weight: bold;
         }
 
@@ -554,7 +554,7 @@ export default function Home() {
 
         .bundle-section {
           text-align: center;
-          background: #fff0f2;
+          background: #FFF7ED;
           padding: 65px 25px;
           border-radius: 16px;
           margin-top: 75px;
@@ -565,7 +565,7 @@ export default function Home() {
         }
 
         .bundle-section > p {
-          color: #514653;
+          color: #492D35;
           line-height: 1.8;
           margin: 15px auto 30px;
           max-width: 500px;
@@ -599,14 +599,14 @@ export default function Home() {
 
         .bundle-card strong {
           display: block;
-          color: #794367;
+          color: #652C46;
           font-size: 1.75rem;
           margin: 12px 0;
         }
 
         .bundle-card p {
           font-size: 0.875rem;
-          color: #514653;
+          color: #492D35;
         }
 
         .coming-soon {
@@ -614,8 +614,8 @@ export default function Home() {
           margin-top: 8px;
           padding: 6px 10px;
           border-radius: 20px;
-          background: #ffffffaa;
-          color: #794367;
+          background: #FFF7ED;
+          color: #652C46;
           font-size: 0.875rem;
           letter-spacing: 1px;
           font-weight: bold;
@@ -623,12 +623,12 @@ export default function Home() {
 
         .bundle-note {
           font-size: 0.875rem !important;
-          color: #794367 !important;
+          color: #652C46 !important;
           margin: 22px auto 0 !important;
         }
 
         .about {
-          background: #e4f1e8;
+          background: #F5EDE3;
           text-align: center;
           padding: 75px 20px;
         }
@@ -637,7 +637,7 @@ export default function Home() {
 
         .about-heart {
           font-size: 2.1875rem;
-          color: #794367;
+          color: #652C46;
         }
 
         footer {
@@ -647,17 +647,17 @@ export default function Home() {
 
         footer p {
           font-family: Georgia, serif;
-          color: #514653;
+          color: #492D35;
         }
 
         .footer-policies { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin: 24px auto 16px; }
-        .footer-policies a, .footer-questions a { color: #794367; text-decoration: underline; text-underline-offset: .2em; display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
-        .footer-questions { margin: 16px auto 24px; color: #794367; }
+        .footer-policies a, .footer-questions a { color: #652C46; text-decoration: underline; text-underline-offset: .2em; display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
+        .footer-questions { margin: 16px auto 24px; color: #652C46; }
 
         footer span {
           font-size: 0.875rem;
           letter-spacing: 1px;
-          color: #514653;
+          color: #492D35;
         }
 
         @media (max-width: 850px) {
@@ -720,7 +720,7 @@ export default function Home() {
         .announcement, .hero-note, .category, .preview-label, footer span { font-size: .875rem; letter-spacing: .05em; }
         nav, .benefits, .primary-button, .view-link { font-size: 1rem; }
         nav a { padding: .5rem 0; }
-        a:focus-visible, button:focus-visible { outline: 3px solid #55304e; outline-offset: 4px; }
+        a:focus-visible, button:focus-visible { outline: 3px solid #652C46; outline-offset: 4px; }
         .paper { width: 15rem; }
         .paper-two { width: 11rem; height: auto; }
         .paper span, .paper p { font-size: .875rem; letter-spacing: .03em; }
@@ -741,14 +741,14 @@ export default function Home() {
         }
 
         /* Readable typography, including sections affected by global styles. */
-        main .benefits, main .benefits span { font-size: 1rem !important; font-weight: 600; color: #39313d; letter-spacing: .04em; }
-        main .eyebrow { font-size: 1rem !important; color: #794367 !important; }
-        main .section-heading p, main .hero p, main .about p, main .bundle-section > p { font-size: 1.125rem !important; line-height: 1.7; color: #514653 !important; }
+        main .benefits, main .benefits span { font-size: 1rem !important; font-weight: 600; color: #492D35; letter-spacing: .04em; }
+        main .eyebrow { font-size: 1rem !important; color: #652C46 !important; }
+        main .section-heading p, main .hero p, main .about p, main .bundle-section > p { font-size: 1.125rem !important; line-height: 1.7; color: #492D35 !important; }
         main .product-info h3, main .bundle-card h3 { font-size: 1.5rem !important; line-height: 1.35; }
-        main .category, main .preview-label { font-size: .875rem !important; color: #514653 !important; letter-spacing: .04em; }
-        main .view-link { font-size: 1rem !important; color: #794367 !important; text-decoration: underline; text-underline-offset: .2em; }
+        main .category, main .preview-label { font-size: .875rem !important; color: #492D35 !important; letter-spacing: .04em; }
+        main .view-link { font-size: 1rem !important; color: #652C46 !important; text-decoration: underline; text-underline-offset: .2em; }
         main .bundle-card p, main .bundle-note, main .coming-soon, main footer p, main footer span { font-size: 1rem !important; line-height: 1.6; }
-        main h1 em, main h2 em { color: #794367 !important; }
+        main h1 em, main h2 em { color: #652C46 !important; }
         main .preview-label { text-align: center; max-width: 95%; }
         main .paper p { font-size: .875rem !important; }
         @media (max-width: 600px) { main .product-grid, main .bundle-grid { grid-template-columns: 1fr; } main .benefits { display: grid; grid-template-columns: 1fr; text-align: center; } }
