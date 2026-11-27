@@ -1,5 +1,5 @@
 const collections = [
-  { name: "Christmas", emoji: "🎄", count: 23, color: "#A9BE83", href: "/holiday/christmas" },
+  { name: "Christmas", emoji: "🎄", count: 23, color: "#83A69A", href: "/holiday/christmas" },
   { name: "Thanksgiving", emoji: "🍂", count: 17, color: "#E4AD88", href: "/coloring-pages?collection=thanksgiving" },
 ];
 
