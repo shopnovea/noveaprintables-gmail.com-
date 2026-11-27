@@ -367,10 +367,10 @@ const collectionOptions: { id: Collection; label: string; title: string }[] = [
 ];
 
 const bundles = [
-  { count: 2, price: 149, label: "Mini Bundle", color: "#F9E3EB" },
-  { count: 5, price: 299, label: "Little Bundle", color: "#F8E8C8" },
-  { count: 10, price: 499, label: "Happy Bundle", color: "#E8E2F7" },
-  { count: 20, price: 799, label: "Mega Bundle", color: "#DDF3F6" },
+  { count: 2, price: 149, label: "Mini Bundle", color: "#EADBC8" },
+  { count: 5, price: 299, label: "Little Bundle", color: "#F5EDE3" },
+  { count: 10, price: 499, label: "Happy Bundle", color: "#F5EDE3" },
+  { count: 20, price: 799, label: "Mega Bundle", color: "#EADBC8" },
 ];
 
 function money(cents: number) {
@@ -488,11 +488,11 @@ export default function ColoringPages() {
     <main className="coloring-accessible"
       style={{
         minHeight: "100vh",
-        backgroundColor: "#fff7f2",
+        backgroundColor: "#FFF7ED",
         padding: "40px 20px",
         textAlign: "center",
         fontFamily: "Arial, sans-serif",
-        color: "#39313d",
+        color: "#492D35",
         fontSize: "1.125rem",
         lineHeight: 1.6,
       }}
@@ -500,7 +500,7 @@ export default function ColoringPages() {
       <a
         href={holidayEntry ? "/holiday" : "/"}
         style={{
-          color: "#8b3f70",
+          color: "#652C46",
           textDecoration: "underline",
           letterSpacing: "1px",
           fontSize: "1rem",
@@ -521,17 +521,17 @@ export default function ColoringPages() {
         {collectionOptions.find(option => option.id === collection)?.title}
       </h2>
 
-      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#E8E2F7", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
-        <h2 id="mix-match-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
+      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#F5EDE3", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
+        <h2 id="mix-match-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
         <p style={{ margin: "0 0 8px", fontSize: "1.125rem" }}>Choose pictures from any collection to build your perfect bundle.</p>
         <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
       </section>
 
-      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+      <h2 style={{ color: "#652C46", fontWeight: "normal" }}>
         Pick Your Favorite Pages
       </h2>
 
-      <p style={{ color: "#594e5c", lineHeight: 1.7 }}>
+      <p style={{ color: "#492D35", lineHeight: 1.7 }}>
         Choose your bundle, then pick your favorite printable
         coloring pages.
       </p>
@@ -557,12 +557,12 @@ export default function ColoringPages() {
               onClick={() => chooseBundle(item.count)}
               style={{
                 background: item.color,
-                border: active ? "3px solid #8b3f70" : "3px solid transparent",
+                border: active ? "3px solid #652C46" : "3px solid transparent",
                 borderRadius: "14px",
                 padding: "8px 6px",
                 cursor: unavailable ? "not-allowed" : "pointer",
                 opacity: unavailable ? 0.65 : 1,
-                color: "#39313d",
+                color: "#492D35",
                 fontFamily: "inherit",
               }}
             >
@@ -575,7 +575,7 @@ export default function ColoringPages() {
                   display: "block",
                   fontSize: "1.5rem",
                   fontWeight: "bold",
-                  color: "#8b3f70",
+                  color: "#652C46",
                   margin: "3px 0",
                 }}
               >
@@ -602,11 +602,11 @@ export default function ColoringPages() {
         })}
       </section>
 
-      <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+      <h2 style={{ color: "#652C46", fontWeight: "normal" }}>
         Choose Your Coloring Pages
       </h2>
 
-      <p style={{ color: "#594e5c" }}>
+      <p style={{ color: "#492D35" }}>
         {collection === "animals" ? "Choose an animal collection below to explore its coloring pages." : collection === "holiday" ? "Choose a holiday below to explore its coloring pages." : `Select ${bundleSize} different pictures for your ${bundle.label}.`}
       </p>
 
@@ -624,18 +624,18 @@ export default function ColoringPages() {
       {collection === "holiday" || collection === "animals" ? (
         <section aria-label={collection === "animals" ? "Choose an animal collection" : "Choose a holiday"} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: "22px", maxWidth: "850px", margin: "35px auto" }}>
           {(collection === "animals" ? [
-            { id: "ocean", title: "Ocean Friends", emoji: "🐢", count: pictures.length, color: "#DDF3F6" },
-            { id: "farm", title: "Farm Friends", emoji: "🐮", count: farmPictures.length, color: "#F8E8C8" },
-            { id: "woodland", title: "Woodland Friends", emoji: "🦌", count: woodlandPictures.length, color: "#E4EEDC" },
+            { id: "ocean", title: "Ocean Friends", emoji: "🐢", count: pictures.length, color: "#EADBC8" },
+            { id: "farm", title: "Farm Friends", emoji: "🐮", count: farmPictures.length, color: "#F5EDE3" },
+            { id: "woodland", title: "Woodland Friends", emoji: "🦌", count: woodlandPictures.length, color: "#F5EDE3" },
           ] : [
-            { id: "christmas", title: "Christmas", emoji: "🎄", count: christmasPictures.length, color: "#F9E3EB" },
-            { id: "thanksgiving", title: "Thanksgiving", emoji: "🍂", count: thanksgivingPictures.length, color: "#F8E8C8" },
+            { id: "christmas", title: "Christmas", emoji: "🎄", count: christmasPictures.length, color: "#EADBC8" },
+            { id: "thanksgiving", title: "Thanksgiving", emoji: "🍂", count: thanksgivingPictures.length, color: "#F5EDE3" },
           ]).map(holiday => (
-            <a key={holiday.id} href={`/coloring-pages?collection=${holiday.id}`} onClick={event => { if (loading) event.preventDefault(); }} style={{ display: "block", backgroundColor: holiday.color, color: "#39313d", border: "1px solid #8b3f70", borderRadius: "16px", padding: "28px 20px", textDecoration: "none" }}>
+            <a key={holiday.id} href={`/coloring-pages?collection=${holiday.id}`} onClick={event => { if (loading) event.preventDefault(); }} style={{ display: "block", backgroundColor: holiday.color, color: "#492D35", border: "1px solid #652C46", borderRadius: "16px", padding: "28px 20px", textDecoration: "none" }}>
               <span aria-hidden="true" style={{ display: "block", fontSize: "2.5rem" }}>{holiday.emoji}</span>
-              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.5rem", color: "#8b3f70", margin: "12px 0" }}>{holiday.title}</h3>
+              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.5rem", color: "#652C46", margin: "12px 0" }}>{holiday.title}</h3>
               <span>{holiday.count} coloring pages</span>
-              <span style={{ display: "block", color: "#8b3f70", textDecoration: "underline", marginTop: "12px" }}>Explore collection</span>
+              <span style={{ display: "block", color: "#652C46", textDecoration: "underline", marginTop: "12px" }}>Explore collection</span>
             </a>
           ))}
         </section>
@@ -669,11 +669,11 @@ export default function ColoringPages() {
                 alignSelf: "start",
                 cursor: isDisabled ? "default" : "pointer",
                 opacity: 1,
-                color: "#39313d",
+                color: "#492D35",
                 fontFamily: "inherit",
               }}
             >
-              <span style={{ display: "block", backgroundColor: "transparent", padding: "0", borderRadius: "0", outline: isSelected ? "3px solid #8b3f70" : "none", outlineOffset: "3px" }}>
+              <span style={{ display: "block", backgroundColor: "transparent", padding: "0", borderRadius: "0", outline: isSelected ? "3px solid #652C46" : "none", outlineOffset: "3px" }}>
               <img
                 src={encodeURI(picture.image)}
                 alt={`${picture.name} coloring page preview`}
@@ -701,7 +701,7 @@ export default function ColoringPages() {
                 style={{
                   display: "block",
                   marginTop: "8px",
-                  color: isSelected ? "#8b3f70" : "#594e5c",
+                  color: isSelected ? "#652C46" : "#492D35",
                   fontSize: "1rem",
                 }}
               >
@@ -716,15 +716,15 @@ export default function ColoringPages() {
       {selected.length > 0 && (
       <section
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#F5EDE3",
           maxWidth: "600px",
           margin: "40px auto",
           padding: "30px 20px",
           borderRadius: "16px",
-          boxShadow: "0 3px 15px #0000000c",
+          boxShadow: "0 3px 15px #652C460C",
         }}
       >
-        <h2 style={{ color: "#8b3f70", fontWeight: "normal" }}>
+        <h2 style={{ color: "#652C46", fontWeight: "normal" }}>
           Your {bundle.label}
         </h2>
 
@@ -754,8 +754,8 @@ export default function ColoringPages() {
           onClick={handleCheckout}
           disabled={loading || selected.length !== bundleSize}
           style={{
-            backgroundColor: "#8b3f70",
-            color: "white",
+            backgroundColor: "#652C46",
+            color: "#FFF7ED",
             padding: "15px 30px",
             border: "none",
             borderRadius: "25px",
@@ -782,13 +782,13 @@ export default function ColoringPages() {
       </section>
 
       )}
-      <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#F9E3EB", color: "#39313d", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
-        <h2 id="personal-use-heading" style={{ color: "#794367", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
+      <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#EADBC8", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
+        <h2 id="personal-use-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
         <p style={{ margin: "0 0 12px" }}>Your purchased coloring pages may be printed as often as you like for personal use. Please do not share, redistribute, resell or upload the digital files elsewhere.</p>
         <p style={{ margin: 0 }}>Thank you for supporting NOVÉA Printables!</p>
       </section>
 
-      <p style={{ color: "#594e5c", fontSize: "1rem" }}>
+      <p style={{ color: "#492D35", fontSize: "1rem" }}>
         ♡ Printable PDFs · Instant downloads · Made with love
       </p>
       <style jsx>{`
@@ -799,9 +799,9 @@ export default function ColoringPages() {
         .coloring-accessible button { font-family: inherit; line-height: 1.5; min-height: 44px; max-width: 100%; }
         .coloring-accessible a { display: inline-block; padding-block: 10px; }
         .coloring-accessible button:focus-visible,
-        .coloring-accessible a:focus-visible { outline: 3px solid #39313d; outline-offset: 4px; }
-        .basket-action { background: #f9e3eb; color: #783e65; border: 1px solid #8b3f70; border-radius: 24px; padding: 9px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; flex-shrink: 0; }
-        .basket-action:hover:not(:disabled) { background: #efd0df; }
+        .coloring-accessible a:focus-visible { outline: 3px solid #492D35; outline-offset: 4px; }
+        .basket-action { background: #EADBC8; color: #652C46; border: 1px solid #652C46; border-radius: 24px; padding: 9px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+        .basket-action:hover:not(:disabled) { background: #D5BEA3; }
         .basket-action:disabled { cursor: not-allowed; }
         @media (max-width: 420px) { .coloring-accessible li { flex-wrap: wrap; } }
       `}</style>
