@@ -367,10 +367,10 @@ const collectionOptions: { id: Collection; label: string; title: string }[] = [
 ];
 
 const bundles = [
-  { count: 2, price: 149, label: "Mini Bundle", color: "#EADBC8" },
-  { count: 5, price: 299, label: "Little Bundle", color: "#F5EDE3" },
-  { count: 10, price: 499, label: "Happy Bundle", color: "#F5EDE3" },
-  { count: 20, price: 799, label: "Mega Bundle", color: "#EADBC8" },
+  { count: 2, price: 149, label: "Mini Bundle", color: "#DDA078" },
+  { count: 5, price: 299, label: "Little Bundle", color: "#A9BE83" },
+  { count: 10, price: 499, label: "Happy Bundle", color: "#A0BBD3" },
+  { count: 20, price: 799, label: "Mega Bundle", color: "#C4ACD3" },
 ];
 
 function money(cents: number) {
@@ -521,7 +521,7 @@ export default function ColoringPages() {
         {collectionOptions.find(option => option.id === collection)?.title}
       </h2>
 
-      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#F5EDE3", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
+      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
         <h2 id="mix-match-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
         <p style={{ margin: "0 0 8px", fontSize: "1.125rem" }}>Choose pictures from any collection to build your perfect bundle.</p>
         <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
@@ -556,13 +556,13 @@ export default function ColoringPages() {
               aria-pressed={active}
               onClick={() => chooseBundle(item.count)}
               style={{
-                background: item.color,
+                background: active ? "#652C46" : item.color,
                 border: active ? "3px solid #652C46" : "3px solid transparent",
                 borderRadius: "14px",
                 padding: "8px 6px",
                 cursor: unavailable ? "not-allowed" : "pointer",
                 opacity: unavailable ? 0.65 : 1,
-                color: "#492D35",
+                color: active ? "#FFF7ED" : "#492D35",
                 fontFamily: "inherit",
               }}
             >
@@ -575,7 +575,7 @@ export default function ColoringPages() {
                   display: "block",
                   fontSize: "1.5rem",
                   fontWeight: "bold",
-                  color: "#652C46",
+                  color: active ? "#FFF7ED" : "#492D35",
                   margin: "3px 0",
                 }}
               >
@@ -592,11 +592,9 @@ export default function ColoringPages() {
                 </span>
               )}
 
-              {active && (
-                <span style={{ display: "block", marginTop: "3px", fontSize: "1rem" }}>
-                  ✓ SELECTED
-                </span>
-              )}
+              <span aria-hidden={!active} style={{ display: "block", marginTop: "3px", fontSize: "1rem", visibility: active ? "visible" : "hidden" }}>
+                ✓ SELECTED
+              </span>
             </button>
           );
         })}
