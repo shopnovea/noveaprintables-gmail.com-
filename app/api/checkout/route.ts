@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
           currency: "usd",
           product_data: {
             name: `${collectionName} - ${bundle.name}`,
-            description: `${selectedPictures.length} printable coloring page PDFs from NOVÉA Printables.`,
+            description: `${selectedPictures.length} printable coloring page PDFs from NOVÉA ODELIS.`,
           },
           unit_amount: bundle.price,
         },
