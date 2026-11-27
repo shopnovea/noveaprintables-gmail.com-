@@ -99,9 +99,31 @@ const farmIds = [
   "farm_19_cat",
   "farm_20_dog"
 ];
-const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds, farm: farmIds };
+const woodlandIds = [
+  "woodland_01_baby_deer",
+  "woodland_02_bunny_rabbit",
+  "woodland_03_little_fox",
+  "woodland_04_hedgehog",
+  "woodland_05_squirrel",
+  "woodland_06_owl",
+  "woodland_07_raccoon",
+  "woodland_08_bear_cub",
+  "woodland_09_beaver",
+  "woodland_10_chipmunk",
+  "woodland_11_badger",
+  "woodland_12_skunk",
+  "woodland_13_woodpecker",
+  "woodland_14_moose",
+  "woodland_15_wolf_pup",
+  "woodland_16_bobcat",
+  "woodland_17_otter",
+  "woodland_18_forest_turtle",
+  "woodland_19_frog",
+  "woodland_20_butterfly",
+];
+const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds, farm: farmIds, woodland: woodlandIds };
 const allowedPictures = Object.values(collections).flat();
-const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", farm: "Farm Friends", mixed: "Mix & Match" };
+const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", farm: "Farm Friends", woodland: "Woodland Friends", mixed: "Mix & Match" };
 const bundles: Record<number, { price: number; name: string }> = {
   2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
   5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
@@ -150,7 +172,7 @@ export async function POST(request: NextRequest) {
       ? requestedCollection : collection;
     let cancelUrl = `${origin}/coloring-pages`;
     if (returnCollection === "christmas") cancelUrl = `${origin}/holiday/christmas`;
-    else if (["thanksgiving", "cozy", "flowers", "farm", "ocean", "animals", "animal", "holiday"].includes(returnCollection)) {
+    else if (["thanksgiving", "cozy", "flowers", "farm", "woodland", "ocean", "animals", "animal", "holiday"].includes(returnCollection)) {
       cancelUrl = `${origin}/coloring-pages?collection=${returnCollection}`;
     }
     const session = await stripe.checkout.sessions.create({
