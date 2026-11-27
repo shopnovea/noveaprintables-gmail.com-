@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackToTop from "./BackToTop";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://noveaodelis.vercel.app"),
@@ -22,7 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <BackToTop />
+      </body>
     </html>
   );
 }
