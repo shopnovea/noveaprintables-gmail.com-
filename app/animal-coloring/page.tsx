@@ -1,6 +1,7 @@
 const collections = [
   { name: "Ocean Friends", emoji: "🐢", count: 10, color: "#DDF3F6", href: "/coloring-pages?collection=ocean" },
   { name: "Farm Friends", emoji: "🐮", count: 20, color: "#E4F1E8", href: "/coloring-pages?collection=farm" },
+  { name: "Woodland Friends", emoji: "🦌", count: 20, color: "#E8E2F7", href: "/coloring-pages?collection=woodland" },
 ];
 
 export default function AnimalColoring() {
