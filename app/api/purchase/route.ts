@@ -99,7 +99,51 @@ const farmIds = [
   "farm_19_cat",
   "farm_20_dog"
 ];
+const woodlandIds = [
+  "woodland_01_baby_deer",
+  "woodland_02_bunny_rabbit",
+  "woodland_03_little_fox",
+  "woodland_04_hedgehog",
+  "woodland_05_squirrel",
+  "woodland_06_owl",
+  "woodland_07_raccoon",
+  "woodland_08_bear_cub",
+  "woodland_09_beaver",
+  "woodland_10_chipmunk",
+  "woodland_11_badger",
+  "woodland_12_skunk",
+  "woodland_13_woodpecker",
+  "woodland_14_moose",
+  "woodland_15_wolf_pup",
+  "woodland_16_bobcat",
+  "woodland_17_otter",
+  "woodland_18_forest_turtle",
+  "woodland_19_frog",
+  "woodland_20_butterfly",
+];
+
 const pictureNames: Record<string, string> = {
+  "woodland_01_baby_deer": "Baby Deer",
+  "woodland_02_bunny_rabbit": "Bunny Rabbit",
+  "woodland_03_little_fox": "Little Fox",
+  "woodland_04_hedgehog": "Hedgehog",
+  "woodland_05_squirrel": "Squirrel",
+  "woodland_06_owl": "Owl",
+  "woodland_07_raccoon": "Raccoon",
+  "woodland_08_bear_cub": "Bear Cub",
+  "woodland_09_beaver": "Beaver",
+  "woodland_10_chipmunk": "Chipmunk",
+  "woodland_11_badger": "Badger",
+  "woodland_12_skunk": "Skunk",
+  "woodland_13_woodpecker": "Woodpecker",
+  "woodland_14_moose": "Moose",
+  "woodland_15_wolf_pup": "Wolf Pup",
+  "woodland_16_bobcat": "Bobcat",
+  "woodland_17_otter": "Otter",
+  "woodland_18_forest_turtle": "Forest Turtle",
+  "woodland_19_frog": "Frog",
+  "woodland_20_butterfly": "Butterfly",
+
   "farm_01_cow": "Cow",
   "farm_02_horse": "Horse",
   "farm_03_sheep": "Sheep",
@@ -208,6 +252,7 @@ function pictureCollection(id: string) {
   if (cozyIds.includes(id)) return "cozy";
   if (flowersIds.includes(id)) return "flowers";
   if (farmIds.includes(id)) return "farm";
+  if (woodlandIds.includes(id)) return "woodland";
   return "unknown";
 }
 export async function GET(request: NextRequest) {
@@ -257,7 +302,7 @@ export async function GET(request: NextRequest) {
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers" || collection === "farm") &&
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers" || collection === "farm" || collection === "woodland") &&
         collections.size === 1 && collections.has(collection);
     if (collections.has("unknown") || !validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
