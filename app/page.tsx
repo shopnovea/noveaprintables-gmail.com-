@@ -5,7 +5,7 @@ const products = [
     category: "All Collections",
     price: "",
     emoji: "🎨",
-    color: "#EACB83",
+    color: "#D6B894",
     href: "/coloring-pages",
   },
   {
@@ -13,7 +13,7 @@ const products = [
     category: "Animal Coloring",
     price: "",
     emoji: "🐢",
-    color: "#BBD09A",
+    color: "#83A69A",
     href: "/animal-coloring",
   },
   {
@@ -61,7 +61,7 @@ const bundles = [
     name: "Little Bundle",
     pages: 5,
     price: "$2.99",
-    color: "#A9BE83",
+    color: "#83A69A",
   },
   {
     name: "Happy Bundle",
@@ -390,7 +390,7 @@ export default function Home() {
           width: 280px;
           height: 280px;
           border-radius: 50%;
-          background: #EACB83;
+          background: #D6B894;
           color: #652C46;
           font-size: 6.25rem;
           display: grid;
@@ -777,9 +777,12 @@ export default function Home() {
         .hero { background: #FFF7ED; }
         main h1, main h2, footer .logo { color: #652C46; }
         .primary-button { background: #652C46; }
-        .benefits { background: #A9BE83; }
+        .benefits { background: #D6B894; }
         .bundle-section { background: #EADBC8; }
-        .about { background: #A0BBD3; }
+        .about { background: #A0BBD3; padding: 32px 20px; }
+        main .about h2 { margin: 10px 0; line-height: 1.2; font-size: clamp(1.75rem, 4vw, 2.25rem); }
+        main .about p { margin: 12px auto; max-width: 600px; }
+        .about-heart { font-size: 1.75rem; }
         footer { background: #FFF7ED; }
         @media (max-width: 480px) { .header { padding: 24px 12px 16px; } .header nav { gap: 8px; } .header nav a { padding: 10px 12px; } }
       `}</style>
