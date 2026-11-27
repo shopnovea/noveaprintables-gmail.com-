@@ -55,25 +55,25 @@ const bundles = [
     name: "Mini Bundle",
     pages: 2,
     price: "$1.49",
-    color: "#EDBC91",
+    color: "#DDA078",
   },
   {
     name: "Little Bundle",
     pages: 5,
     price: "$2.99",
-    color: "#EACB83",
+    color: "#A9BE83",
   },
   {
     name: "Happy Bundle",
     pages: 10,
     price: "$4.99",
-    color: "#BBD09A",
+    color: "#A0BBD3",
   },
   {
     name: "Mega Bundle",
     pages: 20,
     price: "$7.99",
-    color: "#C1D2E5",
+    color: "#C4ACD3",
     comingSoon: false,
   },
 ];
@@ -183,7 +183,7 @@ export default function Home() {
           ))}
         </div>
 
-        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#EADBC8", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
+        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
           <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#652C46", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
           <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
           <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
