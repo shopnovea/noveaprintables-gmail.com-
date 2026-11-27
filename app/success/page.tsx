@@ -94,3 +94,142 @@ function SuccessContent() {
       }
       setZipProgress("Creating your ZIP file...");
       const url = URL.createObjectURL(makeZip(files));
+      const link = document.createElement("a");
+      link.href = url; link.download = "NOVEA-Coloring-Pages.zip";
+      document.body.appendChild(link); link.click(); link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+      setZipProgress("Your ZIP download has started. Check your Downloads folder.");
+    } catch (err) {
+      console.error("ZIP preparation failed:", err instanceof Error ? err.message : "Unknown error");
+      setZipProgress(""); setZipError("We couldn't prepare your ZIP file. Please try again or download your PDFs individually below.");
+    } finally { setZipBusy(false); }
+  }
+
+
+  useEffect(() => {
+    if (!sessionId) {
+      setLoading(false);
+      setError("No checkout session was found.");
+      return;
+    }
+    const controller = new AbortController();
+    async function loadPurchase() {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await fetch(`/api/purchase?session_id=${encodeURIComponent(sessionId!)}`, {
+          cache: "no-store", signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Purchase verification failed");
+        const data = await response.json();
+        if (!Array.isArray(data.pictures) || ![2, 5, 10, 20].includes(data.pictures.length) ||
+            data.pictures.length !== data.bundle_size || !data.pictures.every(
+              (picture: PurchasedPicture) => picture && typeof picture.id === "string" && typeof picture.name === "string"
+            )) throw new Error("Invalid purchase details");
+        if (controller.signal.aborted) return;
+        setPictures(data.pictures);
+        setCollection(data.collection);
+        clearPurchasedBasket(sessionId!, data.pictures);
+      } catch (err) {
+        if (controller.signal.aborted) return;
+        console.error(err);
+        setError("We couldn't load your downloads. Please try refreshing this page.");
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+    loadPurchase();
+    return () => controller.abort();
+  }, [sessionId]);
+
+  const collectionNames: Record<string, string> = {
+    ocean: "Ocean Friends",
+    christmas: "Christmas",
+    thanksgiving: "Thanksgiving",
+    cozy: "Cozy Little Moments",
+    flowers: "Flowers & Butterflies",
+    farm: "Farm Friends",
+    woodland: "Woodland Friends",
+    mixed: "Mix & Match",
+  };
+  const collectionName = collectionNames[collection] ?? "";
+
+  return (
+    <main className="success-page">
+      <h1>Thank You! <span aria-hidden="true">♡</span></h1>
+      <p>Thank you for supporting NOVÉA ODELIS PRINTABLES!</p>
+      <div role="status" aria-live="polite">
+        {loading && <div className="instruction-box"><p><strong>Preparing your coloring pages...</strong></p><p>We are verifying your purchase and getting your printable PDFs ready. This may take a few moments. Please keep this page open. ♡</p></div>}
+        {!loading && !error && pictures.length > 0 && <p className="verified">✓ Your purchase is confirmed!</p>}
+      </div>
+      {error && <div role="alert" className="error">
+        <p>{error}</p>
+        <button type="button" className="retry-button" onClick={() => window.location.reload()}>Try Again</button>
+      </div>}
+      {!loading && !error && pictures.length > 0 && (
+        <section aria-labelledby="download-heading">
+          <h2 id="download-heading">Your {pictures.length} {collectionName} Coloring Pages</h2>
+          <div className="instruction-box"><p><strong>Your printable PDFs are ready!</strong></p><p>Choose Download All Pages to save one ZIP file, or download PDFs individually. Each individual download opens in a new browser tab. Save or print your PDF, then close only the PDF tab to return to this page. Please keep this purchase confirmation tab open until you have saved all your pages.</p></div>
+          <div className="zip-section">
+            <button type="button" className="download-button zip-button" disabled={zipBusy} onClick={downloadAll}>{zipBusy ? "Preparing your ZIP..." : "Download All Pages (ZIP)"}</button>
+            <p>Save all your purchased PDFs in one convenient file.</p>
+            <p role="status" aria-live="polite">{zipProgress}</p>
+            {zipError && <p role="alert" className="error">{zipError}</p>}
+          </div>
+          <h2>Or download individually</h2>
+          <div className="downloads">
+            {pictures.map(picture => (
+              <a key={picture.id} className="download-button" target="_blank" rel="noopener noreferrer" href={`/api/download?session_id=${encodeURIComponent(sessionId!)}&picture=${encodeURIComponent(picture.id)}`}>
+                Download {picture.name} PDF (opens in a new tab)
+              </a>
+            ))}
+          </div>
+          <p className="download-note">Save each PDF to your device so you can print it whenever you like.</p>
+          <p className="download-note">You can bookmark this page privately to return to your downloads later.</p>
+          <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#EADBC8", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
+            <h2 id="personal-use-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
+            <p style={{ margin: "0 0 12px" }}>Your purchased coloring pages may be printed as often as you like for personal use. Please do not share, redistribute, resell or upload the digital files elsewhere.</p>
+            <p style={{ margin: 0 }}>Thank you for supporting NOVÉA ODELIS PRINTABLES!</p>
+          </section>
+        </section>
+      )}
+      <div className="back-section"><a href="/" className="back-button">← Back to Shop</a></div>
+      <footer>Made with love, color &amp; a little creativity. ♡</footer>
+      <style jsx>{`
+        * { box-sizing: border-box; }
+        .success-page { min-height: 100vh; background-color: #FFF7ED; text-align: center; padding: 60px 20px; font-family: Arial, sans-serif; color: #492D35; font-size: 1.125rem; line-height: 1.7; overflow-wrap: anywhere; }
+        h1 { color: #652C46; font-family: Georgia, serif; font-size: clamp(2.25rem, 5vw, 3rem); font-weight: normal; line-height: 1.3; margin: 0 0 20px; }
+        h2 { font-family: Georgia, serif; color: #652C46; font-size: clamp(1.625rem, 4vw, 2rem); font-weight: normal; line-height: 1.4; margin: 30px 0 15px; }
+        p { font-size: 1.125rem; line-height: 1.7; max-width: 650px; margin: 15px auto; }
+        .verified { color: #29452C; background: #A9BE83; border-radius: 12px; padding: 12px 20px; font-weight: 600; margin-top: 25px; }
+        .instruction-box { background: #A0BBD3; border-radius: 16px; padding: 12px 20px; max-width: 650px; margin: 24px auto; color: #492D35; }
+        .downloads { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 30px; }
+        .download-button { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 460px; min-height: 54px; padding: 16px 22px; background-color: #652C46; color: #FFF7ED; border-radius: 25px; text-decoration: none; font-size: 1.125rem; font-weight: 600; line-height: 1.5; transition: background-color 0.2s; }
+        .download-button:hover { background-color: #492D35; }
+        a:focus-visible, button:focus-visible { outline: 3px solid #492D35; outline-offset: 5px; }
+        .zip-section { margin: 30px auto; }
+        .zip-button { margin: auto; border: none; font-family: inherit; cursor: pointer; }
+        .zip-button:disabled { opacity: .7; cursor: wait; }
+        .download-button:hover { background-color: #492D35; }
+        a:focus-visible, button:focus-visible { outline: 3px solid #492D35; outline-offset: 5px; }
+        .download-note { color: #492D35; font-size: 1rem; margin-top: 25px; }
+        .back-section { margin-top: 40px; }
+        .back-button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border: 2px solid #652C46; border-radius: 25px; color: #652C46; background-color: #EADBC8; font-size: 1.125rem; font-weight: 600; text-decoration: none; }
+        .back-button:hover { background-color: #D9C7A4; }
+        .error { color: #b42318; margin: 25px auto; max-width: 600px; }
+        .retry-button { min-height: 48px; padding: 12px 24px; background-color: #652C46; color: #FFF7ED; border: none; border-radius: 25px; font-family: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        footer { margin-top: 50px; padding: 20px 10px; color: #492D35; font-size: 1rem; line-height: 1.7; font-family: Georgia, serif; }
+        @media (max-width: 600px) { .success-page { padding: 40px 16px; } .download-button { padding: 16px; } }
+        @media (prefers-reduced-motion: reduce) { .download-button { transition: none; } }
+      `}</style>
+    </main>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<p role="status" style={{ textAlign: "center", fontFamily: "Arial, sans-serif", fontSize: "1.125rem", padding: "40px 20px" }}>Preparing your coloring pages... Please keep this page open.</p>}>
+      <SuccessContent />
+    </Suspense>
+  );
+}
