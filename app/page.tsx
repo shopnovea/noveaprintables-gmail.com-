@@ -87,6 +87,7 @@ export default function Home() {
 
       <header className="header">
         <a href="#home" className="logo">NOVÉA ODELIS<span className="logo-subtitle">PRINTABLES</span></a>
+        <p className="brand-tagline">A little creativity, delivered instantly.</p>
 
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
@@ -182,7 +183,7 @@ export default function Home() {
           ))}
         </div>
 
-        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#F9E3EB", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#39313d", lineHeight: 1.7 }}>
+        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#EADBC8", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#39313d", lineHeight: 1.7 }}>
           <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#794367", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
           <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
           <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
@@ -761,6 +762,26 @@ export default function Home() {
         @media (max-width: 850px) {
           main .bundle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 420px; gap: 10px; }
         }
+      
+        /* NOVÉA ODELIS homepage branding */
+        body { background: #FFF7ED; }
+        .announcement { background: #EADBC8; color: #652C46; }
+        .header { flex-direction: column; justify-content: center; gap: 12px; padding: 30px 5% 20px; background: #FFF7ED; border-bottom: 1px solid #DCC9B3; }
+        .header .logo { color: #652C46; font-size: clamp(1.65rem, 5vw, 3.5rem); letter-spacing: .045em; text-align: center; line-height: 1.2; }
+        .header .logo-subtitle { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; font-size: clamp(.75rem, 2vw, 1rem); letter-spacing: .25em; }
+        .header .logo-subtitle::before, .header .logo-subtitle::after { content: ''; height: 1px; width: clamp(20px, 7vw, 85px); background: #652C46; }
+        .brand-tagline { font-family: Georgia, serif; font-style: italic; color: #652C46; text-align: center; margin: 0 0 8px; font-size: 1.1rem; }
+        .header nav { justify-content: center; gap: 10px; width: 100%; order: 3; }
+        .header nav a { background: #EADBC8; color: #652C46; border-radius: 30px; padding: 10px 18px; text-align: center; min-height: 44px; font-size: .875rem; }
+        .header nav a:hover { background: #DECBB3; }
+        .hero { background: #FFF7ED; }
+        main h1, main h2, footer .logo { color: #652C46; }
+        .primary-button { background: #652C46; }
+        .benefits { background: #EADBC8; }
+        .bundle-section { background: #EADBC8; }
+        .about { background: #F2E8DA; }
+        footer { background: #FFF7ED; }
+        @media (max-width: 480px) { .header { padding: 24px 12px 16px; } .header nav { gap: 8px; } .header nav a { padding: 10px 12px; } }
       `}</style>
     </main>
   );
