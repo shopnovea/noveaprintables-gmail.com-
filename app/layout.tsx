@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import BackToTop from "./BackToTop";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://noveaodelis.vercel.app"),
-  title: "NOVÉA ODELIS PRINTABLES | Printable Coloring Pages",
+  metadataBase: new URL("https://noveaodelis.com"),
+  title: "NOVÉA ODELIS PRINTABLES",
   description: "Discover printable coloring pages for kids and adults. Create your own mix-and-match bundles and enjoy instant digital PDF downloads.",
   robots: {
     index: true,
