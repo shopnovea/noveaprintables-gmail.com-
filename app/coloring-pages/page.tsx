@@ -368,7 +368,7 @@ const collectionOptions: { id: Collection; label: string; title: string }[] = [
 
 const bundles = [
   { count: 2, price: 149, label: "Mini Bundle", color: "#DDA078" },
-  { count: 5, price: 299, label: "Little Bundle", color: "#A9BE83" },
+  { count: 5, price: 299, label: "Little Bundle", color: "#83A69A" },
   { count: 10, price: 499, label: "Happy Bundle", color: "#A0BBD3" },
   { count: 20, price: 799, label: "Mega Bundle", color: "#C4ACD3" },
 ];
