@@ -248,8 +248,111 @@ const farmPictures = [
   }
 ];
 
-type Collection = "animals" | "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers" | "farm";
-const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...farmPictures, ...pictures, ...thanksgivingPictures];
+const woodlandPictures = [
+  {
+    "id": "woodland_01_baby_deer",
+    "name": "Baby Deer",
+    "image": "/woodland_01_baby_deer_preview.jpg"
+  },
+  {
+    "id": "woodland_02_bunny_rabbit",
+    "name": "Bunny Rabbit",
+    "image": "/woodland_02_bunny_rabbit_preview.jpg"
+  },
+  {
+    "id": "woodland_03_little_fox",
+    "name": "Little Fox",
+    "image": "/woodland_03_little_fox_preview.jpg"
+  },
+  {
+    "id": "woodland_04_hedgehog",
+    "name": "Hedgehog",
+    "image": "/woodland_04_hedgehog_preview.jpg"
+  },
+  {
+    "id": "woodland_05_squirrel",
+    "name": "Squirrel",
+    "image": "/woodland_05_squirrel_preview.jpg"
+  },
+  {
+    "id": "woodland_06_owl",
+    "name": "Owl",
+    "image": "/woodland_06_owl_preview.jpg"
+  },
+  {
+    "id": "woodland_07_raccoon",
+    "name": "Raccoon",
+    "image": "/woodland_07_raccoon_preview.jpg"
+  },
+  {
+    "id": "woodland_08_bear_cub",
+    "name": "Bear Cub",
+    "image": "/woodland_08_bear_cub_preview.jpg"
+  },
+  {
+    "id": "woodland_09_beaver",
+    "name": "Beaver",
+    "image": "/woodland_09_beaver_preview.jpg"
+  },
+  {
+    "id": "woodland_10_chipmunk",
+    "name": "Chipmunk",
+    "image": "/woodland_10_chipmunk_preview.jpg"
+  },
+  {
+    "id": "woodland_11_badger",
+    "name": "Badger",
+    "image": "/woodland_11_badger_preview.jpg"
+  },
+  {
+    "id": "woodland_12_skunk",
+    "name": "Skunk",
+    "image": "/woodland_12_skunk_preview.jpg"
+  },
+  {
+    "id": "woodland_13_woodpecker",
+    "name": "Woodpecker",
+    "image": "/woodland_13_woodpecker_preview.jpg"
+  },
+  {
+    "id": "woodland_14_moose",
+    "name": "Moose",
+    "image": "/woodland_14_moose_preview.jpg"
+  },
+  {
+    "id": "woodland_15_wolf_pup",
+    "name": "Wolf Pup",
+    "image": "/woodland_15_wolf_pup_preview.jpg"
+  },
+  {
+    "id": "woodland_16_bobcat",
+    "name": "Bobcat",
+    "image": "/woodland_16_bobcat_preview.jpg"
+  },
+  {
+    "id": "woodland_17_otter",
+    "name": "Otter",
+    "image": "/woodland_17_otter_preview.jpg"
+  },
+  {
+    "id": "woodland_18_forest_turtle",
+    "name": "Forest Turtle",
+    "image": "/woodland_18_forest_turtle_preview.jpg"
+  },
+  {
+    "id": "woodland_19_frog",
+    "name": "Frog",
+    "image": "/woodland_19_frog_preview.jpg"
+  },
+  {
+    "id": "woodland_20_butterfly",
+    "name": "Butterfly",
+    "image": "/woodland_20_butterfly_preview.jpg"
+  }
+];
+
+type Collection = "animals" | "holiday" | "all" | "ocean" | "christmas" | "thanksgiving" | "cozy" | "flowers" | "farm" | "woodland";
+const allPictures = [...christmasPictures, ...cozyPictures, ...flowersPictures, ...farmPictures, ...pictures, ...thanksgivingPictures, ...woodlandPictures];
 const collectionOptions: { id: Collection; label: string; title: string }[] = [
   { id: "all", label: "All Collections", title: "All Collections" },
   { id: "animals", label: "Animal Coloring", title: "Animal Coloring 🐾" },
@@ -260,6 +363,7 @@ const collectionOptions: { id: Collection; label: string; title: string }[] = [
   { id: "holiday", label: "Holiday Collections", title: "Holiday Collections 🎄" },
   { id: "ocean", label: "Ocean Friends", title: "Ocean Friends 🐢" },
   { id: "thanksgiving", label: "Thanksgiving", title: "Thanksgiving Collection 🍂" },
+  { id: "woodland", label: "Woodland Friends", title: "Woodland Friends 🦌" },
 ];
 
 const bundles = [
@@ -287,7 +391,7 @@ export default function ColoringPages() {
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
       setHolidayEntry(false);
-    } else if (requested === "animals" || requested === "farm" || requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday") {
+    } else if (requested === "animals" || requested === "farm" || requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday" || requested === "woodland") {
       setCollection(requested);
     }
     try {
@@ -522,6 +626,7 @@ export default function ColoringPages() {
           {(collection === "animals" ? [
             { id: "ocean", title: "Ocean Friends", emoji: "🐢", count: pictures.length, color: "#DDF3F6" },
             { id: "farm", title: "Farm Friends", emoji: "🐮", count: farmPictures.length, color: "#F8E8C8" },
+            { id: "woodland", title: "Woodland Friends", emoji: "🦌", count: woodlandPictures.length, color: "#E4EEDC" },
           ] : [
             { id: "christmas", title: "Christmas", emoji: "🎄", count: christmasPictures.length, color: "#F9E3EB" },
             { id: "thanksgiving", title: "Thanksgiving", emoji: "🍂", count: thanksgivingPictures.length, color: "#F8E8C8" },
@@ -544,7 +649,7 @@ export default function ColoringPages() {
           margin: "35px auto",
         }}
       >
-        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : flowersPictures).slice().sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" })).map((picture) => {
+        {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : collection === "woodland" ? woodlandPictures : flowersPictures).slice().sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" })).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
             loading || (selected.length >= bundleSize && !isSelected);
