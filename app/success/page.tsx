@@ -148,6 +148,8 @@ function SuccessContent() {
     thanksgiving: "Thanksgiving",
     cozy: "Cozy Little Moments",
     flowers: "Flowers & Butterflies",
+    farm: "Farm Friends",
+    woodland: "Woodland Friends",
     mixed: "Mix & Match",
   };
   const collectionName = collectionNames[collection] ?? "";
