@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -523,7 +522,6 @@ export default function ColoringPages() {
         </div>
         <button type="button" disabled={loading} onClick={() => { window.location.assign("/#shop"); }}>← Back to Shop</button>
         <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
-        <button className="free-printables-link" type="button" disabled={loading} onClick={() => window.location.assign("/free-printables")}>🎁 Browse Free Printables</button>
         {notice && <span className="bundle-notice" role="status">{notice}</span>}
       </div>
       <p style={{ fontSize: "0.95rem", margin: "12px 0" }}>Mix &amp; match any collection. Your selections stay in your basket.</p>
@@ -729,7 +727,6 @@ export default function ColoringPages() {
         .bundle-picker span, .bundle-picker strong, .collection-grid span, .collection-grid strong { display: block; }
         .shopping-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 6px; background: #652C46; color: #FFF7ED; border-radius: 10px; max-width: 720px; margin: 0 auto; font-size: .9rem; }
         .shopping-bar button { background: #FFF7ED; color: #652C46; border: 0; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
-        .shopping-bar .free-printables-link { flex-basis: 100%; background: #A0BBD3; color: #492D35; font-weight: 600; }
         .basket-status { display: flex; flex-direction: column; line-height: 1.25; text-align: left; flex: 1 1 120px; }
         .basket-status span { font-size: .78rem; }
         .bundle-notice { flex-basis: 100%; font-size: .8rem; line-height: 1.3; }
