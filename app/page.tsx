@@ -97,6 +97,21 @@ export default function Home() {
         </nav>
       </header>
 
+      <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
+        <h2 id="quick-bundle-heading">Build a Bundle</h2>
+        <p>Mix &amp; match any collection</p>
+        <div className="quick-bundle-grid">
+          {bundles.map((bundle) => (
+            <a key={bundle.pages} href={`/coloring-pages?bundle=${bundle.pages}`} style={{ backgroundColor: bundle.color }} aria-label={`${bundle.name}, ${bundle.pages} pages, ${bundle.price}`}>
+              <span>{bundle.name.replace(" Bundle", "")}</span>
+              <small>{bundle.pages} pages</small>
+              <strong>{bundle.price}</strong>
+            </a>
+          ))}
+        </div>
+      </section>
+
+
       <section className="hero" id="home">
         <div>
           <span className="eyebrow">
@@ -189,48 +204,7 @@ export default function Home() {
           <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
         </section>
 
-        {/* BUILD YOUR OWN BUNDLE */}
 
-        <section className="bundle-section">
-          <span className="eyebrow">
-            YOUR PAGES, YOUR WAY
-          </span>
-
-          <h2>
-            Build Your <em>Own Bundle.</em>
-          </h2>
-
-          <div className="bundle-grid">
-            {bundles.map((bundle) => (
-              <div
-                className="bundle-card"
-                style={{ backgroundColor: bundle.color }}
-                key={bundle.pages}
-              >
-                <h3>{bundle.name}</h3>
-
-                <strong>{bundle.price}</strong>
-
-                <p>{bundle.pages} printable pages</p>
-
-                {bundle.comingSoon && (
-                  <span className="coming-soon">
-                    COMING SOON
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <a href="/coloring-pages" className="primary-button">
-            BUILD MY BUNDLE →
-          </a>
-
-          <p className="bundle-note">
-            Choose your pages and enjoy a little creativity.
-            More collections coming soon! ♡
-          </p>
-        </section>
       </section>
 
       <section className="about" id="about">
@@ -785,6 +759,16 @@ export default function Home() {
         .about-heart { font-size: 1.75rem; }
         footer { background: #FFF7ED; }
         @media (max-width: 480px) { .header { padding: 24px 12px 16px; } .header nav { gap: 8px; } .header nav a { padding: 10px 12px; } }
+
+        main .quick-bundles { padding: 10px 12px 12px; text-align: center; background: #FFF7ED; }
+        main .quick-bundles h2 { font-size: 1.35rem; line-height: 1.2; margin: 0; }
+        main .quick-bundles > p { font-size: .875rem; line-height: 1.3; margin: 3px 0 8px; }
+        main .quick-bundle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 480px; margin: 0 auto; }
+        main .quick-bundle-grid a { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 7px; padding: 5px 2px; min-height: 64px; line-height: 1.25; color: #492D35; }
+        main .quick-bundle-grid span { font-size: .875rem; font-weight: 600; }
+        main .quick-bundle-grid small { font-size: .75rem; }
+        main .quick-bundle-grid strong { font-size: .875rem; color: #652C46; }
+        main .quick-bundle-grid a:hover { box-shadow: 0 0 0 2px #652C46; }
       `}</style>
     </main>
   );
