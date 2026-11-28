@@ -416,7 +416,6 @@ export default function ActivityCenter() {
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const holidayEntry = false;
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -532,26 +531,15 @@ export default function ActivityCenter() {
         lineHeight: 1.6,
       }}
     >
-      <a
-        href={holidayEntry ? "/holiday" : "/"}
-        style={{
-          color: "#652C46",
-          textDecoration: "underline",
-          letterSpacing: "1px",
-          fontSize: "1rem",
-        }}
-      >
-        {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
-      </a>
-
-      <p style={{ margin: "8px 0" }}><a href="/coloring-pages" style={{ color: "#652C46", fontWeight: 600 }} onClick={event => { if (loading) event.preventDefault(); }}>Explore Coloring Pages →</a></p>
       <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5vw, 36px)", fontWeight: "normal", margin: "12px 0" }}>Activity Center</h1>
       <section className="bundle-picker" aria-label="Choose your bundle">
         {bundles.map(item => (
           <button key={item.count} type="button" disabled={loading} aria-pressed={bundleSize === item.count} onClick={() => chooseBundle(item.count)} style={{ background: bundleSize === item.count ? "#652C46" : item.color, color: bundleSize === item.count ? "#FFF7ED" : "#492D35" }}>
             <strong>{item.label.replace(" Bundle", "")}</strong>
             <span>{item.count} pages</span>
-            <strong>{money(item.price)}</strong>
+            <strong className="bundle-price">{money(item.price)}</strong>
+            <span className="per-page">~{Math.round(item.price / item.count)}¢/page</span>
+            <span className="value-label">{item.count === 20 ? "Best Value" : " "}</span>
           </button>
         ))}
       </section>
@@ -561,7 +549,7 @@ export default function ActivityCenter() {
           <span>{bundle.label} · {money(bundle.price)}</span>
           <span>{remaining === 0 ? (bundleSize === 20 ? "Maximum reached" : "Ready to buy or keep adding") : `Choose ${remaining} more`}</span>
         </div>
-        <button type="button" disabled={loading} onClick={() => { setChooser(true); window.scrollTo({ top: 0, behavior: "auto" }); }}>Back to Collections</button>
+        <button type="button" disabled={loading} onClick={() => { window.location.assign("/#shop"); }}>← Back to Shop</button>
         <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
         {notice && <span className="bundle-notice" role="status">{notice}</span>}
       </div>
@@ -731,8 +719,11 @@ export default function ActivityCenter() {
       </p>
       <style jsx>{`
         .coloring-accessible { overflow-wrap: anywhere; }
-        .bundle-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 520px; margin: 8px auto 12px; }
-        .bundle-picker button { min-width: 0; border: 0; border-radius: 8px; padding: 6px 2px; font-size: .85rem; cursor: pointer; }
+        .bundle-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 640px; margin: 8px auto 12px; }
+        .bundle-picker button { min-width: 0; border: 0; border-radius: 8px; padding: 10px 2px; font-size: .85rem; cursor: pointer; }
+        .bundle-picker .bundle-price { font-size: 1.2rem; }
+        .bundle-picker .per-page, .bundle-picker .value-label { font-size: .7rem; }
+        .bundle-picker .value-label { font-weight: bold; }
         .bundle-picker span, .bundle-picker strong, .collection-grid span, .collection-grid strong { display: block; }
         .shopping-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 6px; background: #652C46; color: #FFF7ED; border-radius: 10px; max-width: 720px; margin: 0 auto; font-size: .9rem; }
         .shopping-bar button { background: #FFF7ED; color: #652C46; border: 0; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
