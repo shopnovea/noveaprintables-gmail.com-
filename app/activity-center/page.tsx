@@ -551,7 +551,6 @@ export default function ActivityCenter() {
         </div>
         <button type="button" disabled={loading} onClick={() => { window.location.assign("/#shop"); }}>← Back to Shop</button>
         <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
-        <button type="button" disabled={loading} onClick={() => window.location.assign("/free-printables")} style={{ flexBasis: "100%", background: "#A0BBD3", color: "#492D35", fontWeight: "bold" }}>🎁 Browse Free Printables</button>
         {notice && <span className="bundle-notice" role="status">{notice}</span>}
       </div>
       <p style={{ fontSize: "0.95rem", margin: "12px 0" }}>Mix &amp; match coloring pages and activities. Your selections stay in your basket.</p>
@@ -642,7 +641,7 @@ export default function ActivityCenter() {
       {selected.length > 0 && (
       <section id="basket"
         style={{
-          scrollMarginTop: "210px",
+          scrollMarginTop: "155px",
           backgroundColor: "#F5EDE3",
           maxWidth: "600px",
           margin: "40px auto",
