@@ -160,9 +160,13 @@ export default function Home() {
 
       <section className="about" id="about">
         <span className="eyebrow">A NOTE FROM NOVÉA ODELIS</span>
-
-        <h2>Little details. <em>Lovely days.</em></h2>
-        <p>A little creativity can brighten any day. Our printables inspire imagination, relaxation and happy moments. ♡</p>
+        <h2>Inspired by Life. <em>Created with Love.</em></h2>
+        <p>At NOVÉA ODELIS, we believe the little things can make a beautiful difference in our everyday lives.</p>
+        <p>Whether you're creating memories with your children, finding a quiet moment for yourself, organizing your home, planning your future or building a business of your own, we're here to make your journey a little brighter.</p>
+        <p>Our thoughtfully designed printables bring together creativity, simplicity and purpose — for every age, every season and every chapter of life.</p>
+        <p style={{ fontFamily: "Georgia, serif", fontStyle: "italic", marginTop: 12 }}>Because every day holds a little possibility.</p>
+        <div className="about-heart" aria-hidden="true">♡</div>
+        <span className="eyebrow">NOVÉA ODELIS PRINTABLES</span>
       </section>
 
       <footer>
@@ -749,7 +753,7 @@ export default function Home() {
         main .about { padding: 16px 20px; min-height: 0; box-sizing: border-box; width: calc(100% - clamp(32px, 8vw, 128px)); max-width: 1200px; margin: 0 auto; border-radius: 16px; }
         main .about .eyebrow { font-size: .75rem; margin: 0; }
         main .about h2 { font-size: clamp(1.35rem, 3vw, 1.75rem); margin: 5px 0; }
-        main .about p { font-size: 1rem !important; line-height: 1.4; margin: 4px auto 0; max-width: 800px; }
+        main .about p { font-size: 1rem !important; line-height: 1.5; margin: 8px auto 0; max-width: 800px; }
       `}</style>
     </main>
   );
