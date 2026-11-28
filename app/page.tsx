@@ -114,21 +114,6 @@ export default function Home() {
       </section>
 
       <section className="shop-section" id="shop">
-        <div className="section-heading">
-          <span className="eyebrow">
-            PRINT, CREATE & SMILE
-          </span>
-
-          <h2>
-            Find your <em>happy place.</em>
-          </h2>
-
-          <p>
-            Beautiful, creative printables for kids
-            and adults. Choose a collection and explore!
-          </p>
-        </div>
-
         <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
         <h2 id="quick-bundle-heading">Build Your Bundle</h2>
         <p>Mix &amp; match coloring pages and activities</p>
@@ -761,7 +746,7 @@ export default function Home() {
         }
         main .shop-section { padding-inline: clamp(16px, 4vw, 64px); padding-bottom: 20px; }
         main .product-grid { width: 100%; box-sizing: border-box; }
-        main .about { padding: 16px 20px; min-height: 0; }
+        main .about { padding: 16px 20px; min-height: 0; box-sizing: border-box; width: calc(100% - clamp(32px, 8vw, 128px)); max-width: 1200px; margin: 0 auto; border-radius: 16px; }
         main .about .eyebrow { font-size: .75rem; margin: 0; }
         main .about h2 { font-size: clamp(1.35rem, 3vw, 1.75rem); margin: 5px 0; }
         main .about p { font-size: 1rem !important; line-height: 1.4; margin: 4px auto 0; max-width: 800px; }
