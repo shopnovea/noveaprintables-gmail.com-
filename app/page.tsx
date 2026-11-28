@@ -9,6 +9,14 @@ const products = [
     href: "/coloring-pages",
   },
   {
+    name: "Activity Center",
+    category: "Activity Center",
+    price: "",
+    emoji: "🧩",
+    color: "#C4ACD3",
+    href: "/activity-center",
+  },
+  {
     name: "Ocean Friends",
     category: "Animal Coloring",
     price: "",
@@ -39,14 +47,6 @@ const products = [
     emoji: "🦋",
     color: "#ADD4C6",
     href: "/nature-coloring",
-  },
-  {
-    name: "Activity Center",
-    category: "Activity Center",
-    price: "",
-    emoji: "🧩",
-    color: "#C4ACD3",
-    href: "/activity-center",
   },
   {
     name: "Free Printables",
@@ -107,7 +107,30 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
+      <section className="hero">
+        <div>
+          <h1>Fill your world with <em>happiness.</em></h1>
+          <p>Creative coloring pages and activities for kids and adults. Download, print and enjoy!</p>
+        </div>
+      </section>
+
+      <section className="shop-section" id="shop">
+        <div className="section-heading">
+          <span className="eyebrow">
+            PRINT, CREATE & SMILE
+          </span>
+
+          <h2>
+            Find your <em>happy place.</em>
+          </h2>
+
+          <p>
+            Beautiful, creative printables for kids
+            and adults. Choose a collection and explore!
+          </p>
+        </div>
+
+        <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
         <h2 id="quick-bundle-heading">Build a Bundle</h2>
         <p>Mix &amp; match coloring pages and activities</p>
         <div className="quick-bundle-grid">
@@ -127,80 +150,6 @@ export default function Home() {
           </div>
         ))}
       </section>
-
-
-      <section className="hero">
-        <div>
-          <span className="eyebrow">
-            CREATIVE PRINTABLES FOR EVERYONE
-          </span>
-
-          <h1>
-            Fill your world<br />
-            with <em>happiness.</em>
-          </h1>
-
-          <p>
-            Discover beautiful, creative printables for kids
-            and adults. Find your favorites, print at home,
-            and let your imagination shine.
-          </p>
-
-          <a href="#shop" className="primary-button">
-            EXPLORE THE SHOP →
-          </a>
-
-          <div className="hero-note">
-            ♡ DIGITAL PRINTABLES · PRINT AT HOME
-          </div>
-        </div>
-
-        <div className="hero-art">
-          <div className="art-circle">✿</div>
-
-          <div className="paper">
-            <span>YOUR CREATIVE MOMENT</span>
-            <strong>
-              Create<br />your joy.
-            </strong>
-            <p>✓ Pick a page</p>
-            <p>✓ Get creative</p>
-            <p>✓ Make it yours</p>
-          </div>
-
-          <div className="paper paper-two">
-            <span>HAPPY LITTLE MOMENTS</span>
-            <strong>
-              Create<br />magic. ♡
-            </strong>
-          </div>
-
-          <div className="sparkle">✦</div>
-        </div>
-      </section>
-
-      <section className="benefits">
-        <span>♡ DIGITAL DOWNLOADS</span>
-        <span>✿ MADE WITH LOVE</span>
-        <span>✧ PRINT ANYTIME</span>
-        <span>♡ EASY TO ENJOY</span>
-      </section>
-
-      <section className="shop-section" id="shop">
-        <div className="section-heading">
-          <span className="eyebrow">
-            PRINT, CREATE & SMILE
-          </span>
-
-          <h2>
-            Find your <em>happy place.</em>
-          </h2>
-
-          <p>
-            Beautiful, creative printables for kids
-            and adults. Choose a collection and explore!
-          </p>
-        </div>
 
         <div className="product-grid">
           {products.map((product) => (
@@ -791,6 +740,21 @@ export default function Home() {
         .bundle-choice p { margin: 0 0 8px; color: #652C46; font-weight: bold; }
         .bundle-choice a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin: 4px; padding: 8px 12px; border-radius: 8px; background: #A0BBD3; color: #492D35; font-weight: bold; }
         .bundle-choice a:last-child { background: #C4ACD3; }
+        main .hero { display: block; min-height: 0; padding: 18px 16px 8px; text-align: center; }
+        main .hero h1 { font-size: clamp(1.6rem, 4vw, 2.5rem); margin: 0 0 6px; line-height: 1.2; }
+        main .hero p { max-width: 680px; margin: 0 auto; font-size: 1rem !important; line-height: 1.4; }
+        main .shop-section { padding: 16px 5% 36px; }
+        main .section-heading { margin-bottom: 10px; }
+        main .section-heading h2 { font-size: 1.5rem; margin: 4px 0; }
+        main .section-heading .eyebrow { display: none; }
+        main .section-heading p { font-size: 1rem !important; }
+        main .quick-bundles { margin-bottom: 16px; }
+        @media (max-width: 600px) {
+          main .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+          main .product-art { height: 145px; min-height: 145px; }
+          main .product-emoji { font-size: 2.7rem; }
+          main .collection-label { font-size: 1rem; bottom: 10px; }
+        }
       `}</style>
     </main>
   );
