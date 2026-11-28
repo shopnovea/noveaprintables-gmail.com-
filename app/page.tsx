@@ -41,6 +41,14 @@ const products = [
     href: "/nature-coloring",
   },
   {
+    name: "Activity Center",
+    category: "Activity Center",
+    price: "",
+    emoji: "🧩",
+    color: "#C4ACD3",
+    href: "/activity-center",
+  },
+  {
     name: "Free Printables",
     category: "Free Printables",
     price: "",
@@ -92,6 +100,7 @@ export default function Home() {
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
           <a href="/coloring-pages">COLORING PAGES</a>
+          <a href="/activity-center">ACTIVITY CENTER</a>
           <a href="/free-printables">FREE PRINTABLES</a>
           <a href="#about">ABOUT</a>
         </nav>
@@ -99,7 +108,7 @@ export default function Home() {
 
       <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
         <h2 id="quick-bundle-heading">Build a Bundle</h2>
-        <p>Mix &amp; match any collection</p>
+        <p>Mix &amp; match coloring pages and activities</p>
         <div className="quick-bundle-grid">
           {bundles.map((bundle) => (
             <a key={bundle.pages} href={`/coloring-pages?bundle=${bundle.pages}`} style={{ backgroundColor: bundle.color }} aria-label={`${bundle.name}, ${bundle.pages} pages, ${bundle.price}`}>
@@ -200,8 +209,8 @@ export default function Home() {
 
         <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
           <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#652C46", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
-          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore all our coloring collections and create a bundle that's uniquely yours.</p>
-          <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected pictures stay in your basket!</p>
+          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore our coloring pages and activities and create a bundle that's uniquely yours.</p>
+          <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected printables stay in your basket!</p>
         </section>
 
 
@@ -747,6 +756,7 @@ export default function Home() {
         .brand-tagline { font-family: Georgia, serif; font-style: italic; color: #652C46; text-align: center; margin: 0 0 8px; font-size: 1.1rem; }
         .header nav { justify-content: center; gap: 10px; width: 100%; order: 3; }
         .header nav a { background: #EADBC8; color: #652C46; border-radius: 30px; padding: 10px 18px; text-align: center; min-height: 44px; font-size: .875rem; }
+        .header nav a[href="/activity-center"] { background: #83A69A; color: #492D35; }
         .header nav a:hover { background: #DECBB3; }
         .hero { background: #FFF7ED; }
         main h1, main h2, footer .logo { color: #652C46; }
