@@ -90,12 +90,12 @@ export default function Home() {
   return (
     <main id="home">
       <div className="announcement">
-        A LITTLE CREATIVITY GOES A LONG WAY ✨
+      A LITTLE HAPPINESS GOES A LONG WAY ✨
       </div>
 
       <header className="header">
         <a href="#home" className="logo">NOVÉA ODELIS<span className="logo-subtitle">PRINTABLES</span></a>
-        <p className="brand-tagline">A little creativity, delivered instantly.</p>
+        <p className="brand-tagline">Inspired by Life. Created with Love.</p>
 
         <nav aria-label="Main navigation">
           <a href="#quick-bundle-heading">BUILD YOUR BUNDLE</a>
