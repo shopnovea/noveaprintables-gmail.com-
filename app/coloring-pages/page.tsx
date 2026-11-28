@@ -379,7 +379,9 @@ function money(cents: number) {
 
 export default function ColoringPages() {
   const [collection, setCollection] = useState<Collection>("all");
-  const [bundleSize, setBundleSize] = useState(2);
+  const [chooser, setChooser] = useState(false);
+  const [preferredSize, setPreferredSize] = useState(2);
+  const [notice, setNotice] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -387,7 +389,11 @@ export default function ColoringPages() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get("collection");
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get("collection");
+    const requestedSize = Number(params.get("bundle"));
+    const validSize = [2, 5, 10, 20].includes(requestedSize);
+    if (validSize) { setPreferredSize(requestedSize); setChooser(!requested); }
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
       setHolidayEntry(false);
@@ -399,44 +405,43 @@ export default function ColoringPages() {
       if (saved && [2, 5, 10, 20].includes(saved.bundleSize) && Array.isArray(saved.selected)) {
         const allowed = new Set(allPictures.map(p => p.id));
         const ids = saved.selected.filter((id: unknown): id is string => typeof id === "string" && allowed.has(id));
-        setBundleSize(saved.bundleSize);
-        setSelected(Array.from(new Set<string>(ids)).slice(0, saved.bundleSize));
+        setPreferredSize(validSize ? requestedSize : ([2, 5, 10, 20].includes(saved.preferredSize) ? saved.preferredSize : saved.bundleSize));
+        setSelected(Array.from(new Set<string>(ids)).slice(0, 20));
       }
     } catch { /* Storage may be unavailable. */ }
     setReady(true);
   }, []);
 
 
+  const bundleSize = bundles.find(item => item.count >= Math.max(preferredSize, selected.length))!.count;
+
   useEffect(() => {
     if (!ready) return;
     try {
-      sessionStorage.setItem("novea-basket-v1", JSON.stringify({ bundleSize, selected }));
+      sessionStorage.setItem("novea-basket-v1", JSON.stringify({ bundleSize, preferredSize, selected }));
     } catch { /* Shopping still works without storage. */ }
-  }, [ready, bundleSize, selected]);
+  }, [ready, bundleSize, preferredSize, selected]);
 
   const bundle = bundles.find((item) => item.count === bundleSize)!;
   const remaining = bundleSize - selected.length;
 
   function chooseBundle(count: number) {
-    setBundleSize(count);
-    setSelected(current => current.slice(0, count));
+    if (count < selected.length) {
+      setNotice(`Remove pictures from your basket before choosing a ${count}-page bundle.`);
+      return;
+    }
+    setPreferredSize(count);
+    setNotice("");
     setError("");
   }
 
   function togglePicture(id: string) {
+    if (loading) return;
     setError("");
-
-    setSelected((current) => {
-      if (current.includes(id)) {
-        return current.filter((item) => item !== id);
-      }
-
-      if (current.length >= bundleSize) {
-        return current;
-      }
-
-      return [...current, id];
-    });
+    const next = selected.includes(id) ? selected.filter(item => item !== id) : selected.length < 20 ? [...selected, id] : selected;
+    const nextBundle = bundles.find(item => item.count >= Math.max(preferredSize, next.length))!;
+    setNotice(nextBundle.count > bundleSize ? `Upgraded to ${nextBundle.label} — ${money(nextBundle.price)}.` : nextBundle.count < bundleSize ? `Changed to ${nextBundle.label} — ${money(nextBundle.price)}.` : "");
+    setSelected(next);
   }
 
   async function handleCheckout() {
@@ -489,7 +494,7 @@ export default function ColoringPages() {
       style={{
         minHeight: "100vh",
         backgroundColor: "#FFF7ED",
-        padding: "40px 20px",
+        padding: "16px 12px",
         textAlign: "center",
         fontFamily: "Arial, sans-serif",
         color: "#492D35",
@@ -509,116 +514,45 @@ export default function ColoringPages() {
         {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
       </a>
 
-      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 5vw, 44px)", fontWeight: "normal", marginTop: "35px" }}>NOVÉA Coloring Pages</h1>
-      <h2
-        style={{
-          fontFamily: "Georgia, serif",
-          fontSize: "clamp(32px, 5vw, 44px)",
-          marginTop: "35px",
-          fontWeight: "normal",
-        }}
-      >
-        {collectionOptions.find(option => option.id === collection)?.title}
-      </h2>
-
-      <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "850px", margin: "24px auto", lineHeight: 1.6 }}>
-        <h2 id="mix-match-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 10px" }}>♡ Explore, Switch &amp; Mix!</h2>
-        <p style={{ margin: "0 0 8px", fontSize: "1.125rem" }}>Choose pictures from any collection to build your perfect bundle.</p>
-        <p style={{ margin: 0, fontSize: "1.125rem" }}>Switch between collections as often as you like — your selected pictures stay in your basket until you&apos;re ready to check out!</p>
+      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5vw, 36px)", fontWeight: "normal", margin: "12px 0" }}>Build a Bundle</h1>
+      <section className="bundle-picker" aria-label="Choose your bundle">
+        {bundles.map(item => (
+          <button key={item.count} type="button" disabled={loading} aria-pressed={bundleSize === item.count} onClick={() => chooseBundle(item.count)} style={{ background: bundleSize === item.count ? "#652C46" : item.color, color: bundleSize === item.count ? "#FFF7ED" : "#492D35" }}>
+            <strong>{item.label.replace(" Bundle", "")}</strong>
+            <span>{item.count} pages</span>
+            <strong>{money(item.price)}</strong>
+          </button>
+        ))}
       </section>
-
-      <h2 style={{ color: "#652C46", fontWeight: "normal" }}>
-        Pick Your Favorite Pages
-      </h2>
-
-      <p style={{ color: "#492D35", lineHeight: 1.7 }}>
-        Choose your bundle, then pick your favorite printable
-        coloring pages.
-      </p>
-
-      <section className="bundle-picker" aria-label="Choose your bundle"
-        style={{
-          maxWidth: "720px",
-          margin: "20px auto",
-          display: "grid",
-          gap: "8px",
-        }}
-      >
-        {bundles.map((item) => {
-          const active = bundleSize === item.count;
-          const unavailable = false;
-
-          return (
-            <button
-              key={item.count}
-              type="button"
-              disabled={unavailable || loading}
-              aria-pressed={active}
-              onClick={() => chooseBundle(item.count)}
-              style={{
-                background: active ? "#652C46" : item.color,
-                border: active ? "3px solid #652C46" : "3px solid transparent",
-                borderRadius: "14px",
-                padding: "8px 6px",
-                cursor: unavailable ? "not-allowed" : "pointer",
-                opacity: unavailable ? 0.65 : 1,
-                color: active ? "#FFF7ED" : "#492D35",
-                fontFamily: "inherit",
-              }}
-            >
-              <strong style={{ display: "block", fontSize: "1.0625rem" }}>
-                {item.label}
-              </strong>
-
-              <span
-                style={{
-                  display: "block",
-                  fontSize: "1.5rem",
-                  fontWeight: "bold",
-                  color: active ? "#FFF7ED" : "#492D35",
-                  margin: "3px 0",
-                }}
-              >
-                {money(item.price)}
-              </span>
-
-              <span style={{ fontSize: "1rem" }}>
-                {item.count} coloring pages
-              </span>
-
-              {unavailable && (
-                <span style={{ display: "block", marginTop: "3px", fontSize: "1rem" }}>
-                  COMING SOON
-                </span>
-              )}
-
-              <span aria-hidden={!active} style={{ display: "block", marginTop: "3px", fontSize: "1rem", visibility: active ? "visible" : "hidden" }}>
-                ✓ SELECTED
-              </span>
-            </button>
-          );
-        })}
-      </section>
-
-      <h2 style={{ color: "#652C46", fontWeight: "normal" }}>
-        Choose Your Coloring Pages
-      </h2>
-
-      <p style={{ color: "#492D35" }}>
-        {collection === "animals" ? "Choose an animal collection below to explore its coloring pages." : collection === "holiday" ? "Choose a holiday below to explore its coloring pages." : `Select ${bundleSize} different pictures for your ${bundle.label}.`}
-      </p>
-
-      <p
-        aria-live="polite"
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginTop: "25px",
-        }}
-      >
-        {selected.length} of {bundleSize} selected
-      </p>
-
+      <div className="shopping-bar">
+        <div className="basket-status" aria-live="polite" aria-atomic="true">
+          <strong>{selected.length} of {bundleSize} selected</strong>
+          <span>{bundle.label} · {money(bundle.price)}</span>
+          <span>{remaining === 0 ? (bundleSize === 20 ? "Maximum reached" : "Ready to buy or keep adding") : `Choose ${remaining} more`}</span>
+        </div>
+        <button type="button" disabled={loading} onClick={() => { setChooser(true); window.scrollTo({ top: 0, behavior: "auto" }); }}>Collections</button>
+        <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
+        {notice && <span className="bundle-notice" role="status">{notice}</span>}
+      </div>
+      <p style={{ fontSize: "0.95rem", margin: "12px 0" }}>Mix &amp; match any collection. Your selections stay in your basket.</p>
+      {chooser ? (
+        <section aria-label="Choose a collection" className="collection-chooser">
+          <h2>Choose a collection</h2>
+          <div className="collection-grid">
+            {[
+              { id: "ocean", label: "Ocean Friends", color: "#A0BBD3", count: pictures.length },
+              { id: "farm", label: "Farm Friends", color: "#DDA078", count: farmPictures.length },
+              { id: "woodland", label: "Woodland Friends", color: "#83A69A", count: woodlandPictures.length },
+              { id: "christmas", label: "Christmas", color: "#83A69A", count: christmasPictures.length },
+              { id: "thanksgiving", label: "Thanksgiving", color: "#E4AD88", count: thanksgivingPictures.length },
+              { id: "cozy", label: "Cozy Little Moments", color: "#EDBC91", count: cozyPictures.length },
+              { id: "flowers", label: "Flowers & Butterflies", color: "#ADD4C6", count: flowersPictures.length },
+              { id: "all", label: "All Collections", color: "#D6B894", count: allPictures.length },
+            ].map(item => <button key={item.id} type="button" disabled={loading} style={{ background: item.color }} onClick={() => { setCollection(item.id as Collection); setChooser(false); setError(""); }}><strong>{item.label}</strong><span>{item.count} pages</span></button>)}
+          </div>
+        </section>
+      ) : <>
+      <h2 style={{ color: "#652C46", fontWeight: "normal", fontFamily: "Georgia, serif", fontSize: "1.5rem" }}>{collectionOptions.find(option => option.id === collection)?.title}</h2>
       {collection === "holiday" || collection === "animals" ? (
         <section aria-label={collection === "animals" ? "Choose an animal collection" : "Choose a holiday"} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: "22px", maxWidth: "850px", margin: "35px auto" }}>
           {(collection === "animals" ? [
@@ -650,7 +584,7 @@ export default function ColoringPages() {
         {(collection === "all" ? allPictures : collection === "ocean" ? pictures : collection === "christmas" ? christmasPictures : collection === "thanksgiving" ? thanksgivingPictures : collection === "cozy" ? cozyPictures : collection === "farm" ? farmPictures : collection === "woodland" ? woodlandPictures : flowersPictures).slice().sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" })).map((picture) => {
           const isSelected = selected.includes(picture.id);
           const isDisabled =
-            loading || (selected.length >= bundleSize && !isSelected);
+            loading || (selected.length >= 20 && !isSelected);
 
           return (
             <button
@@ -674,6 +608,7 @@ export default function ColoringPages() {
               <span style={{ display: "block", backgroundColor: "transparent", padding: "0", borderRadius: "0", outline: isSelected ? "3px solid #652C46" : "none", outlineOffset: "3px" }}>
               <img
                 src={encodeURI(picture.image)}
+                loading="lazy"
                 alt={`${picture.name} coloring page preview`}
                 style={{
                   display: "block",
@@ -711,9 +646,12 @@ export default function ColoringPages() {
       </div>
       )}
 
+      </>}
+
       {selected.length > 0 && (
-      <section
+      <section id="basket"
         style={{
+          scrollMarginTop: "155px",
           backgroundColor: "#F5EDE3",
           maxWidth: "600px",
           margin: "40px auto",
@@ -736,7 +674,7 @@ export default function ColoringPages() {
             </li>;
           })}
         </ul>
-        <button className="basket-action" type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); }}>Clear basket</button>
+        <button className="basket-action" type="button" disabled={loading} onClick={() => { setSelected([]); setError(""); setNotice(""); }}>Clear basket</button>
         <div style={{ fontSize: "2rem", fontWeight: "bold", marginTop: "15px" }}>
           {money(bundle.price)}
         </div>
@@ -783,7 +721,7 @@ export default function ColoringPages() {
       <section aria-labelledby="personal-use-heading" style={{ backgroundColor: "#EADBC8", color: "#492D35", borderRadius: "16px", padding: "20px", maxWidth: "650px", margin: "30px auto", lineHeight: 1.7 }}>
         <h2 id="personal-use-heading" style={{ color: "#652C46", fontSize: "1.5rem", margin: "0 0 12px" }}>♡ Made with Love, for Personal Use</h2>
         <p style={{ margin: "0 0 12px" }}>Your purchased coloring pages may be printed as often as you like for personal use. Please do not share, redistribute, resell or upload the digital files elsewhere.</p>
-        <p style={{ margin: 0 }}>Thank you for supporting NOVÉA Printables!</p>
+        <p style={{ margin: 0 }}>Thank you for supporting NOVÉA ODELIS PRINTABLES!</p>
       </section>
 
       <p style={{ color: "#492D35", fontSize: "1rem" }}>
@@ -791,9 +729,21 @@ export default function ColoringPages() {
       </p>
       <style jsx>{`
         .coloring-accessible { overflow-wrap: anywhere; }
-        .bundle-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .bundle-picker button { min-width: 0; }
-        @media (max-width: 650px) { .bundle-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        .bundle-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 520px; margin: 8px auto 12px; }
+        .bundle-picker button { min-width: 0; border: 0; border-radius: 8px; padding: 6px 2px; font-size: .85rem; cursor: pointer; }
+        .bundle-picker span, .bundle-picker strong, .collection-grid span, .collection-grid strong { display: block; }
+        .shopping-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 6px; background: #652C46; color: #FFF7ED; border-radius: 10px; max-width: 720px; margin: 0 auto; font-size: .9rem; }
+        .shopping-bar button { background: #FFF7ED; color: #652C46; border: 0; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+        .basket-status { display: flex; flex-direction: column; line-height: 1.25; text-align: left; flex: 1 1 120px; }
+        .basket-status span { font-size: .78rem; }
+        .bundle-notice { flex-basis: 100%; font-size: .8rem; line-height: 1.3; }
+        .shopping-bar button:disabled { opacity: .5; }
+        .collection-chooser { max-width: 700px; margin: 16px auto; }
+        .collection-chooser h2 { font-family: Georgia, serif; color: #652C46; font-size: 1.5rem; font-weight: normal; }
+        .collection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        .collection-grid button { color: #492D35; border: 0; border-radius: 10px; padding: 10px 6px; font-size: .95rem; cursor: pointer; }
+        .collection-grid span { font-size: .85rem; }
+
         .coloring-accessible button { font-family: inherit; line-height: 1.5; min-height: 44px; max-width: 100%; }
         .coloring-accessible a { display: inline-block; padding-block: 10px; }
         .coloring-accessible button:focus-visible,
