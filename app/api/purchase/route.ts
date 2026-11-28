@@ -122,6 +122,18 @@ const woodlandIds = [
   "woodland_20_butterfly",
 ];
 
+const activityCollections = ["brain_games", "creative_activities", "little_learners", "puzzles_and_mazes", "seasonal_fun", "word_fun"];
+const activityIds = activityCollections.flatMap(collection =>
+  Array.from({ length: 20 }, (_, index) =>
+    `activity_${collection}_${String(index + 1).padStart(2, "0")}`
+  )
+);
+const activityCollectionById = new Map(activityCollections.flatMap(collection =>
+  Array.from({ length: 20 }, (_, index): [string, string] =>
+    [`activity_${collection}_${String(index + 1).padStart(2, "0")}`, `activity_${collection}`]
+  )
+));
+
 const pictureNames: Record<string, string> = {
   "woodland_01_baby_deer": "Baby Deer",
   "woodland_02_bunny_rabbit": "Bunny Rabbit",
@@ -241,6 +253,18 @@ const pictureNames: Record<string, string> = {
   "thanksgiving_09_sunflower_vase": "Sunflower Vase",
   "thanksgiving_10_apple_basket": "Apple Basket",
 };
+const activityLabels: Record<string, string> = {
+  brain_games: "Brain Games",
+  creative_activities: "Creative Activities",
+  little_learners: "Little Learners",
+  puzzles_and_mazes: "Puzzles & Mazes",
+  seasonal_fun: "Seasonal Fun",
+  word_fun: "Word Fun",
+};
+for (const id of activityIds) {
+  const key = activityCollectionById.get(id)!.slice("activity_".length);
+  pictureNames[id] = `${activityLabels[key]} — ${id.slice(-2)}`;
+}
 const bundlePrices: Record<string, number> = { "2": 149, "5": 299, "10": 499, "20": 799 };
 function hasPicture(id: string) {
   return Object.prototype.hasOwnProperty.call(pictureNames, id);
@@ -253,7 +277,7 @@ function pictureCollection(id: string) {
   if (flowersIds.includes(id)) return "flowers";
   if (farmIds.includes(id)) return "farm";
   if (woodlandIds.includes(id)) return "woodland";
-  return "unknown";
+  return activityCollectionById.get(id) ?? "unknown";
 }
 export async function GET(request: NextRequest) {
   try {
@@ -302,7 +326,7 @@ export async function GET(request: NextRequest) {
     const validCollection = isLegacyPurchase
       ? collection === "ocean" && collections.size === 1 && collections.has("ocean")
       : collection === "mixed" ? collections.size >= 2
-      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers" || collection === "farm" || collection === "woodland") &&
+      : (collection === "ocean" || collection === "christmas" || collection === "thanksgiving" || collection === "cozy" || collection === "flowers" || collection === "farm" || collection === "woodland" || activityCollections.some(key => collection === `activity_${key}`)) &&
         collections.size === 1 && collections.has(collection);
     if (collections.has("unknown") || !validCollection) {
       return NextResponse.json({ error: "Invalid collection" }, { status: 403 });
