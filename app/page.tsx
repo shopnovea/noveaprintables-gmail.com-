@@ -98,7 +98,6 @@ export default function Home() {
         <p className="brand-tagline">A little creativity, delivered instantly.</p>
 
         <nav aria-label="Main navigation">
-          <a href="#home">HOME</a>
           <a href="#quick-bundle-heading">BUILD YOUR BUNDLE</a>
           <a href="/coloring-pages">COLORING PAGES</a>
           <a href="/activity-center">ACTIVITY CENTER</a>
