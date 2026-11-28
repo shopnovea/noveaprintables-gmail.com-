@@ -379,13 +379,12 @@ function money(cents: number) {
 
 export default function ColoringPages() {
   const [collection, setCollection] = useState<Collection>("all");
-  const [chooser, setChooser] = useState(false);
+  const [chooser, setChooser] = useState(true);
   const [preferredSize, setPreferredSize] = useState(2);
   const [notice, setNotice] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [holidayEntry, setHolidayEntry] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -393,17 +392,19 @@ export default function ColoringPages() {
     const requested = params.get("collection");
     const requestedSize = Number(params.get("bundle"));
     const validSize = [2, 5, 10, 20].includes(requestedSize);
-    if (validSize) { setPreferredSize(requestedSize); setChooser(!requested); }
+    if (validSize) setPreferredSize(requestedSize);
+    setChooser(!collectionOptions.some(option => option.id === requested));
     if (requested === "christmas" || requested === "thanksgiving") {
       setCollection(requested);
-      setHolidayEntry(false);
     } else if (requested === "animals" || requested === "farm" || requested === "cozy" || requested === "flowers" || requested === "ocean" || requested === "holiday" || requested === "woodland") {
       setCollection(requested);
     }
     try {
       const saved = JSON.parse(sessionStorage.getItem("novea-basket-v1") || "null");
       if (saved && [2, 5, 10, 20].includes(saved.bundleSize) && Array.isArray(saved.selected)) {
-        const allowed = new Set(allPictures.map(p => p.id));
+        const activityCollections = ["brain_games", "creative_activities", "little_learners", "puzzles_and_mazes", "seasonal_fun", "word_fun"];
+        const activityIds = activityCollections.flatMap(key => Array.from({ length: 20 }, (_, i) => `activity_${key}_${String(i + 1).padStart(2, "0")}`));
+        const allowed = new Set([...allPictures.map(p => p.id), ...activityIds]);
         const ids = saved.selected.filter((id: unknown): id is string => typeof id === "string" && allowed.has(id));
         setPreferredSize(validSize ? requestedSize : ([2, 5, 10, 20].includes(saved.preferredSize) ? saved.preferredSize : saved.bundleSize));
         setSelected(Array.from(new Set<string>(ids)).slice(0, 20));
@@ -502,18 +503,6 @@ export default function ColoringPages() {
         lineHeight: 1.6,
       }}
     >
-      <a
-        href={holidayEntry ? "/holiday" : "/"}
-        style={{
-          color: "#652C46",
-          textDecoration: "underline",
-          letterSpacing: "1px",
-          fontSize: "1rem",
-        }}
-      >
-        {holidayEntry ? "← BACK TO HOLIDAY" : "← BACK TO SHOP"}
-      </a>
-
       <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5vw, 36px)", fontWeight: "normal", margin: "12px 0" }}>Build a Bundle</h1>
       <section className="bundle-picker" aria-label="Choose your bundle">
         {bundles.map(item => (
@@ -530,7 +519,7 @@ export default function ColoringPages() {
           <span>{bundle.label} · {money(bundle.price)}</span>
           <span>{remaining === 0 ? (bundleSize === 20 ? "Maximum reached" : "Ready to buy or keep adding") : `Choose ${remaining} more`}</span>
         </div>
-        <button type="button" disabled={loading} onClick={() => { setChooser(true); window.scrollTo({ top: 0, behavior: "auto" }); }}>Back to Collections</button>
+        <button type="button" disabled={loading} onClick={() => { window.location.assign("/#shop"); }}>← Back to Shop</button>
         <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
         {notice && <span className="bundle-notice" role="status">{notice}</span>}
       </div>
@@ -669,8 +658,8 @@ export default function ColoringPages() {
           {selected.map(id => {
             const picture = allPictures.find(p => p.id === id);
             return <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", padding: "8px 0" }}>
-              <span style={{ overflowWrap: "anywhere", minWidth: 0 }}>{picture?.name ?? id}</span>
-              <button className="basket-action" type="button" aria-label={`Remove ${picture?.name ?? id}`} disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
+              <span style={{ overflowWrap: "anywhere", minWidth: 0 }}>{picture?.name ?? id.replace(/^activity_/, "").replace(/_/g, " ")}</span>
+              <button className="basket-action" type="button" aria-label={`Remove ${picture?.name ?? id.replace(/^activity_/, "").replace(/_/g, " ")}`} disabled={loading} onClick={() => togglePicture(id)}>Remove</button>
             </li>;
           })}
         </ul>
