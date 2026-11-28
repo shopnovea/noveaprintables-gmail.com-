@@ -165,10 +165,9 @@ export default function Home() {
           ))}
         </div>
 
-        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", borderRadius: "16px", padding: "24px 20px", margin: "35px auto 0", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
-          <h2 id="mix-match-heading" style={{ fontSize: "1.5rem", color: "#652C46", margin: "0 0 12px" }}>♡ Mix &amp; Match Your Favorites!</h2>
-          <p style={{ fontSize: "1.125rem", margin: "0 0 8px" }}>Explore our coloring pages and activities and create a bundle that's uniquely yours.</p>
-          <p style={{ fontSize: "1.125rem", margin: 0 }}>Switch between collections anytime — your selected printables stay in your basket!</p>
+        <section aria-labelledby="mix-match-heading" style={{ backgroundColor: "#D9C7A4", borderRadius: "16px", padding: "12px 16px", margin: "20px auto 0", maxWidth: "1200px", textAlign: "center", color: "#492D35", lineHeight: 1.7 }}>
+          <h2 id="mix-match-heading" style={{ fontSize: "1.25rem", color: "#652C46", margin: "0 0 4px" }}>♡ Mix &amp; Match Your Favorites!</h2>
+          <p style={{ fontSize: "1rem", margin: 0 }}>Create your own bundle of coloring pages and activities. Your selections stay in your basket as you shop.</p>
         </section>
 
 
@@ -177,19 +176,8 @@ export default function Home() {
       <section className="about" id="about">
         <span className="eyebrow">A NOTE FROM NOVÉA ODELIS</span>
 
-        <h2>
-          Little details.<br />
-          <em>Lovely days.</em>
-        </h2>
-
-        <p>
-          At NOVÉA ODELIS, we believe a little creativity can
-          brighten any day. Our creative printables
-          are made to inspire imagination, relaxation,
-          and happy moments.
-        </p>
-
-        <span className="about-heart">♡</span>
+        <h2>Little details. <em>Lovely days.</em></h2>
+        <p>A little creativity can brighten any day. Our printables inspire imagination, relaxation and happy moments. ♡</p>
       </section>
 
       <footer>
@@ -771,6 +759,12 @@ export default function Home() {
           main .product-art .product-emoji { font-size: 2.5rem; }
           main .collection-label { font-size: 1rem; bottom: 10px; }
         }
+        main .shop-section { padding-inline: clamp(16px, 4vw, 64px); padding-bottom: 20px; }
+        main .product-grid { width: 100%; box-sizing: border-box; }
+        main .about { padding: 16px 20px; min-height: 0; }
+        main .about .eyebrow { font-size: .75rem; margin: 0; }
+        main .about h2 { font-size: clamp(1.35rem, 3vw, 1.75rem); margin: 5px 0; }
+        main .about p { font-size: 1rem !important; line-height: 1.4; margin: 4px auto 0; max-width: 800px; }
       `}</style>
     </main>
   );
