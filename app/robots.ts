@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: "https://noveaodelis.vercel.app/sitemap.xml",
+    sitemap: "https://noveaodelis.com/sitemap.xml",
   };
 }
