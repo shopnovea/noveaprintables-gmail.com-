@@ -503,13 +503,15 @@ export default function ColoringPages() {
         lineHeight: 1.6,
       }}
     >
-      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5vw, 36px)", fontWeight: "normal", margin: "12px 0" }}>Build a Bundle</h1>
+      <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 5vw, 36px)", fontWeight: "normal", margin: "12px 0" }}>Build Your Bundle</h1>
       <section className="bundle-picker" aria-label="Choose your bundle">
         {bundles.map(item => (
           <button key={item.count} type="button" disabled={loading} aria-pressed={bundleSize === item.count} onClick={() => chooseBundle(item.count)} style={{ background: bundleSize === item.count ? "#652C46" : item.color, color: bundleSize === item.count ? "#FFF7ED" : "#492D35" }}>
             <strong>{item.label.replace(" Bundle", "")}</strong>
             <span>{item.count} pages</span>
-            <strong>{money(item.price)}</strong>
+            <strong className="bundle-price">{money(item.price)}</strong>
+            <span className="per-page">~{Math.round(item.price / item.count)}¢/page</span>
+            <span className="value-label">{item.count === 20 ? "Best Value" : " "}</span>
           </button>
         ))}
       </section>
@@ -718,8 +720,11 @@ export default function ColoringPages() {
       </p>
       <style jsx>{`
         .coloring-accessible { overflow-wrap: anywhere; }
-        .bundle-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 520px; margin: 8px auto 12px; }
-        .bundle-picker button { min-width: 0; border: 0; border-radius: 8px; padding: 6px 2px; font-size: .85rem; cursor: pointer; }
+        .bundle-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 640px; margin: 8px auto 12px; }
+        .bundle-picker button { min-width: 0; border: 0; border-radius: 8px; padding: 10px 2px; font-size: .85rem; cursor: pointer; }
+        .bundle-picker .bundle-price { font-size: 1.2rem; }
+        .bundle-picker .per-page, .bundle-picker .value-label { font-size: .7rem; }
+        .bundle-picker .value-label { font-weight: bold; }
         .bundle-picker span, .bundle-picker strong, .collection-grid span, .collection-grid strong { display: block; }
         .shopping-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 6px; background: #652C46; color: #FFF7ED; border-radius: 10px; max-width: 720px; margin: 0 auto; font-size: .9rem; }
         .shopping-bar button { background: #FFF7ED; color: #652C46; border: 0; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
