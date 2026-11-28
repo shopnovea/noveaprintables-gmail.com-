@@ -99,7 +99,7 @@ export default function Home() {
 
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
-          <a href="#quick-bundle-heading">BUILD A BUNDLE</a>
+          <a href="#quick-bundle-heading">BUILD YOUR BUNDLE</a>
           <a href="/coloring-pages">COLORING PAGES</a>
           <a href="/activity-center">ACTIVITY CENTER</a>
           <a href="/free-printables">FREE PRINTABLES</a>
@@ -131,7 +131,7 @@ export default function Home() {
         </div>
 
         <section className="quick-bundles" aria-labelledby="quick-bundle-heading">
-        <h2 id="quick-bundle-heading">Build a Bundle</h2>
+        <h2 id="quick-bundle-heading">Build Your Bundle</h2>
         <p>Mix &amp; match coloring pages and activities</p>
         <div className="quick-bundle-grid">
           {bundles.map((bundle) => (
@@ -139,6 +139,8 @@ export default function Home() {
               <span>{bundle.name.replace(" Bundle", "")}</span>
               <small>{bundle.pages} pages</small>
               <strong>{bundle.price}</strong>
+              <small>~{Math.round(Number(bundle.price.slice(1)) * 100 / bundle.pages)}¢/page</small>
+              <small className="value-label">{bundle.pages === 20 ? "Best Value" : " "}</small>
             </a>
           ))}
         </div>
@@ -729,11 +731,12 @@ export default function Home() {
         main .quick-bundles { padding: 10px 12px 12px; text-align: center; background: #FFF7ED; }
         main .quick-bundles h2 { font-size: 1.35rem; line-height: 1.2; margin: 0; }
         main .quick-bundles > p { font-size: .875rem; line-height: 1.3; margin: 3px 0 8px; }
-        main .quick-bundle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 480px; margin: 0 auto; }
-        main .quick-bundle-grid a { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 7px; padding: 5px 2px; min-height: 64px; line-height: 1.25; color: #492D35; }
+        main .quick-bundle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; max-width: 640px; margin: 0 auto; }
+        main .quick-bundle-grid a { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 7px; padding: 5px 2px; min-height: 112px; gap: 4px; line-height: 1.25; color: #492D35; }
         main .quick-bundle-grid span { font-size: .875rem; font-weight: 600; }
         main .quick-bundle-grid small { font-size: .75rem; }
-        main .quick-bundle-grid strong { font-size: .875rem; color: #652C46; }
+        main .quick-bundle-grid strong { font-size: 1.2rem; color: #652C46; }
+        main .quick-bundle-grid .value-label { font-weight: bold; font-size: .7rem; }
         main .quick-bundle-grid a:hover { box-shadow: 0 0 0 2px #652C46; }
         .bundle-choice { display: none; max-width: 480px; margin: 10px auto 0; padding: 10px; background: #F5EDE3; border-radius: 8px; scroll-margin-top: 12px; }
         .bundle-choice:target { display: block; }
