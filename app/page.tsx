@@ -88,7 +88,7 @@ const bundles = [
 
 export default function Home() {
   return (
-    <main>
+    <main id="home">
       <div className="announcement">
         A LITTLE CREATIVITY GOES A LONG WAY ✨
       </div>
@@ -99,6 +99,7 @@ export default function Home() {
 
         <nav aria-label="Main navigation">
           <a href="#home">HOME</a>
+          <a href="#quick-bundle-heading">BUILD A BUNDLE</a>
           <a href="/coloring-pages">COLORING PAGES</a>
           <a href="/activity-center">ACTIVITY CENTER</a>
           <a href="/free-printables">FREE PRINTABLES</a>
@@ -111,17 +112,24 @@ export default function Home() {
         <p>Mix &amp; match coloring pages and activities</p>
         <div className="quick-bundle-grid">
           {bundles.map((bundle) => (
-            <a key={bundle.pages} href={`/coloring-pages?bundle=${bundle.pages}`} style={{ backgroundColor: bundle.color }} aria-label={`${bundle.name}, ${bundle.pages} pages, ${bundle.price}`}>
+            <a key={bundle.pages} href={`#bundle-choice-${bundle.pages}`} style={{ backgroundColor: bundle.color }} aria-label={`${bundle.name}, ${bundle.pages} pages, ${bundle.price}`}>
               <span>{bundle.name.replace(" Bundle", "")}</span>
               <small>{bundle.pages} pages</small>
               <strong>{bundle.price}</strong>
             </a>
           ))}
         </div>
+        {bundles.map(bundle => (
+          <div key={bundle.pages} id={`bundle-choice-${bundle.pages}`} className="bundle-choice">
+            <p>Start your {bundle.name} — {bundle.pages} pages · {bundle.price}</p>
+            <a href={`/coloring-pages?bundle=${bundle.pages}`}>🎨 Coloring Pages</a>
+            <a href={`/activity-center?bundle=${bundle.pages}`}>🧩 Activity Center</a>
+          </div>
+        ))}
       </section>
 
 
-      <section className="hero" id="home">
+      <section className="hero">
         <div>
           <span className="eyebrow">
             CREATIVE PRINTABLES FOR EVERYONE
@@ -778,6 +786,11 @@ export default function Home() {
         main .quick-bundle-grid small { font-size: .75rem; }
         main .quick-bundle-grid strong { font-size: .875rem; color: #652C46; }
         main .quick-bundle-grid a:hover { box-shadow: 0 0 0 2px #652C46; }
+        .bundle-choice { display: none; max-width: 480px; margin: 10px auto 0; padding: 10px; background: #F5EDE3; border-radius: 8px; scroll-margin-top: 12px; }
+        .bundle-choice:target { display: block; }
+        .bundle-choice p { margin: 0 0 8px; color: #652C46; font-weight: bold; }
+        .bundle-choice a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin: 4px; padding: 8px 12px; border-radius: 8px; background: #A0BBD3; color: #492D35; font-weight: bold; }
+        .bundle-choice a:last-child { background: #C4ACD3; }
       `}</style>
     </main>
   );
