@@ -757,6 +757,20 @@ export default function Home() {
           main .product-emoji { font-size: 2.7rem; }
           main .collection-label { font-size: 1rem; bottom: 10px; }
         }
+        main .product-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 16px; max-width: 1200px; margin: 0 auto; }
+        main .product-grid > .product { grid-column: span 2; min-width: 0; }
+        main .product-grid > .product:nth-child(5) { grid-column: 2 / span 2; }
+        main .product-art { height: 145px; min-height: 145px; }
+        main .product-art .product-emoji { font-size: 3rem; margin-bottom: 1.6rem; }
+        main .collection-label { font-size: clamp(1rem, 1.5vw, 1.35rem); bottom: 12px; }
+        @media (max-width: 700px) {
+          main .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+          main .product-grid > .product:nth-child(5) { grid-column: span 2; }
+          main .product-grid > .product:last-child { grid-column: 2 / span 2; }
+          main .product-art { height: 125px; min-height: 125px; }
+          main .product-art .product-emoji { font-size: 2.5rem; }
+          main .collection-label { font-size: 1rem; bottom: 10px; }
+        }
       `}</style>
     </main>
   );
