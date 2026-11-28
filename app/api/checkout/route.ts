@@ -121,14 +121,25 @@ const woodlandIds = [
   "woodland_19_frog",
   "woodland_20_butterfly",
 ];
-const collections = { ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds, farm: farmIds, woodland: woodlandIds };
+const activityLabels: Record<string, string> = {
+  activity_brain_games: "Brain Games",
+  activity_creative_activities: "Creative Activities",
+  activity_little_learners: "Little Learners",
+  activity_puzzles_and_mazes: "Puzzles & Mazes",
+  activity_seasonal_fun: "Seasonal Fun",
+  activity_word_fun: "Word Fun",
+};
+const activityCollections: Record<string, string[]> = Object.fromEntries(
+  Object.keys(activityLabels).map(key => [key, Array.from({ length: 20 }, (_, i) => `${key}_${String(i + 1).padStart(2, "0")}`)])
+);
+const collections: Record<string, string[]> = { ...activityCollections, ocean: oceanIds, christmas: christmasIds, thanksgiving: thanksgivingIds, cozy: cozyIds, flowers: flowersIds, farm: farmIds, woodland: woodlandIds };
 const allowedPictures = Object.values(collections).flat();
-const collectionNames: Record<string, string> = { ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", farm: "Farm Friends", woodland: "Woodland Friends", mixed: "Mix & Match" };
+const collectionNames: Record<string, string> = { ...activityLabels, ocean: "Ocean Friends", christmas: "Christmas Collection", thanksgiving: "Thanksgiving Collection", cozy: "Cozy Little Moments", flowers: "Flowers & Butterflies", farm: "Farm Friends", woodland: "Woodland Friends", mixed: "Mix & Match" };
 const bundles: Record<number, { price: number; name: string }> = {
-  2: { price: 149, name: "Mini Bundle - 2 Coloring Pages" },
-  5: { price: 299, name: "Little Bundle - 5 Coloring Pages" },
-  10: { price: 499, name: "Happy Bundle - 10 Coloring Pages" },
-  20: { price: 799, name: "Mega Bundle - 20 Coloring Pages" },
+  2: { price: 149, name: "Mini Bundle - 2 Printables" },
+  5: { price: 299, name: "Little Bundle - 5 Printables" },
+  10: { price: 499, name: "Happy Bundle - 10 Printables" },
+  20: { price: 799, name: "Mega Bundle - 20 Printables" },
 };
 function createPictureMetadata(selectedPictures: string[]): Record<string, string> {
   const joined = selectedPictures.join(",");
@@ -153,12 +164,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const selectedPictures = body?.selectedPictures;
     if (!Array.isArray(selectedPictures)) {
-      return NextResponse.json({ error: "Please select your coloring pages" }, { status: 400 });
+      return NextResponse.json({ error: "Please select your printables" }, { status: 400 });
     }
     const bundle = bundles[selectedPictures.length];
     if (!bundle || new Set(selectedPictures).size !== selectedPictures.length ||
       !selectedPictures.every((picture: unknown) => typeof picture === "string" && allowedPictures.includes(picture))) {
-      return NextResponse.json({ error: "Please select 2, 5, 10, or 20 unique coloring pages" }, { status: 400 });
+      return NextResponse.json({ error: "Please select 2, 5, 10, or 20 unique printables" }, { status: 400 });
     }
     const collection = Object.entries(collections).find(([, pictures]) =>
       selectedPictures.every(picture => pictures.includes(picture)))?.[0] ?? "mixed";
@@ -171,7 +182,9 @@ export async function POST(request: NextRequest) {
       (Object.prototype.hasOwnProperty.call(collections, requestedCollection) || ["animals", "animal", "holiday"].includes(requestedCollection))
       ? requestedCollection : collection;
     let cancelUrl = `${origin}/coloring-pages`;
-    if (returnCollection === "christmas") cancelUrl = `${origin}/holiday/christmas`;
+    if (Object.prototype.hasOwnProperty.call(activityCollections, returnCollection)) cancelUrl = `${origin}/activity-center?collection=${returnCollection}`;
+    else if (body.returnPage === "activity-center") cancelUrl = `${origin}/activity-center`;
+    else if (returnCollection === "christmas") cancelUrl = `${origin}/holiday/christmas`;
     else if (["thanksgiving", "cozy", "flowers", "farm", "woodland", "ocean", "animals", "animal", "holiday"].includes(returnCollection)) {
       cancelUrl = `${origin}/coloring-pages?collection=${returnCollection}`;
     }
@@ -184,7 +197,7 @@ export async function POST(request: NextRequest) {
           currency: "usd",
           product_data: {
             name: `${collectionName} - ${bundle.name}`,
-            description: `${selectedPictures.length} printable coloring page PDFs from NOVÉA ODELIS.`,
+            description: `${selectedPictures.length} printable PDFs from NOVÉA ODELIS.`,
           },
           unit_amount: bundle.price,
         },
