@@ -4,7 +4,7 @@ import BackToTop from "./BackToTop";
 export const metadata: Metadata = {
   metadataBase: new URL("https://noveaodelis.com"),
   title: "NOVÉA ODELIS PRINTABLES",
-  description: "Discover printable coloring pages for kids and adults. Create your own mix-and-match bundles and enjoy instant digital PDF downloads.",
+  description: "Discover coloring pages, puzzles, mazes, educational worksheets and creative activities for kids and adults. Enjoy free printables and instant PDF bundles.",
   robots: {
     index: true,
     follow: true,
