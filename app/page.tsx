@@ -756,7 +756,6 @@ export default function Home() {
         .brand-tagline { font-family: Georgia, serif; font-style: italic; color: #652C46; text-align: center; margin: 0 0 8px; font-size: 1.1rem; }
         .header nav { justify-content: center; gap: 10px; width: 100%; order: 3; }
         .header nav a { background: #EADBC8; color: #652C46; border-radius: 30px; padding: 10px 18px; text-align: center; min-height: 44px; font-size: .875rem; }
-        .header nav a[href="/activity-center"] { background: #83A69A; color: #492D35; }
         .header nav a:hover { background: #DECBB3; }
         .hero { background: #FFF7ED; }
         main h1, main h2, footer .logo { color: #652C46; }
