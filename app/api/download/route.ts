@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -155,7 +154,20 @@ const newPictureIds = new Set([
   ...woodlandIds,
 ]);
 
+const activityCollections = ["brain_games", "creative_activities", "little_learners", "puzzles_and_mazes", "seasonal_fun", "word_fun"];
+const activityIds = activityCollections.flatMap(collection =>
+  Array.from({ length: 20 }, (_, index) =>
+    `activity_${collection}_${String(index + 1).padStart(2, "0")}`
+  )
+);
+const activityCollectionById = new Map(activityCollections.flatMap(collection =>
+  Array.from({ length: 20 }, (_, index): [string, string] =>
+    [`activity_${collection}_${String(index + 1).padStart(2, "0")}`, `activity_${collection}`]
+  )
+));
+
 const printableFiles: Record<string, string> = Object.fromEntries([
+  ...activityIds.map(id => [id, `activities/${id}.pdf`]),
   ...oceanIds.map(id => [
     id,
     `ocean-friends-${id}-printable.pdf`,
@@ -194,7 +206,7 @@ function pictureCollection(id: string) {
   if (flowersIds.includes(id)) return "flowers";
   if (farmIds.includes(id)) return "farm";
   if (woodlandIds.includes(id)) return "woodland";
-  return "unknown";
+  return activityCollectionById.get(id) ?? "unknown";
 }
 
 export async function GET(request: NextRequest) {
@@ -231,7 +243,7 @@ export async function GET(request: NextRequest) {
         : (!pictureId || !hasPicture(pictureId))
     ) {
       return NextResponse.json(
-        { error: "Invalid coloring page" },
+        { error: "Invalid printable" },
         { status: 400 }
       );
     }
@@ -346,7 +358,8 @@ export async function GET(request: NextRequest) {
             collection === "cozy" ||
             collection === "flowers" ||
             collection === "farm" ||
-            collection === "woodland"
+            collection === "woodland" ||
+            activityCollections.some(key => collection === `activity_${key}`)
           ) &&
           collections.size === 1 &&
           collections.has(collection);
@@ -419,7 +432,7 @@ export async function GET(request: NextRequest) {
     if (downloadAll) {
       const files = await Promise.all(
         selectedPictures.map(async id => ({
-          name: printableFiles[id],
+          name: printableFiles[id].split("/").pop()!,
           url: await signFile(printableFiles[id], 600),
         }))
       );
@@ -437,7 +450,7 @@ export async function GET(request: NextRequest) {
 
     if (!pictureId) {
       return NextResponse.json(
-        { error: "Invalid coloring page" },
+        { error: "Invalid printable" },
         { status: 400 }
       );
     }
