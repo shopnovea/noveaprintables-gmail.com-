@@ -48,13 +48,13 @@ const sections = [
 export default function FreePrintablesPage() {
   return (
     <main style={{ minHeight: "100vh", background: "#FFF7ED", color: "#492D35", fontFamily: "Arial, sans-serif", padding: "32px 5% 80px", textAlign: "center" }}>
-      <a href="/" style={{ color: "#652C46" }}>← BACK TO SHOP</a>
+      <a href="/#shop" style={{ color: "#652C46" }}>← BACK TO SHOP</a>
 
       <header style={{ maxWidth: 760, margin: "32px auto", padding: "24px 16px", background: "#A0BBD3", borderRadius: 16 }}>
         <p style={{ letterSpacing: 3, fontSize: 13, color: "#652C46" }}>NOVÉA ODELIS PRINTABLES</p>
         <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: "normal", color: "#652C46", margin: "16px 0" }}>Free Printables</h1>
         <p style={{ lineHeight: 1.6 }}>A little creativity, on us. Choose a complimentary coloring page or activity, download, print and enjoy!</p>
-        <p style={{ fontSize: 14 }}>No payment or registration required.</p>
+<p style={{ fontSize: 14 }}>No payment or registration required. Free downloads do not count toward your paid bundle. Your paid selections stay in your basket while you browse.</p>
       </header>
 
       {sections.map(section => (
