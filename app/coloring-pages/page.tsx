@@ -529,8 +529,8 @@ export default function ColoringPages() {
           <strong>{selected.length} of {bundleSize} selected</strong>
           <span>{bundle.label} · {money(bundle.price)}</span>
           <span>{remaining === 0 ? (bundleSize === 20 ? "Maximum reached" : "Ready to buy or keep adding") : `Choose ${remaining} more`}</span>
-        </div>
-        <button type="button" disabled={loading} onClick={() => { setChooser(true); window.scrollTo({ top: 0, behavior: "auto" }); }}>Collections</button>
+        </div
+        <button type="button" disabled={loading} onClick={() => { setChooser(true); window.scrollTo({ top: 0, behavior: "auto" }); }}>Back to Collections</button>
         <button type="button" disabled={!selected.length || loading} onClick={() => document.getElementById("basket")?.scrollIntoView({ block: "start" })}>Basket</button>
         {notice && <span className="bundle-notice" role="status">{notice}</span>}
       </div>
